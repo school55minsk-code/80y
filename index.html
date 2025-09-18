@@ -153,43 +153,50 @@
     </header>
 
 
-<form id="memoryForm">
-  <input type="text" name="name" placeholder="Ваше имя" required>
-  <textarea name="text" placeholder="Ваш рассказ" required></textarea>
-  <input type="file" id="photoInput" accept="image/*">
-  <button type="submit">Отправить</button>
-</form>
 
-<div id="approvedPosts"></div>
+
+
+
+
+    <h2>Стена памяти</h2>
+<div id="approvedPosts" class="posts-grid"></div>
 
 <script>
-const CLOUD_NAME = "ТВОЙ_CLOUD_NAME";
-const UPLOAD_PRESET = "memory_wall";
+const POSTS_URL = "https://res.cloudinary.com/ТВОЙ_CLOUD_NAME/raw/upload/posts.json";
 
-document.getElementById('memoryForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const name = e.target.name.value;
-  const text = e.target.text.value;
-  const file = document.getElementById('photoInput').files[0];
+async function loadApproved() {
+  const res = await fetch(POSTS_URL + "?v=" + Date.now()); // обходим кэш
+  const posts = await res.json();
+  const approved = posts.filter(p => p.status === 'approved');
+  document.getElementById('approvedPosts').innerHTML = approved.map(p => `
+    <div class="post-card">
+      ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
+      <h3>${p.name}</h3>
+      <p>${p.text}</p>
+    </div>
+  `).join('');
+}
 
-  let photoURL = null;
-  if (file) {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', UPLOAD_PRESET);
-
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-      method: 'POST',
-      body: formData
-    });
-    const data = await res.json();
-    photoURL = data.secure_url;
-  }
-
-  // Здесь сохраняем name, text, photoURL и status="pending" в Firestore или JSON
-  console.log({ name, text, photoURL, status: "pending" });
-});
+loadApproved();
 </script>
+
+<style>
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 15px;
+}
+.post-card {
+  background: rgba(0,0,0,0.8);
+  padding: 10px;
+  border-radius: 8px;
+  color: #fff;
+}
+.post-card img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+</style>
 
 
 
@@ -208,6 +215,7 @@ document.getElementById('memoryForm').addEventListener('submit', async e => {
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
