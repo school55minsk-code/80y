@@ -158,7 +158,7 @@ window.APP_DATA = {
 { id: "byten-1944-07-10", title: "Освобождение Бытеня", date: "1944-07-10", type: "cities", coords: [52.8167, 25.7833], summary: "Посёлок на пути к Ивацевичам.", media: [] },
 { id: "telekhany-1944-07-10", title: "Освобождение Телехан", date: "1944-07-10", type: "cities", coords: [52.65, 26.6833], summary: "Посёлок у Пинских болот.", media: [] },
 { id: "luninets-1944-07-10", title: "Освобождение Лунинца", date: "1944-07-10", type: "cities", coords: [52.25, 26.7833], summary: "Железнодорожный узел Полесья.", media: [] },
-{ id: "voronovo-1944-07-11", title: "Освобождение Вороново", date: "1944-07-11", type: "cities", coords: [53.8667, 25.3333], summary: "Запад Гродненской области.", media: [] }
+{ id: "voronovo-1944-07-11", title: "Освобождение Вороново", date: "1944-07-11", type: "cities", coords: [53.8667, 25.3333], summary: "Запад Гродненской области.", media: [] },
 { id: "kossovo-1944-07-11", title: "Освобождение Коссово", date: "1944-07-11", type: "cities", coords: [52.75, 25.15], summary: "Город рядом с Косовским дворцом.", media: [] },
 { id: "ostrino-1944-07-11", title: "Освобождение Остринo", date: "1944-07-11", type: "cities", coords: [53.5333, 24.8333], summary: "Посёлок на пути к Гродно.", media: [] },
 { id: "drysaw-1944-07-12", title: "Освобождение Верхнедвинска (Дриссы)", date: "1944-07-12", type: "cities", coords: [55.7833, 27.95], summary: "Северный рубеж на Двине.", media: [] },
@@ -232,5 +232,6 @@ window.APP_DATA = {
     }
   ]
 };
+
 
 
