@@ -1,5 +1,3 @@
-import crypto from "crypto";
-import FormData from "form-data";
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
@@ -9,29 +7,32 @@ export default async function handler(req, res) {
 
   try {
     const body = req.body; // массив постов
-    const timestamp = Math.floor(Date.now() / 1000);
-    const public_id = "posts";
-    const resource_type = "raw";
+    const fileContent = JSON.stringify(body, null, 2);
 
-    const string_to_sign = `public_id=${public_id}&resource_type=${resource_type}&timestamp=${timestamp}${process.env.CLOUDINARY_API_SECRET}`;
-    const signature = crypto.createHash("sha1").update(string_to_sign).digest("hex");
-
-    const formData = new FormData();
-    formData.append("file", JSON.stringify(body, null, 2));
-    formData.append("public_id", public_id);
-    formData.append("resource_type", resource_type);
-    formData.append("timestamp", timestamp);
-    formData.append("api_key", process.env.CLOUDINARY_API_KEY);
-    formData.append("signature", signature);
-    formData.append("overwrite", "true");
-
-    const cloudRes = await fetch(`https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/${resource_type}/upload`, {
+    // Получаем access_token Icedrive
+    const tokenRes = await fetch("https://api.icedrive.net/v1/login", {
       method: "POST",
-      body: formData
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: process.env.ICEDRIVE_USERNAME,
+        password: process.env.ICEDRIVE_PASSWORD
+      })
+    });
+    const tokenData = await tokenRes.json();
+    const token = tokenData.data.session_token;
+
+    // Загружаем файл
+    const uploadRes = await fetch("https://api.icedrive.net/v1/file/upload", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        file_id: process.env.ICEDRIVE_FILE_ID, // ID файла posts.json
+        content: Buffer.from(fileContent).toString("base64")
+      })
     });
 
-    const data = await cloudRes.json();
-    res.status(200).json({ success: true, cloudinary: data });
+    const uploadData = await uploadRes.json();
+    res.status(200).json({ success: true, icedrive: uploadData });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
