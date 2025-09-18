@@ -1,0 +1,50 @@
+<h1>Модерация «Стены памяти»</h1>
+<input type="password" id="password" placeholder="Пароль модератора">
+<button onclick="login()">Войти</button>
+
+<div id="pending" class="posts-grid"></div>
+
+<script>
+let token = '';
+
+function login() {
+  token = document.getElementById('password').value;
+  loadPending();
+}
+
+async function loadPending() {
+  const res = await fetch('/api/posts?status=pending', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  });
+  if (res.status === 401) {
+    alert('Неверный пароль');
+    return;
+  }
+  const posts = await res.json();
+  document.getElementById('pending').innerHTML = posts.map(p => `
+    <div class="post-card">
+      ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
+      <h3>${p.name}</h3>
+      <p>${p.text}</p>
+      <button onclick="approve('${p.id}')">✅ Подтвердить</button>
+      <button onclick="removePost('${p.id}')">❌ Удалить</button>
+    </div>
+  `).join('');
+}
+
+async function approve(id) {
+  await fetch(`/api/posts/${id}/approve`, {
+    method: 'PATCH',
+    headers: { 'Authorization': 'Bearer ' + token }
+  });
+  loadPending();
+}
+
+async function removePost(id) {
+  await fetch(`/api/posts/${id}`, {
+    method: 'DELETE',
+    headers: { 'Authorization': 'Bearer ' + token }
+  });
+  loadPending();
+}
+</script>
