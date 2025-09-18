@@ -132,16 +132,23 @@ document.querySelectorAll('[data-layer]').forEach(cb => {
     });
   });
 
-  timelineGrid.addEventListener('click', e => {
-    const tag = e.target?.dataset?.highlight;
-    if (!tag) return;
-    markers.forEach(m => {
-      if (m._data.type === tag || m._data.id.includes(tag)) {
-        m.openPopup();
-        leaflet.setView(m.getLatLng(), 8, { animate: true });
-      }
+timelineGrid.addEventListener('click', e => {
+  const card = e.target.closest('.timeline-card');
+  if (!card) return;
+
+  const eventId = card.getAttribute('data-id');
+  if (!eventId) return;
+
+  const ev = window.APP_DATA.map.events.find(ev => ev.id === eventId);
+  if (ev) {
+    map.setView(ev.coords, 10);
+    const marker = markersByType[ev.type].find(m => {
+      const latlng = m.getLatLng();
+      return latlng.lat === ev.coords[0] && latlng.lng === ev.coords[1];
     });
-  });
+    if (marker) marker.openPopup();
+  }
+});
 
   // Голоса памяти
   const voicesList = document.getElementById('voicesList');
@@ -295,4 +302,5 @@ document.querySelectorAll('[data-layer]').forEach(cb => {
     leaflet.options.zoomAnimation = false;
   }
 })();
+
 
