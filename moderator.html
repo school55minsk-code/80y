@@ -1,10 +1,10 @@
 <h1>Модерация «Стены памяти»</h1>
 <div id="pending"></div>
-<button id="saveBtn">💾 Сохранить изменения в Cloudinary</button>
+<button id="saveBtn">💾 Сохранить изменения в Icedrive</button>
 
 <script>
-const POSTS_URL = "https://res.cloudinary.com/ТВОЙ_CLOUD_NAME/raw/upload/posts.json";
-const API_URL = "https://ТВОЙ_VERCEL_PROJECT.vercel.app/api/update-posts"; // адрес serverless-функции
+const POSTS_URL = "ПУБЛИЧНАЯ_ССЫЛКА_НА_posts.json_В_ICEDRIVE";
+const API_URL = "https://ТВОЙ_VERCEL_PROJECT.vercel.app/api/update-posts";
 let postsData = [];
 
 async function loadPosts() {
@@ -49,7 +49,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
     body: JSON.stringify(postsData)
   });
   if (res.ok) {
-    alert("Обновлено в Cloudinary!");
+    alert("Обновлено в Icedrive!");
     loadPosts();
   } else {
     alert("Ошибка сохранения");
