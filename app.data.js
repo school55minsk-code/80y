@@ -30,7 +30,7 @@ window.APP_DATA = {
 { id: "rechitsa-1943-11-18", title: "Освобождение Речицы", date: "1943-11-18", type: "cities", coords: [52.3667, 30.4], summary: "Важный речной порт на Днепре.", media: [] },
 { id: "vasilevichi-1943-11-18", title: "Освобождение Василевичей", date: "1943-11-18", type: "cities", coords: [52.25, 29.8333], summary: "Железнодорожная станция освобождена.", media: [] },
 { id: "streshin-1943-11-21", title: "Освобождение Стрешина", date: "1943-11-21", type: "cities", coords: [52.55, 30.1667], summary: "Посёлок освобождён на подступах к Жлобину.", media: [] },
-{ id: "korma-1943-11-25", title: "Освобождение Кормы", date: "1943-11-25", type: "cities", coords: [53.1, 30.8], summary: "Посёлок освобождён войсками Белорусского фронта.", media: [] }
+{ id: "korma-1943-11-25", title: "Освобождение Кормы", date: "1943-11-25", type: "cities", coords: [53.1, 30.8], summary: "Посёлок освобождён войсками Белорусского фронта.", media: [] },
 
       { id: "ezerishche-1943-12-19", title: "Освобождение Езерища", date: "1943-12-19", type: "cities", coords: [55.7, 30.15], summary: "Населённый пункт на витебском направлении.", media: [] },
 { id: "gorodok-1943-12-24", title: "Освобождение Городка", date: "1943-12-24", type: "cities", coords: [55.4667, 30.9833], summary: "Районный центр освобождён войсками 1-го Прибалтийского фронта.", media: [] },
@@ -58,7 +58,7 @@ window.APP_DATA = {
 { id: "tolochin-1944-06-26", title: "Освобождение Толочина", date: "1944-06-26", type: "cities", coords: [54.4, 30.4167], summary: "Важный узел между Оршей и Борисовом.", media: [] },
 { id: "kirovsk-1944-06-26", title: "Освобождение Кировска", date: "1944-06-26", type: "cities", coords: [53.2667, 29.4667], summary: "Город на Березине.", media: [] },
 { id: "zhlobin-1944-06-26", title: "Освобождение Жлобина", date: "1944-06-26", type: "cities", coords: [52.9, 30.0333], summary: "Промышленный центр на Днепре.", media: [] },
-{ id: "parichi-1944-06-26", title: "Освобождение Паричей", date: "1944-06-26", type: "cities", coords: [52.7833, 29.4833], summary: "Посёлок на берегах Березины.", media: [] }
+{ id: "parichi-1944-06-26", title: "Освобождение Паричей", date: "1944-06-26", type: "cities", coords: [52.7833, 29.4833], summary: "Посёлок на берегах Березины.", media: [] },
 { id: "orsha-1944-06-27", title: "Освобождение Орши", date: "1944-06-27", type: "cities", coords: [54.5167, 30.4167], summary: "Крупнейший транспортный узел востока Беларуси.", media: [] },
 { id: "baran-1944-06-27", title: "Освобождение Барани", date: "1944-06-27", type: "cities", coords: [54.4833, 30.3167], summary: "Город-спутник Орши.", media: [] },
 { id: "kopys-1944-06-27", title: "Освобождение Копыси", date: "1944-06-27", type: "cities", coords: [54.3167, 30.3], summary: "Посёлок на Днепре.", media: [] },
@@ -83,7 +83,7 @@ window.APP_DATA = {
 { id: "yelizovo-1944-06-30", title: "Освобождение Елизово", date: "1944-06-30", type: "cities", coords: [53.1667, 29.1667], summary: "Пункт к югу от Осиповичей.", media: [] },
 { id: "slutsk-1944-06-30", title: "Освобождение Слуцка", date: "1944-06-30", type: "cities", coords: [53.0333, 27.55], summary: "Крупный город южной Минщины.", media: [] },
 { id: "lyuban-1944-06-30", title: "Освобождение Любань", date: "1944-06-30", type: "cities", coords: [52.8, 28.0], summary: "Город освобождён от оккупантов.", media: [] },
-{ id: "krasnaya-sloboda-1944-06-30", title: "Освобождение Красной Слободы", date: "1944-06-30", type: "cities", coords: [53.0333, 28.3167], summary: "Посёлок на Случчине.", media: [] }
+{ id: "krasnaya-sloboda-1944-06-30", title: "Освобождение Красной Слободы", date: "1944-06-30", type: "cities", coords: [53.0333, 28.3167], summary: "Посёлок на Случчине.", media: [] },
 { id: "kopatkevichi-1944-06-30", title: "Освобождение Копаткевичей", date: "1944-06-30", type: "cities", coords: [52.6333, 28.9], summary: "Полесский посёлок освобождён.", media: [] },
 { id: "petrikov-1944-06-30", title: "Освобождение Петрикова", date: "1944-06-30", type: "cities", coords: [52.1333, 28.8667], summary: "Город на Припяти.", media: [] },
 { id: "borisov-1944-07-01", title: "Освобождение Борисова", date: "1944-07-01", type: "cities", coords: [54.2167, 28.5], summary: "Ключевой узел на Березине.", media: [] },
@@ -108,7 +108,7 @@ window.APP_DATA = {
 { id: "radoshkovichi-1944-07-03", title: "Освобождение Радошковичей", date: "1944-07-03", type: "cities", coords: [54.15, 27.2667], summary: "Посёлок на северо-западе Минска.", media: [] },
 { id: "ilya-1944-07-03", title: "Освобождение Ильи", date: "1944-07-03", type: "cities", coords: [54.3333, 27.2833], summary: "Посёлок между Минском и Молодечно.", media: [] },
 { id: "dolginovo-1944-07-03", title: "Освобождение Долгиново", date: "1944-07-03", type: "cities", coords: [54.5, 27.65], summary: "Северо-запад Минщины.", media: [] },
-{ id: "logoysk-1944-07-03", title: "Освобождение Логойска", date: "1944-07-03", type: "cities", coords: [54.2, 27.85], summary: "Город к северу от Минска.", media: [] }
+{ id: "logoysk-1944-07-03", title: "Освобождение Логойска", date: "1944-07-03", type: "cities", coords: [54.2, 27.85], summary: "Город к северу от Минска.", media: [] },
 { id: "smilovichi-1944-07-03", title: "Освобождение Смеловичей", date: "1944-07-03", type: "cities", coords: [53.75, 28.0167], summary: "Посёлок восточнее столицы.", media: [] },
 { id: "maryina-gorka-1944-07-03", title: "Освобождение Марьиной Горки", date: "1944-07-03", type: "cities", coords: [53.45, 27.6333], summary: "Центр Пуховичского района.", media: [] },
 { id: "ostrovets-1944-07-03", title: "Освобождение Островца", date: "1944-07-03", type: "cities", coords: [54.6167, 25.95], summary: "Северо-запад Минщины (ныне Гродненщина).", media: [] },
@@ -133,7 +133,7 @@ window.APP_DATA = {
 { id: "molodechno-1944-07-05", title: "Освобождение Молодечно", date: "1944-07-05", type: "cities", coords: [54.3167, 26.85], summary: "Крупный транспортный узел.", media: [] },
 { id: "smorgon-1944-07-05", title: "Освобождение Сморгони", date: "1944-07-05", type: "cities", coords: [54.4833, 26.4], summary: "Город на пути к Гродно.", media: [] },
 { id: "braslav-1944-07-06", title: "Освобождение Браслава", date: "1944-07-06", type: "cities", coords: [55.6333, 27.05], summary: "Край озёр на севере страны.", media: [] },
-{ id: "svir-1944-07-06", title: "Освобождение Свири", date: "1944-07-06", type: "cities", coords: [54.85, 26.85], summary: "Посёлок на Нарочи.", media: [] }
+{ id: "svir-1944-07-06", title: "Освобождение Свири", date: "1944-07-06", type: "cities", coords: [54.85, 26.85], summary: "Посёлок на Нарочи.", media: [] },
 { id: "ivenets-1944-07-06", title: "Освобождение Ивенца", date: "1944-07-06", type: "cities", coords: [53.8833, 26.7333], summary: "Запад Минщины.", media: [] },
 { id: "negoreloe-1944-07-06", title: "Освобождение Негорелого", date: "1944-07-06", type: "cities", coords: [53.4667, 27.5], summary: "Железнодорожный узел на Брестском направлении.", media: [] },
 { id: "zhitkovichi-1944-07-06", title: "Освобождение Житковичей", date: "1944-07-06", type: "cities", coords: [52.2167, 27.85], summary: "Южное Полесье.", media: [] },
@@ -232,4 +232,5 @@ window.APP_DATA = {
     }
   ]
 };
+
 
