@@ -102,36 +102,32 @@ document.querySelectorAll('[data-layer]').forEach(cb => {
   });
 
   // Лента времени
-  const timelineGrid = document.getElementById('timelineGrid');
-  function renderTimeline(items) {
-    timelineGrid.innerHTML = items.map(item => `
-      <div class="timeline-item" role="listitem">
-        <time datetime="${item.year}">${item.year}</time>
-        <strong>${item.title}</strong>
-        <p>${item.text}</p>
-        <button class="btn" data-highlight="${item.tag}">Показать на карте</button>
-      </div>
-    `).join('');
+const timelineGrid = document.getElementById('timelineGrid');
+
+// Берём события из APP_DATA
+window.APP_DATA.timeline.forEach(tlItem => {
+  // Ищем соответствующее событие по id
+  const relatedEvent = window.APP_DATA.map.events.find(ev => ev.id === tlItem.id);
+
+  // Создаём карточку
+  const card = document.createElement('div');
+  card.className = 'timeline-card';
+
+  // Проставляем data-id, если нашли событие
+  if (relatedEvent) {
+    card.setAttribute('data-id', relatedEvent.id);
   }
-  renderTimeline(timeline);
 
-  document.querySelectorAll('.timeline-controls .btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const p = btn.dataset.period;
-      let items = timeline;
-      if (p !== 'all') {
-        if (p.includes('-')) {
-          const [from, to] = p.split('-').map(Number);
-          items = timeline.filter(i => i.year >= from && i.year <= to);
-        } else {
-          const y = Number(p);
-          items = timeline.filter(i => i.year === y);
-        }
-      }
-      renderTimeline(items);
-    });
-  });
+  // Заполняем содержимое
+  card.innerHTML = `
+    <h3>${tlItem.year}</h3>
+    <p><strong>${tlItem.title}</strong></p>
+    <p>${tlItem.text}</p>
+  `;
 
+  timelineGrid.appendChild(card);
+});
+  
 timelineGrid.addEventListener('click', e => {
   const card = e.target.closest('.timeline-card');
   if (!card) return;
@@ -142,7 +138,8 @@ timelineGrid.addEventListener('click', e => {
   const ev = window.APP_DATA.map.events.find(ev => ev.id === eventId);
   if (ev) {
     map.setView(ev.coords, 10);
-    const marker = markersByType[ev.type].find(m => {
+    // Если маркеры сохранены в массиве, можно найти и открыть popup
+    const marker = markersByType[ev.type]?.find(m => {
       const latlng = m.getLatLng();
       return latlng.lat === ev.coords[0] && latlng.lng === ev.coords[1];
     });
@@ -302,5 +299,6 @@ timelineGrid.addEventListener('click', e => {
     leaflet.options.zoomAnimation = false;
   }
 })();
+
 
 
