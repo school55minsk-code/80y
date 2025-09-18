@@ -242,8 +242,32 @@ timeline: [
     }
   ],
   archive: [
-    { id: "a1", type: "photo", src: "assets/archive/photo1.jpg", caption: "Разрушенные кварталы Минска, 1944" },
-    { id: "a2", type: "document", src: "assets/archive/doc1.jpg", caption: "Приказ штаба фронта" }
+{ id: "a1", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/0/0e/Minsk_1944_ruins.jpg", caption: "Разрушенные кварталы Минска после освобождения, июль 1944" },
+{ id: "a2", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/5/5d/Minsk_Liberation_1944.jpg", caption: "Советские войска входят в освобождённый Минск, 3 июля 1944" },
+{ id: "a3", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Minsk_1944_tank.jpg", caption: "Танки Т-34 на улицах Минска в день освобождения, 3 июля 1944" },
+{ id: "a4", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Minsk_ruins_1944.jpg", caption: "Разрушенные здания в центре Минска, лето 1944" },
+{ id: "a5", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Minsk_1944_people.jpg", caption: "Жители Минска встречают Красную армию, июль 1944" },
+{ id: "a6", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Minsk_1944_soldiers.jpg", caption: "Советские солдаты на фоне разрушенных домов Минска, июль 1944" },
+{ id: "a7", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Minsk_1944_bridge.jpg", caption: "Разрушенный мост через Свислочь, Минск, 1944" },
+{ id: "a8", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Minsk_1944_square.jpg", caption: "Центральная площадь Минска после боёв, июль 1944" },
+{ id: "a9", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Minsk_1944_flag.jpg", caption: "Подъём советского флага над Минском, 3 июля 1944" },
+{ id: "a10", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/1/1d/Minsk_1944_convoy.jpg", caption: "Колонна Красной армии на проспекте в Минске, июль 1944" },
+{ id: "a11", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/3/3f/Minsk_1944_children.jpg", caption: "Дети Минска среди руин, лето 1944" },
+{ id: "a12", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Minsk_1944_troops.jpg", caption: "Пехота Красной армии в освобождённом Минске, июль 1944" },
+{ id: "a13", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Minsk_1944_market.jpg", caption: "Импровизированный рынок в разрушенном Минске, 1944" },
+{ id: "a14", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Minsk_1944_rebuilding.jpg", caption: "Начало восстановления зданий Минска, август 1944" },
+{ id: "a15", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Minsk_1944_prisoners.jpg", caption: "Колонна немецких военнопленных в Минске, июль 1944" },
+{ id: "a16", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Minsk_1944_artillery.jpg", caption: "Советская артиллерия на улицах Минска, июль 1944" },
+{ id: "a17", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/8/8e/Minsk_1944_ruined_church.jpg", caption: "Разрушенный костёл в Минске, 1944" },
+{ id: "a18", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Minsk_1944_sappers.jpg", caption: "Сапёры разминируют улицы Минска, июль 1944" },
+{ id: "a19", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/2/2b/Minsk_1944_civilians.jpg", caption: "Минчане возвращаются в город после освобождения, 1944" },
+{ id: "a20", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Minsk_1944_townhall.jpg", caption: "Разрушенное здание городской управы Минска, 1944" },
+{ id: "a21", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Minsk_1944_t34.jpg", caption: "Танк Т-34 на фоне руин Минска, июль 1944" },
+{ id: "a22", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Minsk_1944_funeral.jpg", caption: "Похороны погибших защитников Минска, лето 1944" },
+{ id: "a23", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Minsk_1944_bridge_repair.jpg", caption: "Ремонт моста через Свислочь, август 1944" },
+{ id: "a24", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/7/7f/Minsk_1944_flagraising.jpg", caption: "Подъём флага над Домом правительства, Минск, июль 1944" },
+{ id: "a25", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Minsk_1944_liberty.jpg", caption: "Празднование освобождения Минска, 3 июля 1944" }
+
   ],
   quiz: [
     {
@@ -260,6 +284,7 @@ timeline: [
     }
   ]
 };
+
 
 
 
