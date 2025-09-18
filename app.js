@@ -24,6 +24,39 @@
 
   map.events.forEach(renderMarker);
 
+// Сохраняем маркеры по типам
+const markersByType = {
+  cities: [],
+  fronts: [],
+  partisans: []
+};
+
+// При добавлении маркеров в цикле:
+window.APP_DATA.map.events.forEach(ev => {
+  const marker = L.marker(ev.coords).bindPopup(`<strong>${ev.title}</strong><br>${ev.date}<br>${ev.summary}`);
+  marker.addTo(map);
+  markersByType[ev.type]?.push(marker);
+});
+
+// Функция фильтрации
+function filterMapByLayers() {
+  document.querySelectorAll('[data-layer]').forEach(cb => {
+    const type = cb.getAttribute('data-layer');
+    if (cb.checked) {
+      markersByType[type].forEach(m => m.addTo(map));
+    } else {
+      markersByType[type].forEach(m => map.removeLayer(m));
+    }
+  });
+}
+
+// Обработчики чекбоксов
+document.querySelectorAll('[data-layer]').forEach(cb => {
+  cb.addEventListener('change', filterMapByLayers);
+});
+
+
+  
   function filterMapByYear(year) {
     markers.forEach(m => {
       const y = new Date(m._data.date).getFullYear();
@@ -262,3 +295,4 @@
     leaflet.options.zoomAnimation = false;
   }
 })();
+
