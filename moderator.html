@@ -1,35 +1,47 @@
 <h1>Модерация «Стены памяти»</h1>
-<input type="password" id="password" placeholder="Пароль модератора">
-<button onclick="login()">Войти</button>
+<div id="loginBlock">
+  <input type="password" id="password" placeholder="Пароль модератора">
+  <button onclick="login()">Войти</button>
+</div>
 
-<div id="pending" class="posts-grid"></div>
+<div id="pending" class="posts-grid" style="display:none;"></div>
 
 <script>
 let token = '';
 
-function login() {
-  token = document.getElementById('password').value;
-  loadPending();
+async function login() {
+  const pass = document.getElementById('password').value;
+  const res = await fetch('/api/check-auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password: pass })
+  });
+  if (res.ok) {
+    token = pass;
+    document.getElementById('loginBlock').style.display = 'none';
+    document.getElementById('pending').style.display = 'grid';
+    loadPending();
+  } else {
+    alert('Неверный пароль');
+  }
 }
 
 async function loadPending() {
   const res = await fetch('/api/posts?status=pending', {
     headers: { 'Authorization': 'Bearer ' + token }
   });
-  if (res.status === 401) {
-    alert('Неверный пароль');
-    return;
-  }
   const posts = await res.json();
-  document.getElementById('pending').innerHTML = posts.map(p => `
-    <div class="post-card">
-      ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
-      <h3>${p.name}</h3>
-      <p>${p.text}</p>
-      <button onclick="approve('${p.id}')">✅ Подтвердить</button>
-      <button onclick="removePost('${p.id}')">❌ Удалить</button>
-    </div>
-  `).join('');
+  document.getElementById('pending').innerHTML = posts.length
+    ? posts.map(p => `
+      <div class="post-card">
+        ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
+        <h3>${p.name}</h3>
+        <p>${p.text}</p>
+        <button onclick="approve('${p.id}')">✅ Подтвердить</button>
+        <button onclick="removePost('${p.id}')">❌ Удалить</button>
+      </div>
+    `).join('')
+    : '<p>Нет записей на модерацию</p>';
 }
 
 async function approve(id) {
