@@ -153,56 +153,47 @@
     </header>
 
 
-
-
-<form id="memoryForm" enctype="multipart/form-data">
+<form id="memoryForm">
   <input type="text" name="name" placeholder="Ваше имя" required>
   <textarea name="text" placeholder="Ваш рассказ" required></textarea>
-  <input type="file" name="photo" accept="image/*" id="photoInput">
-  <div id="preview" style="margin:10px 0;"></div>
+  <input type="file" id="photoInput" accept="image/*">
   <button type="submit">Отправить</button>
 </form>
 
-<div id="approvedPosts" class="posts-grid"></div>
+<div id="approvedPosts"></div>
 
 <script>
-async function loadApproved() {
-  const res = await fetch('/api/posts?status=approved');
-  const posts = await res.json();
-  document.getElementById('approvedPosts').innerHTML = posts.map(p => `
-    <div class="post-card">
-      ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
-      <h3>${p.name}</h3>
-      <p>${p.text}</p>
-    </div>
-  `).join('');
-}
+const CLOUD_NAME = "ТВОЙ_CLOUD_NAME";
+const UPLOAD_PRESET = "memory_wall";
 
 document.getElementById('memoryForm').addEventListener('submit', async e => {
   e.preventDefault();
-  const formData = new FormData(e.target);
-  await fetch('/api/posts', { method: 'POST', body: formData });
-  e.target.reset();
-  document.getElementById('preview').innerHTML = '';
-  alert('Запись отправлена на модерацию');
-});
+  const name = e.target.name.value;
+  const text = e.target.text.value;
+  const file = document.getElementById('photoInput').files[0];
 
-document.getElementById('photoInput').addEventListener('change', e => {
-  const file = e.target.files[0];
+  let photoURL = null;
   if (file) {
-    const reader = new FileReader();
-    reader.onload = ev => {
-      document.getElementById('preview').innerHTML = `<img src="${ev.target.result}" style="max-width:200px;border-radius:6px;">`;
-    };
-    reader.readAsDataURL(file);
-  }
-});
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
 
-loadApproved();
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    photoURL = data.secure_url;
+  }
+
+  // Здесь сохраняем name, text, photoURL и status="pending" в Firestore или JSON
+  console.log({ name, text, photoURL, status: "pending" });
+});
 </script>
 
 
 
+    
 
     
   </section>
@@ -217,6 +208,7 @@ loadApproved();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
