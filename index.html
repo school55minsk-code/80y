@@ -155,17 +155,14 @@
 
 
 
-
-
-
-    <h2>Стена памяти</h2>
+<h2>Стена памяти</h2>
 <div id="approvedPosts" class="posts-grid"></div>
 
 <script>
-const POSTS_URL = "https://res.cloudinary.com/ТВОЙ_CLOUD_NAME/raw/upload/posts.json";
+const POSTS_URL = "ПУБЛИЧНАЯ_ССЫЛКА_НА_posts.json_В_ICEDRIVE";
 
 async function loadApproved() {
-  const res = await fetch(POSTS_URL + "?v=" + Date.now()); // обходим кэш
+  const res = await fetch(POSTS_URL + "?v=" + Date.now());
   const posts = await res.json();
   const approved = posts.filter(p => p.status === 'approved');
   document.getElementById('approvedPosts').innerHTML = approved.map(p => `
@@ -179,6 +176,7 @@ async function loadApproved() {
 
 loadApproved();
 </script>
+
 
 <style>
 .posts-grid {
@@ -215,6 +213,7 @@ loadApproved();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
