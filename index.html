@@ -151,23 +151,53 @@
       <h2>Стена памяти</h2>
       <p>Оставьте историю вашей семьи — вместе мы сохраняем память.</p>
     </header>
-    <form id="wallForm" class="wall-form" novalidate>
-      <label>Имя и фамилия
-        <input type="text" name="name" required />
-      </label>
-      <label>Город/место
-        <input type="text" name="place" required />
-      </label>
-      <label>История
-        <textarea name="story" rows="4" required></textarea>
-      </label>
-      <label>Фото (необязательно)
-        <input type="file" name="photo" accept="image/*" />
-      </label>
-      <button class="btn primary" type="submit">Опубликовать</button>
-      <small>Публикация появится после модерации.</small>
-    </form>
-    <div id="wallList" class="wall-list" role="list"></div>
+<form id="memoryForm" enctype="multipart/form-data">
+  <input type="text" name="name" placeholder="Ваше имя" required>
+  <textarea name="text" placeholder="Ваш рассказ" required></textarea>
+  
+  <input type="file" name="photo" accept="image/*" id="photoInput">
+  <div id="preview" style="margin:10px 0;"></div>
+  
+  <button type="submit">Отправить</button>
+</form>
+
+<div id="approvedPosts" class="posts-grid"></div>
+
+<script>
+async function loadApproved() {
+  const res = await fetch('/api/posts?status=approved');
+  const posts = await res.json();
+  document.getElementById('approvedPosts').innerHTML = posts.map(p => `
+    <div class="post-card">
+      ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
+      <h3>${p.name}</h3>
+      <p>${p.text}</p>
+    </div>
+  `).join('');
+}
+
+document.getElementById('memoryForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  await fetch('/api/posts', { method: 'POST', body: formData });
+  e.target.reset();
+  document.getElementById('preview').innerHTML = '';
+  alert('Запись отправлена на модерацию');
+});
+
+document.getElementById('photoInput').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      document.getElementById('preview').innerHTML = `<img src="${ev.target.result}" style="max-width:200px;border-radius:6px;">`;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+loadApproved();
+</script>
   </section>
 </main>
 
@@ -180,4 +210,5 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
