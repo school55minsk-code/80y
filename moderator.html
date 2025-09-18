@@ -1,62 +1,60 @@
 <h1>Модерация «Стены памяти»</h1>
-<div id="loginBlock">
-  <input type="password" id="password" placeholder="Пароль модератора">
-  <button onclick="login()">Войти</button>
-</div>
-
-<div id="pending" class="posts-grid" style="display:none;"></div>
+<div id="pending"></div>
+<button id="saveBtn">💾 Сохранить изменения в Cloudinary</button>
 
 <script>
-let token = '';
+const POSTS_URL = "https://res.cloudinary.com/ТВОЙ_CLOUD_NAME/raw/upload/posts.json";
+const API_URL = "https://ТВОЙ_VERCEL_PROJECT.vercel.app/api/update-posts"; // адрес serverless-функции
+let postsData = [];
 
-async function login() {
-  const pass = document.getElementById('password').value;
-  const res = await fetch('/api/check-auth', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password: pass })
+async function loadPosts() {
+  const res = await fetch(POSTS_URL + "?v=" + Date.now());
+  postsData = await res.json();
+  renderPending();
+}
+
+function renderPending() {
+  const pending = postsData.filter(p => p.status === "pending");
+  document.getElementById("pending").innerHTML = pending.length
+    ? pending.map((p, idx) => `
+      <div style="border:1px solid #555;padding:10px;margin:5px;">
+        <img src="${p.photo}" style="max-width:150px;"><br>
+        <strong>${p.name}</strong><br>
+        ${p.text}<br>
+        <button onclick="approve(${idx})">✅ Подтвердить</button>
+        <button onclick="removePost(${idx})">❌ Удалить</button>
+      </div>
+    `).join("")
+    : "<p>Нет записей на модерацию</p>";
+}
+
+function approve(index) {
+  const pending = postsData.filter(p => p.status === "pending");
+  pending[index].status = "approved";
+  postsData = [...postsData.filter(p => p.status !== "pending"), ...pending];
+  renderPending();
+}
+
+function removePost(index) {
+  const pending = postsData.filter(p => p.status === "pending");
+  pending.splice(index, 1);
+  postsData = [...postsData.filter(p => p.status !== "pending"), ...pending];
+  renderPending();
+}
+
+document.getElementById("saveBtn").addEventListener("click", async () => {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(postsData)
   });
   if (res.ok) {
-    token = pass;
-    document.getElementById('loginBlock').style.display = 'none';
-    document.getElementById('pending').style.display = 'grid';
-    loadPending();
+    alert("Обновлено в Cloudinary!");
+    loadPosts();
   } else {
-    alert('Неверный пароль');
+    alert("Ошибка сохранения");
   }
-}
+});
 
-async function loadPending() {
-  const res = await fetch('/api/posts?status=pending', {
-    headers: { 'Authorization': 'Bearer ' + token }
-  });
-  const posts = await res.json();
-  document.getElementById('pending').innerHTML = posts.length
-    ? posts.map(p => `
-      <div class="post-card">
-        ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
-        <h3>${p.name}</h3>
-        <p>${p.text}</p>
-        <button onclick="approve('${p.id}')">✅ Подтвердить</button>
-        <button onclick="removePost('${p.id}')">❌ Удалить</button>
-      </div>
-    `).join('')
-    : '<p>Нет записей на модерацию</p>';
-}
-
-async function approve(id) {
-  await fetch(`/api/posts/${id}/approve`, {
-    method: 'PATCH',
-    headers: { 'Authorization': 'Bearer ' + token }
-  });
-  loadPending();
-}
-
-async function removePost(id) {
-  await fetch(`/api/posts/${id}`, {
-    method: 'DELETE',
-    headers: { 'Authorization': 'Bearer ' + token }
-  });
-  loadPending();
-}
+loadPosts();
 </script>
