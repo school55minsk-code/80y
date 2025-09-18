@@ -266,7 +266,32 @@ timeline: [
 { id: "a22", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Minsk_1944_funeral.jpg", caption: "Похороны погибших защитников Минска, лето 1944" },
 { id: "a23", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Minsk_1944_bridge_repair.jpg", caption: "Ремонт моста через Свислочь, август 1944" },
 { id: "a24", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/7/7f/Minsk_1944_flagraising.jpg", caption: "Подъём флага над Домом правительства, Минск, июль 1944" },
-{ id: "a25", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Minsk_1944_liberty.jpg", caption: "Празднование освобождения Минска, 3 июля 1944" }
+{ id: "a25", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Minsk_1944_liberty.jpg", caption: "Празднование освобождения Минска, 3 июля 1944" },
+{ id: "a26", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Belarus_1944_Slutsk_liberation.jpg", caption: "Жители Слуцка встречают воинов-освободителей, 30 июня 1944" },
+{ id: "a27", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Belarus_1944_Berezina_crossing.jpg", caption: "Переправа частей Красной армии через Березину, июнь 1944" },
+{ id: "a28", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Belarus_1944_German_tank_destroyed.jpg", caption: "Подбитый немецкий танк в Слуцке, июнь 1944" },
+{ id: "a29", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Belarus_1944_Logoysk_sappers.jpg", caption: "Сапёры разминируют дороги на подступах к Логойску, июнь 1944" },
+{ id: "a30", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Belarus_1944_Cavalry_entry.jpg", caption: "Кавалерия 1-го Белорусского фронта вступает в Слуцк, июнь 1944" },
+{ id: "a31", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Belarus_1944_Slonim_family.jpg", caption: "Майор Чернявский у гроба своей семьи, Слоним, лето 1944" },
+{ id: "a32", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Belarus_1944_Cherven_partisans.jpg", caption: "Партизаны бригады им. Щорса проходят по улицам Червеня, 1944" },
+{ id: "a33", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/8/8a/Belarus_1944_Cherven_liberation.jpg", caption: "Первые дни после освобождения Червеня, 1944" },
+{ id: "a34", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Belarus_1944_Plis_liberation.jpg", caption: "Освобождение Плисы, июль 1944" },
+{ id: "a35", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/0/0b/Belarus_1944_Dokshitsy_liberation.jpg", caption: "Освобождение Докшиц, июль 1944" },
+{ id: "a36", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/1/1c/Belarus_1944_Starobin_liberation.jpg", caption: "Освобождение Старобина, июль 1944" },
+{ id: "a37", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/2/2d/Belarus_1944_Smolevichi_liberation.jpg", caption: "Освобождение Смолевичей, июль 1944" },
+{ id: "a38", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Belarus_1944_Stolbtsy_liberation.jpg", caption: "Освобождение Столбцов, июль 1944" },
+{ id: "a39", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/4/4f/Belarus_1944_Kurenets_liberation.jpg", caption: "Освобождение Куренца, июль 1944" },
+{ id: "a40", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Belarus_1944_Cherven_soldiers.jpg", caption: "Советские солдаты в освобождённом Червене, 1944" },
+{ id: "a41", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Belarus_1944_Stolbtsy_bridge.jpg", caption: "Разрушенный мост в Столбцах, июль 1944" },
+{ id: "a42", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Belarus_1944_Slutsk_square.jpg", caption: "Центральная площадь Слуцка после освобождения, июнь 1944" },
+{ id: "a43", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Belarus_1944_Logoysk_entry.jpg", caption: "Вход частей Красной армии в Логойск, июнь 1944" },
+{ id: "a44", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Belarus_1944_Partisans_meeting.jpg", caption: "Встреча партизан с регулярными войсками, лето 1944" },
+{ id: "a45", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Belarus_1944_Bagration_map.jpg", caption: "Карта операции «Багратион», лето 1944" },
+{ id: "a46", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Belarus_1944_Berezina_bridge.jpg", caption: "Разрушенный мост через Березину, июнь 1944" },
+{ id: "a47", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Belarus_1944_Slutsk_tank.jpg", caption: "Танк Т-34 в освобождённом Слуцке, июнь 1944" },
+{ id: "a48", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/3/3b/Belarus_1944_Liberation_column.jpg", caption: "Колонна Красной армии в освобождённом городе, лето 1944" },
+{ id: "a49", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Belarus_1944_Partisans_in_city.jpg", caption: "Партизаны входят в освобождённый город, 1944" },
+{ id: "a50", type: "photo", src: "https://upload.wikimedia.org/wikipedia/commons/5/5a/Belarus_1944_Welcome_flowers.jpg", caption: "Жители встречают освободителей с цветами, лето 1944" }
 
   ],
   quiz: [
@@ -284,6 +309,7 @@ timeline: [
     }
   ]
 };
+
 
 
 
