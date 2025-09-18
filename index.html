@@ -151,13 +151,15 @@
       <h2>Стена памяти</h2>
       <p>Оставьте историю вашей семьи — вместе мы сохраняем память.</p>
     </header>
+
+
+
+
 <form id="memoryForm" enctype="multipart/form-data">
   <input type="text" name="name" placeholder="Ваше имя" required>
   <textarea name="text" placeholder="Ваш рассказ" required></textarea>
-  
   <input type="file" name="photo" accept="image/*" id="photoInput">
   <div id="preview" style="margin:10px 0;"></div>
-  
   <button type="submit">Отправить</button>
 </form>
 
@@ -198,6 +200,11 @@ document.getElementById('photoInput').addEventListener('change', e => {
 
 loadApproved();
 </script>
+
+
+
+
+    
   </section>
 </main>
 
@@ -210,5 +217,6 @@ loadApproved();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
