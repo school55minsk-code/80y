@@ -1,15 +1,12 @@
 import fetch from "node-fetch";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
-  }
-
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
   try {
-    const body = req.body; // массив постов
+    const body = req.body; // array of posts
     const fileContent = JSON.stringify(body, null, 2);
 
-    // Получаем access_token Icedrive
+    // 1) Login to Icedrive to get session token
     const tokenRes = await fetch("https://api.icedrive.net/v1/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -19,22 +16,27 @@ export default async function handler(req, res) {
       })
     });
     const tokenData = await tokenRes.json();
-    const token = tokenData.data.session_token;
+    if (!tokenRes.ok) return res.status(500).json({ error: "Icedrive login failed", details: tokenData });
+    const token = tokenData?.data?.session_token;
 
-    // Загружаем файл
-    const uploadRes = await fetch("https://api.icedrive.net/v1/file/upload", {
+    // 2) Update file content (base64-encoded)
+    const uploadRes = await fetch("https://api.icedrive.net/v1/file/edit", {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify({
-        file_id: process.env.ICEDRIVE_FILE_ID, // ID файла posts.json
+        file_id: process.env.ICEDRIVE_FILE_ID,
         content: Buffer.from(fileContent).toString("base64")
       })
     });
-
     const uploadData = await uploadRes.json();
-    res.status(200).json({ success: true, icedrive: uploadData });
+    if (!uploadRes.ok) return res.status(500).json({ error: "Icedrive edit failed", details: uploadData });
+
+    return res.status(200).json({ success: true, icedrive: uploadData });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Server error" });
+    return res.status(500).json({ error: "Server error" });
   }
 }
