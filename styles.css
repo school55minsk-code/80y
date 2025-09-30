@@ -123,34 +123,10 @@ dialog article { background: var(--panel); border: 1px solid var(--border); padd
   gap: 15px;
 }
 
-.post-card {
-  background: rgba(0,0,0,0.8);
-  padding: 12px;
-  border-radius: 8px;
-}
 
-.post-photo {
-  max-height: 150px;
-  width: auto;
-  display: block;
-  margin-bottom: 10px;
-  border-radius: 6px;
-}
 
-.post-text {
-  max-height: 200px;
-  overflow-y: auto;
-  background: rgba(255,255,255,0.1);
-  padding: 8px;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  color: #eee;
-}
 
-.post-date {
-  font-size: 0.9em;
-  color: #ccc;
-}
+
 
 button {
   margin: 5px 0;
@@ -239,4 +215,85 @@ button:hover {
   opacity: 1;
   bottom: 50px;
 }
+
+
+
+
+
+
+
+.post-card {
+  background: rgba(0,0,0,0.8);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-header h3 {
+  margin: 0;
+  flex: 1;
+}
+
+.post-date {
+  margin: 0 10px;
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+/* Стрелка */
+.arrow {
+  transition: transform 0.3s ease;
+  font-size: 1.2em;
+}
+
+/* В свернутом виде стрелка направо */
+.post-card.collapsed .arrow {
+  transform: rotate(0deg);
+}
+
+/* В раскрытом виде стрелка вниз */
+.post-card:not(.collapsed) .arrow {
+  transform: rotate(90deg);
+}
+
+/* Детали поста с анимацией */
+.post-details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  opacity: 0;
+  margin-top: 0;
+}
+
+.post-card:not(.collapsed) .post-details {
+  max-height: 1000px;
+  opacity: 1;
+  margin-top: 10px;
+}
+
+.post-photo {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.post-text {
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  padding: 10px;
+  border-radius: 6px;
+  color: #eee;
+}
+
+
 
