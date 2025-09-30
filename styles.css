@@ -117,41 +117,18 @@ dialog article { background: var(--panel); border: 1px solid var(--border); padd
 
 
 
-
-.post-card {
-  background: rgba(0,0,0,0.8);
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.memoryForm input, textarea, button {
-  width: 100%;
-  margin: 5px 0;
-  padding: 8px;
-  border: none;
-  border-radius: 4px;
-}
-
-.memoryForm button {
-  background: #c33;
-  color: #fff;
-  cursor: pointer;
-}
-
-.memoryForm button:hover {
-  background: #e44;
-}
-
 .posts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 15px;
 }
-
+.post-card {
+  background: rgba(0,0,0,0.8);
+  padding: 10px;
+  border-radius: 8px;
+}
 .post-card img {
   max-width: 100%;
   border-radius: 6px;
 }
-
 
