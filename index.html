@@ -195,46 +195,49 @@
   }
 
   // Обработка формы
-  document.getElementById("wallForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
+document.getElementById("wallForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const form = document.getElementById("wallForm");
-    if (!form.checkValidity()) {
-      showToast("⚠️ Пожалуйста, заполните обязательные поля", "warn");
-      return;
+  const form = document.getElementById("wallForm");
+
+  // Проверяем корректность полей
+  if (!form.reportValidity()) {
+    showToast("⚠️ Пожалуйста, заполните обязательные поля", "warn");
+    return;
+  }
+
+  const name = document.getElementById("name").value.trim();
+  const text = document.getElementById("text").value.trim();
+  const photo = document.getElementById("photo").value.trim();
+
+  const newPost = { 
+    name, 
+    text, 
+    photo, 
+    status: "pending", 
+    createdAt: new Date().toISOString(),
+    approvedAt: null
+  };
+  postsData.push(newPost);
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(postsData)
+    });
+    if (res.ok) {
+      showToast("✅ Запись отправлена на модерацию", "success");
+      form.reset();
+    } else {
+      showToast("❌ Ошибка сохранения", "error");
     }
+  } catch (err) {
+    console.error("Ошибка сохранения:", err);
+    showToast("❌ Ошибка соединения", "error");
+  }
+});
 
-    const name = document.getElementById("name").value.trim();
-    const text = document.getElementById("text").value.trim();
-    const photo = document.getElementById("photo").value.trim();
-
-    const newPost = { 
-      name, 
-      text, 
-      photo, 
-      status: "pending", 
-      createdAt: new Date().toISOString(),
-      approvedAt: null
-    };
-    postsData.push(newPost);
-
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postsData)
-      });
-      if (res.ok) {
-        showToast("✅ Запись отправлена на модерацию", "success");
-        form.reset();
-      } else {
-        showToast("❌ Ошибка сохранения", "error");
-      }
-    } catch (err) {
-      console.error("Ошибка сохранения:", err);
-      showToast("❌ Ошибка соединения", "error");
-    }
-  });
 
   // Функция для красивых сообщений с иконками
   function showToast(message, type = "info") {
@@ -263,6 +266,7 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
