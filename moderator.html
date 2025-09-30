@@ -8,9 +8,13 @@ const API_URL   = "/api/update-posts";
 let postsData = [];
 
 async function loadPosts() {
-  const res = await fetch(POSTS_URL);
-  postsData = await res.json();
-  renderPending();
+  try {
+    const res = await fetch(POSTS_URL);
+    postsData = await res.json();
+    renderPending();
+  } catch (err) {
+    console.error("Ошибка загрузки:", err);
+  }
 }
 
 function renderPending() {
@@ -18,7 +22,7 @@ function renderPending() {
   document.getElementById("pending").innerHTML = pending.length
     ? pending.map((p, idx) => `
       <div class="post-card">
-        <img src="${p.photo}" alt="">
+        ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
         <h3>${p.name}</h3>
         <p>${p.text}</p>
         <button onclick="approve(${idx})">✅ Подтвердить</button>
@@ -43,16 +47,20 @@ function removePost(index) {
 }
 
 document.getElementById("saveBtn").addEventListener("click", async () => {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(postsData)
-  });
-  if (res.ok) {
-    alert("Обновлено!");
-    loadPosts();
-  } else {
-    alert("Ошибка сохранения");
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(postsData)
+    });
+    if (res.ok) {
+      alert("Обновлено!");
+      loadPosts();
+    } else {
+      alert("Ошибка сохранения");
+    }
+  } catch (err) {
+    console.error("Ошибка сохранения:", err);
   }
 });
 
