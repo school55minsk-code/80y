@@ -201,7 +201,7 @@ function renderApproved() {
 
 // Обработка формы
 document.getElementById("wallForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
+  e.preventDefault(); // стоп стандартной отправки
 
   const form = document.getElementById("wallForm");
   if (!form.checkValidity()) {
@@ -214,9 +214,7 @@ document.getElementById("wallForm").addEventListener("submit", async (e) => {
   const photo = document.getElementById("photo").value.trim();
 
   const newPost = { 
-    name, 
-    text, 
-    photo, 
+    name, text, photo, 
     status: "pending", 
     createdAt: new Date().toISOString(),
     approvedAt: null
@@ -240,6 +238,7 @@ document.getElementById("wallForm").addEventListener("submit", async (e) => {
     showToast("Ошибка соединения", "error");
   }
 });
+
 
 // Функция для красивых сообщений с иконками
 function showToast(message, type = "info") {
@@ -277,6 +276,7 @@ loadPosts();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
