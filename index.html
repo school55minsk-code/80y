@@ -179,20 +179,31 @@
   }
 
   // Рендерим только approved
-  function renderApproved() {
-    const approved = postsData
-      .filter(p => p.status === 'approved')
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+function renderApproved() {
+  const approved = postsData
+    .filter(p => p.status === 'approved')
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-    document.getElementById('wallList').innerHTML = approved.map(p => `
-      <div class="post-card">
-        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
+  document.getElementById('wallList').innerHTML = approved.map((p, idx) => `
+    <div class="post-card collapsed" onclick="togglePost(${idx})" id="post-${idx}">
+      <div class="post-header">
         <h3>${p.name}</h3>
-        <div class="post-text">${p.text}</div>
         <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+        <span class="arrow">&#9654;</span> <!-- стрелка -->
       </div>
-    `).join('');
-  }
+      <div class="post-details">
+        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
+        <div class="post-text">${p.text}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function togglePost(index) {
+  const card = document.getElementById(`post-${index}`);
+  card.classList.toggle("collapsed");
+}
+
 
   // Обработка формы
 document.getElementById("wallForm").addEventListener("submit", async (e) => {
@@ -266,6 +277,7 @@ document.getElementById("wallForm").addEventListener("submit", async (e) => {
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
