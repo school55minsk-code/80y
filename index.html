@@ -159,7 +159,7 @@ async function loadApproved() {
     const res = await fetch(POSTS_URL);
     const posts = await res.json();
     const approved = posts.filter(p => p.status === 'approved');
-    document.getElementById('approvedPosts').innerHTML = approved.map(p => `
+    document.getElementById('wallList').innerHTML = approved.map(p => `
       <div class="post-card">
         ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
         <h3>${p.name}</h3>
@@ -189,6 +189,7 @@ loadApproved();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
