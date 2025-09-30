@@ -257,64 +257,6 @@
 
 
 
-// Функция для красивых сообщений
-  function showToast(message, type = "info") {
-    const toast = document.getElementById("toast");
-    let icon = "";
-
-    switch (type) {
-      case "success": icon = "✅"; break;
-      case "error":   icon = "❌"; break;
-      case "warn":    icon = "⚠️"; break;
-      default:        icon = "ℹ️";
-    }
-
-    toast.innerHTML = `${icon} ${message}`;
-    toast.className = "show";
-
-    setTimeout(() => {
-      toast.className = toast.className.replace("show", "");
-    }, 3000);
-  }
-
-  // Обработчик формы
-  document.getElementById("wallForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const text = document.getElementById("text").value.trim();
-    const photo = document.getElementById("photo").value.trim();
-
-    if (!name || !text) {
-      showToast("Пожалуйста, заполните обязательные поля", "warn");
-      return;
-    }
-
-    const newPost = { 
-      name, text, photo, 
-      status: "pending", 
-      createdAt: new Date().toISOString(),
-      approvedAt: null
-    };
-    postsData.push(newPost);
-
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postsData)
-      });
-      if (res.ok) {
-        showToast("Запись отправлена на модерацию", "success");
-        document.getElementById("wallForm").reset();
-      } else {
-        showToast("Ошибка сохранения", "error");
-      }
-    } catch (err) {
-      console.error("Ошибка сохранения:", err);
-      showToast("Ошибка соединения", "error");
-    }
-  });
-
 
 
 
@@ -355,4 +297,5 @@
     leaflet.options.zoomAnimation = false;
   }
 })();
+
 
