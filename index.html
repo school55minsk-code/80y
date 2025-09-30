@@ -148,24 +148,27 @@
   <!-- Стена памяти -->
   <section id="wall" class="section">
 
-
-    <h2>Стена памяти</h2>
-<div id="wallList" class="posts-grid"></div>
+<h2>Стена памяти</h2>
+<div id="approvedPosts" class="posts-grid"></div>
 
 <script>
 const POSTS_URL = "/api/get-posts";
 
 async function loadApproved() {
-  const res = await fetch(POSTS_URL);
-  const posts = await res.json();
-  const approved = posts.filter(p => p.status === 'approved');
-  document.getElementById('wallList').innerHTML = approved.map(p => `
-    <div class="post-card">
-      ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
-      <h3>${p.name}</h3>
-      <p>${p.text}</p>
-    </div>
-  `).join('');
+  try {
+    const res = await fetch(POSTS_URL);
+    const posts = await res.json();
+    const approved = posts.filter(p => p.status === 'approved');
+    document.getElementById('approvedPosts').innerHTML = approved.map(p => `
+      <div class="post-card">
+        ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
+        <h3>${p.name}</h3>
+        <p>${p.text}</p>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error("Ошибка загрузки:", err);
+  }
 }
 
 loadApproved();
@@ -186,6 +189,7 @@ loadApproved();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
