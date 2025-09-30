@@ -149,33 +149,80 @@
   <section id="wall" class="section">
 
 <h2>Стена памяти</h2>
+
+<!-- Форма для добавления записи -->
+<form id="wallForm">
+  <input type="text" id="name" placeholder="Имя" required><br>
+  <textarea id="text" placeholder="Текст воспоминания" required></textarea><br>
+  <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)"><br>
+  <button type="submit">Добавить</button>
+</form>
+
+<hr>
+
+<!-- Здесь будут видны подтверждённые посты -->
 <div id="wallList" class="posts-grid"></div>
 
 <script>
 const POSTS_URL = "/api/get-posts";
+const API_URL   = "/api/update-posts";
+let postsData = [];
 
-async function loadApproved() {
+// Загружаем все посты
+async function loadPosts() {
   try {
     const res = await fetch(POSTS_URL);
-    const posts = await res.json();
-    const approved = posts.filter(p => p.status === 'approved');
-    document.getElementById('wallList').innerHTML = approved.map(p => `
-      <div class="post-card">
-        ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
-        <h3>${p.name}</h3>
-        <p>${p.text}</p>
-      </div>
-    `).join('');
+    postsData = await res.json();
+    renderApproved();
   } catch (err) {
     console.error("Ошибка загрузки:", err);
   }
 }
 
-loadApproved();
+// Рендерим только approved
+function renderApproved() {
+  const approved = postsData.filter(p => p.status === 'approved');
+  document.getElementById('wallList').innerHTML = approved.map(p => `
+    <div class="post-card">
+      ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
+      <h3>${p.name}</h3>
+      <p>${p.text}</p>
+    </div>
+  `).join('');
+}
+
+// Обработка формы
+document.getElementById("wallForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = document.getElementById("name").value.trim();
+  const text = document.getElementById("text").value.trim();
+  const photo = document.getElementById("photo").value.trim();
+
+  if (!name || !text) return alert("Заполните имя и текст");
+
+  // создаём новый пост со статусом pending
+  const newPost = { name, text, photo, status: "pending" };
+  postsData.push(newPost);
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(postsData)
+    });
+    if (res.ok) {
+      alert("Запись отправлена на модерацию");
+      document.getElementById("wallForm").reset();
+    } else {
+      alert("Ошибка сохранения");
+    }
+  } catch (err) {
+    console.error("Ошибка сохранения:", err);
+  }
+});
+
+loadPosts();
 </script>
-
-<form id="wallForm"> ... 7788 </form>
-
 
   </section>
 </main>
@@ -189,6 +236,7 @@ loadApproved();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
