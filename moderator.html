@@ -1,14 +1,14 @@
 <h1>Модерация «Стены памяти»</h1>
 <div id="pending"></div>
-<button id="saveBtn">💾 Сохранить изменения в Icedrive</button>
+<button id="saveBtn">💾 Сохранить изменения</button>
 
 <script>
-const POSTS_URL = "ПУБЛИЧНАЯ_ССЫЛКА_НА_posts.json_В_ICEDRIVE";
-const API_URL = "https://ТВОЙ_VERCEL_PROJECT.vercel.app/api/update-posts";
+const POSTS_URL = "/api/get-posts";
+const API_URL   = "/api/update-posts";
 let postsData = [];
 
 async function loadPosts() {
-  const res = await fetch(POSTS_URL + "?v=" + Date.now());
+  const res = await fetch(POSTS_URL);
   postsData = await res.json();
   renderPending();
 }
@@ -17,10 +17,10 @@ function renderPending() {
   const pending = postsData.filter(p => p.status === "pending");
   document.getElementById("pending").innerHTML = pending.length
     ? pending.map((p, idx) => `
-      <div style="border:1px solid #555;padding:10px;margin:5px;">
-        <img src="${p.photo}" style="max-width:150px;"><br>
-        <strong>${p.name}</strong><br>
-        ${p.text}<br>
+      <div class="post-card">
+        <img src="${p.photo}" alt="">
+        <h3>${p.name}</h3>
+        <p>${p.text}</p>
         <button onclick="approve(${idx})">✅ Подтвердить</button>
         <button onclick="removePost(${idx})">❌ Удалить</button>
       </div>
@@ -49,7 +49,7 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
     body: JSON.stringify(postsData)
   });
   if (res.ok) {
-    alert("Обновлено в Icedrive!");
+    alert("Обновлено!");
     loadPosts();
   } else {
     alert("Ошибка сохранения");
@@ -58,3 +58,4 @@ document.getElementById("saveBtn").addEventListener("click", async () => {
 
 loadPosts();
 </script>
+<link rel="stylesheet" href="style.css">
