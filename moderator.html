@@ -41,9 +41,11 @@
     const container = document.getElementById("postsList");
     container.innerHTML = postsData.map((p, idx) => `
       <div class="post-card ${p.status === 'approved' ? 'approved' : 'pending'}">
+        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
         <p><strong>Автор:</strong> ${p.name}</p>
         <p><strong>Текст:</strong> ${p.text}</p>
-        <p><strong>Статус:</strong> ${p.status === 'approved' ? 'подтвержден' : 'не подтвержден'}</p>
+        <p><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+        <p><strong>Подтвержден:</strong> ${p.status === 'approved' ? (p.approvedAt ? new Date(p.approvedAt).toLocaleString() : '—') : 'не подтвержден'}</p>
         <label>
           <input type="checkbox" onchange="toggleStatus(${idx})" ${p.status === 'approved' ? 'checked' : ''}>
           Опубликован
@@ -54,7 +56,13 @@
   }
 
   function toggleStatus(index) {
-    postsData[index].status = postsData[index].status === "approved" ? "pending" : "approved";
+    if (postsData[index].status === "approved") {
+      postsData[index].status = "pending";
+      postsData[index].approvedAt = null;
+    } else {
+      postsData[index].status = "approved";
+      postsData[index].approvedAt = new Date().toISOString();
+    }
     renderPosts();
   }
 
