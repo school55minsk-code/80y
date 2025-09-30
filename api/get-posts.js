@@ -7,9 +7,11 @@ const redis = new Redis({
 
 export default async function handler(req, res) {
   try {
-    const posts = await redis.get('posts');
-    res.status(200).json(posts || []);
+    let posts = await redis.get('posts');
+    if (!posts) posts = []; // если в базе пусто
+    res.status(200).json(posts);
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Ошибка чтения из Redis' });
   }
 }
