@@ -20,6 +20,7 @@ h1 {
   margin-bottom: 10px;
   border-radius: 6px;
   overflow: hidden;
+  color: #000; /* весь текст внутри карточки черный */
 }
 
 .post-card.approved {
@@ -31,18 +32,19 @@ h1 {
 }
 
 .post-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr auto;
   align-items: center;
-  justify-content: space-between;
   height: 30px;
   padding: 5px 10px;
   font-size: 0.85em;
+  gap: 10px;
 }
 
 .post-details {
   display: none;
   padding: 10px;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.1);
 }
 
 .post-photo {
