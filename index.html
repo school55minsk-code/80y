@@ -148,120 +148,112 @@
   <!-- Стена памяти -->
   <section id="wall" class="section">
 
-<h2>Стена памяти</h2>
+ <h2>Стена памяти</h2>
 
-<!-- Форма для добавления записи -->
-<form id="wallForm" class="wall-form" novalidate>
-  <input type="text" id="name" placeholder="Имя" required>
-  <textarea id="text" placeholder="Текст воспоминания" required></textarea>
-  <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
-  <button type="submit" class="explore-btn">Добавить</button>
-</form>
+  <!-- Форма для добавления записи -->
+  <form id="wallForm" class="wall-form" novalidate>
+    <input type="text" id="name" placeholder="Имя" required>
+    <textarea id="text" placeholder="Текст воспоминания" required></textarea>
+    <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
+    <button type="submit" class="explore-btn">Добавить</button>
+  </form>
 
-<!-- Контейнер для уведомлений -->
-<div id="toast"></div>
+  <!-- Контейнер для уведомлений -->
+  <div id="toast"></div>
 
-<hr>
+  <hr>
 
-<!-- Здесь будут видны подтверждённые посты -->
-<div id="wallList" class="posts-grid"></div>
+  <!-- Здесь будут видны подтверждённые посты -->
+  <div id="wallList" class="posts-grid"></div>
 
-<script>
-const POSTS_URL = "/api/get-posts";
-const API_URL   = "/api/update-posts";
-let postsData = [];
+  <script>
+  const POSTS_URL = "/api/get-posts";
+  const API_URL   = "/api/update-posts";
+  let postsData = [];
 
-// Загружаем все посты
-async function loadPosts() {
-  try {
-    const res = await fetch(POSTS_URL);
-    postsData = await res.json();
-    renderApproved();
-  } catch (err) {
-    console.error("Ошибка загрузки:", err);
-    showToast("Ошибка загрузки данных", "error");
-  }
-}
-
-// Рендерим только approved
-function renderApproved() {
-  const approved = postsData
-    .filter(p => p.status === 'approved')
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-  document.getElementById('wallList').innerHTML = approved.map(p => `
-    <div class="post-card">
-      ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
-      <h3>${p.name}</h3>
-      <div class="post-text">${p.text}</div>
-      <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
-    </div>
-  `).join('');
-}
-
-// Обработка формы
-document.getElementById("wallForm").addEventListener("submit", async (e) => {
-  e.preventDefault(); // стоп стандартной отправки
-
-  const form = document.getElementById("wallForm");
-  if (!form.checkValidity()) {
-    showToast("Пожалуйста, заполните обязательные поля", "warn");
-    return;
-  }
-
-  const name = document.getElementById("name").value.trim();
-  const text = document.getElementById("text").value.trim();
-  const photo = document.getElementById("photo").value.trim();
-
-  const newPost = { 
-    name, text, photo, 
-    status: "pending", 
-    createdAt: new Date().toISOString(),
-    approvedAt: null
-  };
-  postsData.push(newPost);
-
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(postsData)
-    });
-    if (res.ok) {
-      showToast("Запись отправлена на модерацию", "success");
-      form.reset();
-    } else {
-      showToast("Ошибка сохранения", "error");
+  // Загружаем все посты
+  async function loadPosts() {
+    try {
+      const res = await fetch(POSTS_URL);
+      postsData = await res.json();
+      renderApproved();
+    } catch (err) {
+      console.error("Ошибка загрузки:", err);
+      showToast("Ошибка загрузки данных", "error");
     }
-  } catch (err) {
-    console.error("Ошибка сохранения:", err);
-    showToast("Ошибка соединения", "error");
-  }
-});
-
-
-// Функция для красивых сообщений с иконками
-function showToast(message, type = "info") {
-  const toast = document.getElementById("toast");
-  let icon = "";
-
-  switch (type) {
-    case "success": icon = "✅"; break;
-    case "error":   icon = "❌"; break;
-    case "warn":    icon = "⚠️"; break;
-    default:        icon = "ℹ️";
   }
 
-  toast.innerHTML = `${icon} ${message}`;
-  toast.className = "show";
+  // Рендерим только approved
+  function renderApproved() {
+    const approved = postsData
+      .filter(p => p.status === 'approved')
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-  setTimeout(() => {
-    toast.className = toast.className.replace("show", "");
-  }, 3000);
-}
+    document.getElementById('wallList').innerHTML = approved.map(p => `
+      <div class="post-card">
+        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
+        <h3>${p.name}</h3>
+        <div class="post-text">${p.text}</div>
+        <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+      </div>
+    `).join('');
+  }
 
-loadPosts();
-</script>
+  // Обработка формы
+  document.getElementById("wallForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const form = document.getElementById("wallForm");
+    if (!form.checkValidity()) {
+      showToast("⚠️ Пожалуйста, заполните обязательные поля", "warn");
+      return;
+    }
+
+    const name = document.getElementById("name").value.trim();
+    const text = document.getElementById("text").value.trim();
+    const photo = document.getElementById("photo").value.trim();
+
+    const newPost = { 
+      name, 
+      text, 
+      photo, 
+      status: "pending", 
+      createdAt: new Date().toISOString(),
+      approvedAt: null
+    };
+    postsData.push(newPost);
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postsData)
+      });
+      if (res.ok) {
+        showToast("✅ Запись отправлена на модерацию", "success");
+        form.reset();
+      } else {
+        showToast("❌ Ошибка сохранения", "error");
+      }
+    } catch (err) {
+      console.error("Ошибка сохранения:", err);
+      showToast("❌ Ошибка соединения", "error");
+    }
+  });
+
+  // Функция для красивых сообщений с иконками
+  function showToast(message, type = "info") {
+    const toast = document.getElementById("toast");
+    toast.innerHTML = message;
+    toast.className = "show";
+
+    setTimeout(() => {
+      toast.className = toast.className.replace("show", "");
+    }, 3000);
+  }
+
+  loadPosts();
+  </script>
 
 
   </section>
@@ -276,6 +268,7 @@ loadPosts();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
