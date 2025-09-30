@@ -158,12 +158,13 @@
   <button type="submit" class="explore-btn">Добавить</button>
 </form>
 
+<!-- Контейнер для уведомлений -->
+<div id="toast"></div>
+
 <hr>
 
-    <div id="toast"></div>
 <!-- Здесь будут видны подтверждённые посты -->
 <div id="wallList" class="posts-grid"></div>
-
 
 <script>
 const POSTS_URL = "/api/get-posts";
@@ -178,14 +179,15 @@ async function loadPosts() {
     renderApproved();
   } catch (err) {
     console.error("Ошибка загрузки:", err);
+    showToast("Ошибка загрузки данных", "error");
   }
 }
 
-// Рендерим только approved, показываем дату добавления
+// Рендерим только approved
 function renderApproved() {
   const approved = postsData
     .filter(p => p.status === 'approved')
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // новые сверху
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   document.getElementById('wallList').innerHTML = approved.map(p => `
     <div class="post-card">
@@ -200,13 +202,17 @@ function renderApproved() {
 // Обработка формы
 document.getElementById("wallForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  const form = document.getElementById("wallForm");
+  if (!form.checkValidity()) {
+    showToast("Пожалуйста, заполните обязательные поля", "warn");
+    return;
+  }
+
   const name = document.getElementById("name").value.trim();
   const text = document.getElementById("text").value.trim();
   const photo = document.getElementById("photo").value.trim();
 
-  if (!name || !text) return alert("Заполните имя и текст");
-
-  // создаём новый пост со статусом pending и временем добавления
   const newPost = { 
     name, 
     text, 
@@ -224,18 +230,40 @@ document.getElementById("wallForm").addEventListener("submit", async (e) => {
       body: JSON.stringify(postsData)
     });
     if (res.ok) {
-      alert("Запись отправлена на модерацию");
-      document.getElementById("wallForm").reset();
+      showToast("Запись отправлена на модерацию", "success");
+      form.reset();
     } else {
-      alert("Ошибка сохранения");
+      showToast("Ошибка сохранения", "error");
     }
   } catch (err) {
     console.error("Ошибка сохранения:", err);
+    showToast("Ошибка соединения", "error");
   }
 });
 
+// Функция для красивых сообщений с иконками
+function showToast(message, type = "info") {
+  const toast = document.getElementById("toast");
+  let icon = "";
+
+  switch (type) {
+    case "success": icon = "✅"; break;
+    case "error":   icon = "❌"; break;
+    case "warn":    icon = "⚠️"; break;
+    default:        icon = "ℹ️";
+  }
+
+  toast.innerHTML = `${icon} ${message}`;
+  toast.className = "show";
+
+  setTimeout(() => {
+    toast.className = toast.className.replace("show", "");
+  }, 3000);
+}
+
 loadPosts();
 </script>
+
 
   </section>
 </main>
@@ -249,6 +277,7 @@ loadPosts();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
