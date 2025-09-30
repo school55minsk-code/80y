@@ -32,28 +32,30 @@
     }
   }
 
-  function renderPosts() {
-    const total = postsData.length;
-    const pending = postsData.filter(p => p.status === "pending").length;
-    document.getElementById("totalCount").textContent = total;
-    document.getElementById("pendingCount").textContent = pending;
+    function renderPosts() {
+  const total = postsData.length;
+  // если у поста нет статуса, считаем его pending
+  const pending = postsData.filter(p => !p.status || p.status === "pending").length;
 
-    const container = document.getElementById("postsList");
-    container.innerHTML = postsData.map((p, idx) => `
-      <div class="post-card ${p.status === 'approved' ? 'approved' : 'pending'}">
-        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
-        <p><strong>Автор:</strong> ${p.name}</p>
-        <p><strong>Текст:</strong> ${p.text}</p>
-        <p><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
-        <p><strong>Подтвержден:</strong> ${p.status === 'approved' ? (p.approvedAt ? new Date(p.approvedAt).toLocaleString() : '—') : 'не подтвержден'}</p>
-        <label>
-          <input type="checkbox" onchange="toggleStatus(${idx})" ${p.status === 'approved' ? 'checked' : ''}>
-          Опубликован
-        </label>
-        <button onclick="removePost(${idx})">❌ Удалить</button>
-      </div>
-    `).join("");
-  }
+  document.getElementById("totalCount").textContent = total;
+  document.getElementById("pendingCount").textContent = pending;
+
+  const container = document.getElementById("postsList");
+  container.innerHTML = postsData.map((p, idx) => `
+    <div class="post-card ${p.status === 'approved' ? 'approved' : 'pending'}">
+      ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
+      <p><strong>Автор:</strong> ${p.name}</p>
+      <div class="post-text"><strong>Текст:</strong><br>${p.text}</div>
+      <p><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+      <p><strong>Подтвержден:</strong> ${p.status === 'approved' ? (p.approvedAt ? new Date(p.approvedAt).toLocaleString() : '—') : 'не подтвержден'}</p>
+      <label>
+        <input type="checkbox" onchange="toggleStatus(${idx})" ${p.status === 'approved' ? 'checked' : ''}>
+        Опубликован
+      </label>
+      <button onclick="removePost(${idx})">❌ Удалить</button>
+    </div>
+  `).join("");
+}
 
   function toggleStatus(index) {
     if (postsData[index].status === "approved") {
@@ -93,3 +95,4 @@
   </script>
 </body>
 </html>
+
