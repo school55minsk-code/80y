@@ -179,14 +179,18 @@ async function loadPosts() {
   }
 }
 
-// Рендерим только approved
+// Рендерим только approved, показываем дату добавления
 function renderApproved() {
-  const approved = postsData.filter(p => p.status === 'approved');
+  const approved = postsData
+    .filter(p => p.status === 'approved')
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // новые сверху
+
   document.getElementById('wallList').innerHTML = approved.map(p => `
     <div class="post-card">
-      ${p.photo ? `<img src="${p.photo}" alt="">` : ''}
+      ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
       <h3>${p.name}</h3>
-      <p>${p.text}</p>
+      <div class="post-text">${p.text}</div>
+      <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
     </div>
   `).join('');
 }
@@ -200,8 +204,15 @@ document.getElementById("wallForm").addEventListener("submit", async (e) => {
 
   if (!name || !text) return alert("Заполните имя и текст");
 
-  // создаём новый пост со статусом pending
-  const newPost = { name, text, photo, status: "pending" };
+  // создаём новый пост со статусом pending и временем добавления
+  const newPost = { 
+    name, 
+    text, 
+    photo, 
+    status: "pending", 
+    createdAt: new Date().toISOString(),
+    approvedAt: null
+  };
   postsData.push(newPost);
 
   try {
@@ -236,6 +247,7 @@ loadPosts();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
