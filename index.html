@@ -147,22 +147,16 @@
 
   <!-- Стена памяти -->
   <section id="wall" class="section">
-    <header>
-      <h2>Стена памяти</h2>
-      <p>Оставьте историю вашей семьи — вместе мы сохраняем память.</p>
-    </header>
 
 
-
-
-<h2>Стена памяти</h2>
+    <h2>Стена памяти</h2>
 <div id="approvedPosts" class="posts-grid"></div>
 
 <script>
-const POSTS_URL = "ПУБЛИЧНАЯ_ССЫЛКА_НА_posts.json_В_ICEDRIVE";
+const POSTS_URL = "/api/get-posts";
 
 async function loadApproved() {
-  const res = await fetch(POSTS_URL + "?v=" + Date.now());
+  const res = await fetch(POSTS_URL);
   const posts = await res.json();
   const approved = posts.filter(p => p.status === 'approved');
   document.getElementById('approvedPosts').innerHTML = approved.map(p => `
@@ -178,29 +172,7 @@ loadApproved();
 </script>
 
 
-<style>
-.posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 15px;
-}
-.post-card {
-  background: rgba(0,0,0,0.8);
-  padding: 10px;
-  border-radius: 8px;
-  color: #fff;
-}
-.post-card img {
-  max-width: 100%;
-  border-radius: 6px;
-}
-</style>
 
-
-
-    
-
-    
   </section>
 </main>
 
@@ -213,6 +185,7 @@ loadApproved();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
