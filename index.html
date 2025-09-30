@@ -151,17 +151,18 @@
 <h2>Стена памяти</h2>
 
 <!-- Форма для добавления записи -->
-<form id="wallForm">
-  <input type="text" id="name" placeholder="Имя" required><br>
-  <textarea id="text" placeholder="Текст воспоминания" required></textarea><br>
-  <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)"><br>
-  <button type="submit">Добавить</button>
+<form id="wallForm" class="wall-form">
+  <input type="text" id="name" placeholder="Имя" required>
+  <textarea id="text" placeholder="Текст воспоминания" required></textarea>
+  <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
+  <button type="submit" class="explore-btn">Добавить</button>
 </form>
 
 <hr>
 
 <!-- Здесь будут видны подтверждённые посты -->
 <div id="wallList" class="posts-grid"></div>
+
 
 <script>
 const POSTS_URL = "/api/get-posts";
@@ -247,6 +248,7 @@ loadPosts();
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
