@@ -486,6 +486,29 @@ width: 100%;
   text-align: center;
 }
 
+.video-background {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* высота на весь экран */
+  overflow: hidden;
+  z-index: 0;
+}
+
+.video-foreground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* чтобы клики не попадали на iframe */
+}
+
+.video-foreground iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 
 
 
