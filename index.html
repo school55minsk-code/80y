@@ -117,14 +117,18 @@
     </dialog>
   </section>
 
-  <!-- Архив -->
-  <section id="archive" class="section">
-    <header>
-      <h2>Архив</h2>
-      <p>Документы, письма, фотографии и афиши.</p>
-    </header>
-    <div class="archive-grid" id="archiveGrid" role="list"></div>
-  </section>
+<!-- Архив -->
+<section id="archive" class="section">
+  <header>
+    <h2>Архив</h2>
+    <p>Документы, письма, фотографии и афиши.</p>
+  </header>
+  <div class="archive-grid" id="archiveGrid" role="list">
+    <!-- сюда подставляются .archive-item -->
+  </div>
+  <button id="toggleArchiveBtn" class="archive-toggle-btn hidden">Показать все</button>
+</section>
+
 
   <!-- Квизы -->
   <section id="quiz" class="section">
@@ -208,6 +212,40 @@ showFormBtn.addEventListener("click", () => {
   showFormBtn.classList.add("hidden");   // скрываем кнопку
   wallForm.classList.remove("hidden");   // показываем форму
 });
+
+
+function initArchiveToggle() {
+  const grid = document.getElementById("archiveGrid");
+  const btn = document.getElementById("toggleArchiveBtn");
+
+  if (!grid || !btn) return;
+
+  const items = Array.from(grid.querySelectorAll(".archive-item"));
+
+  if (items.length > 5) {
+    // скрываем всё, кроме первых 5
+    items.slice(5).forEach(el => el.classList.add("hidden"));
+    btn.classList.remove("hidden");
+    btn.textContent = "Показать все";
+  }
+
+  btn.addEventListener("click", () => {
+    const hiddenItems = items.slice(5);
+    const isCollapsed = hiddenItems[0].classList.contains("hidden");
+
+    if (isCollapsed) {
+      hiddenItems.forEach(el => el.classList.remove("hidden"));
+      btn.textContent = "Скрыть";
+    } else {
+      hiddenItems.forEach(el => el.classList.add("hidden"));
+      btn.textContent = "Показать все";
+    }
+  });
+}
+
+// вызови после того, как элементы архива подгрузятся
+initArchiveToggle();
+
     
   function renderApproved() {
     const approved = postsData
@@ -335,6 +373,7 @@ showFormBtn.addEventListener("click", () => {
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
