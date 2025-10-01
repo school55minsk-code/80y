@@ -143,7 +143,7 @@
   <!-- Стена памяти -->
   <section id="wall" class="section">
 
-  <h2>Стена памяти</h2>
+<h2>Стена памяти</h2>
 <p class="wall-description">
   «Стена памяти» создана для того, чтобы сохранить дорогие сердцу воспоминания.  
   Здесь вы можете поделиться историей, фотографией или важным моментом из жизни.  
@@ -159,15 +159,17 @@
   После отправки запись попадёт на модерацию, а затем появится на стене.
 </p>
 
+<!-- Кнопка для показа формы -->
+<button id="showFormBtn" class="explore-btn">Заполнить форму</button>
 
-  <!-- Форма -->
-  <form id="wallForm" class="wall-form" novalidate>
-    <input type="text" id="fullName" placeholder="ФИО" required>
-    <input type="text" id="title" placeholder="Название" required>
-    <textarea id="text" placeholder="Текст воспоминания" required></textarea>
-    <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
-    <button type="submit" class="explore-btn">Добавить</button>
-  </form>
+<!-- Форма (скрыта по умолчанию) -->
+<form id="wallForm" class="wall-form hidden" novalidate>
+  <input type="text" id="fullName" placeholder="ФИО" required>
+  <input type="text" id="title" placeholder="Название" required>
+  <textarea id="text" placeholder="Текст воспоминания" required></textarea>
+  <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
+  <button type="submit" class="explore-btn">Добавить</button>
+</form>
 
   <!-- Toast -->
   <div id="toast"></div>
@@ -198,6 +200,15 @@
     }
   }
 
+// Кнопка "Заполнить форму"
+const showFormBtn = document.getElementById("showFormBtn");
+const wallForm = document.getElementById("wallForm");
+
+showFormBtn.addEventListener("click", () => {
+  showFormBtn.classList.add("hidden");   // скрываем кнопку
+  wallForm.classList.remove("hidden");   // показываем форму
+});
+    
   function renderApproved() {
     const approved = postsData
       .map((p, i) => ({...p, _idx: i}))
@@ -324,6 +335,7 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
