@@ -128,6 +128,7 @@
   <button id="toggleArchiveBtn" class="archive-toggle-btn hidden">Показать все</button>
 </section>
 
+
   
 
 
@@ -219,14 +220,25 @@ showFormBtn.addEventListener("click", () => {
 });
 
 
+
+
+
+
 function renderArchive() {
   const grid = document.getElementById("archiveGrid");
   const btn = document.getElementById("toggleArchiveBtn");
   if (!grid || !btn) return;
 
-  const archive = window.APP_DATA.map.archive || [];
+  // Берём данные из app.data.js
+  const archive = (window.APP_DATA?.map?.archive) || [];
 
-  // рендерим элементы
+  if (!archive.length) {
+    grid.innerHTML = "<p>Архив пуст</p>";
+    btn.classList.add("hidden");
+    return;
+  }
+
+  // Рендерим все элементы
   grid.innerHTML = archive.map(item => `
     <div class="archive-item">
       <figure>
@@ -238,8 +250,8 @@ function renderArchive() {
 
   const items = Array.from(grid.querySelectorAll(".archive-item"));
 
+  // Если больше 5 — скрываем лишние и показываем кнопку
   if (items.length > 5) {
-    // скрываем всё, кроме первых 5
     items.slice(5).forEach(el => el.classList.add("hidden"));
     btn.classList.remove("hidden");
     btn.textContent = "Показать все";
@@ -247,6 +259,7 @@ function renderArchive() {
     btn.classList.add("hidden");
   }
 
+  // Логика кнопки
   btn.onclick = () => {
     const hiddenItems = items.slice(5);
     const isCollapsed = hiddenItems[0].classList.contains("hidden");
@@ -261,9 +274,11 @@ function renderArchive() {
   };
 }
 
-// запускаем после загрузки DOM
+// Запускаем после загрузки DOM и после подключения app.data.js
 document.addEventListener("DOMContentLoaded", renderArchive);
 
+
+    
 
 
 
@@ -393,6 +408,7 @@ document.addEventListener("DOMContentLoaded", renderArchive);
 
 </body>
 </html>
+
 
 
 
