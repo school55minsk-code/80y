@@ -190,7 +190,6 @@ button:hover {
 }
 
 
-
 /* Форма */
 .wall-form {
   display: flex;
@@ -230,8 +229,18 @@ button:hover {
   box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
 }
 
-/* Компактные посты */
-
+/* Миниатюры */
+.post-card {
+  background: rgba(0,0,0,0.8);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  position: relative;
+  min-height: 180px;
+}
 .post-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
@@ -246,150 +255,18 @@ button:hover {
   font-size: 0.9em;
   color: #ccc;
 }
-
-/* Toast */
-#toast {
-  visibility: hidden;
-  min-width: 280px;
-  margin-left: -140px;
-  background: #222;
-  color: #ffa500;
-  text-align: center;
-  border-radius: 6px;
-  padding: 12px;
-  position: fixed;
-  z-index: 2000;
-  left: 50%;
-  bottom: 30px;
-  font-size: 1em;
-  transition: opacity 0.5s, bottom 0.5s;
-  opacity: 0;
-}
-#toast.show {
-  visibility: visible;
-  opacity: 1;
-  bottom: 50px;
-}
-
-/* Оверлей для раскрытого поста */
-.overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.85);
-  z-index: 1500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.overlay.hidden {
-  display: none;
-}
-
-
-/* Кнопка закрытия */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: #444;
-  color: #ffa500;
-  border: none;
+.post-title {
+  margin: 8px 0;
   font-size: 1.2em;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
+  color: #ffa500;
 }
-.close-btn:hover {
-  background: #666;
-}
-
-/* Анимация появления */
-@keyframes fadeInScale {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Когда оверлей показывается */
-.overlay {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.85);
-  z-index: 1500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: fadeInScale 0.3s ease;
-}
-
-.overlay.hidden {
-  display: none;
-}
-
-
 .post-preview {
   margin-top: 6px;
   font-size: 0.95em;
   color: #ddd;
   line-height: 1.4;
+  white-space: pre-wrap;   /* ✅ сохраняем форматирование */
 }
-
-.expanded-post {
-  max-width: 90vw;
-  max-height: 90vh;
-  background: #222;
-  color: #ffa500;
-  padding: 20px;
-  border-radius: 12px;
-  overflow-y: auto;   /* теперь весь пост прокручивается */
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.expanded-photo {
-  width: 100%;
-  max-height: 40vh;   /* ограничиваем высоту фото */
-  object-fit: contain; /* сохраняем пропорции */
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.expanded-text {
-  width: 100%;
-  /* убираем ограничение по высоте */
-  max-height: none;
-  overflow-y: visible;
-  background: rgba(255,255,255,0.05);
-  padding: 12px;
-  border-radius: 6px;
-  color: #eee;
-  margin-bottom: 10px;
-}
-
-
-.post-card {
-  background: rgba(0,0,0,0.8);
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #fff;
-  position: relative; /* ✅ теперь можно позиционировать элементы внутри */
-  min-height: 180px;  /* чтобы было место для текста и кнопки */
-}
-
 .read-more {
   position: absolute;
   bottom: 8px;
@@ -399,16 +276,102 @@ button:hover {
   font-weight: bold;
 }
 
-.post-title {
-  margin: 8px 0;
-  font-size: 1.2em;
-  color: #ffa500;
+/* Раскрытый пост */
+.overlay {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.8);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
 }
-
+.overlay.hidden {
+  display: none;
+}
+.expanded-post {
+  max-width: 90vw;
+  max-height: 90vh;
+  background: #222;
+  color: #ffa500;
+  padding: 20px;
+  border-radius: 12px;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.expanded-photo {
+  width: 100%;
+  max-height: 40vh;   /* ✅ фото уменьшено */
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.expanded-text {
+  width: 100%;
+  max-height: none;
+  overflow-y: visible;
+  background: rgba(255,255,255,0.05);
+  padding: 12px;
+  border-radius: 6px;
+  color: #eee;
+  margin-bottom: 10px;
+  white-space: pre-wrap;   /* ✅ сохраняем форматирование */
+}
 .post-author {
   margin: 4px 0 10px;
   font-size: 0.95em;
   color: #ccc;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #c33;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 28px;
+  text-align: center;
+}
+.close-btn:hover {
+  background: #e44;
+}
+
+/* Toast */
+#toast {
+  visibility: hidden;
+  min-width: 200px;
+  margin-left: -100px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 12px;
+  position: fixed;
+  z-index: 2000;
+  left: 50%;
+  bottom: 30px;
+  font-size: 14px;
+}
+#toast.show {
+  visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }
 
 
