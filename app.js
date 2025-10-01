@@ -138,50 +138,15 @@
   voiceDialog.querySelector('.close').addEventListener('click', () => voiceDialog.close());
 
   // Архив
-const archiveGrid = document.getElementById('archiveGrid');
-const toggleBtn = document.getElementById('toggleArchiveBtn');
-
-// Берём данные из app.data.js
-const archive = (window.APP_DATA?.map?.archive) || [];
-
-// Рендерим все элементы
-archiveGrid.innerHTML = archive.map(a => `
-  <div class="archive-item" role="listitem">
-    <figure>
-      <img src="${a.src}" alt="${a.caption}" loading="lazy" />
-      <figcaption>${a.caption}</figcaption>
-    </figure>
-  </div>
-`).join('');
-
-// Получаем список элементов
-const items = Array.from(archiveGrid.querySelectorAll('.archive-item'));
-
-// Если элементов больше 5 — скрываем лишние и показываем кнопку
-if (items.length > 5) {
-  items.slice(5).forEach(el => el.classList.add('hidden'));
-  toggleBtn.classList.remove('hidden');
-  toggleBtn.textContent = 'Показать все';
-} else {
-  toggleBtn.classList.add('hidden');
-}
-
-// Логика кнопки
-toggleBtn.addEventListener('click', () => {
-  const hiddenItems = items.slice(5);
-  const isCollapsed = hiddenItems[0].classList.contains('hidden');
-
-  if (isCollapsed) {
-    hiddenItems.forEach(el => el.classList.remove('hidden'));
-    toggleBtn.textContent = 'Скрыть';
-  } else {
-    hiddenItems.forEach(el => el.classList.add('hidden'));
-    toggleBtn.textContent = 'Показать все';
-  }
-});
-
-
-  
+  const archiveGrid = document.getElementById('archiveGrid');
+  archiveGrid.innerHTML = archive.map(a => `
+    <div class="archive-item" role="listitem">
+      <figure>
+        <img src="${a.src}" alt="${a.caption}" loading="lazy" />
+        <figcaption>${a.caption}</figcaption>
+      </figure>
+    </div>
+  `).join('');
 
   // Квиз
   const quizQuestion = document.getElementById('quizQuestion');
@@ -332,6 +297,5 @@ toggleBtn.addEventListener('click', () => {
     leaflet.options.zoomAnimation = false;
   }
 })();
-
 
 
