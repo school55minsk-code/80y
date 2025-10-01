@@ -295,36 +295,6 @@ button:hover {
   display: none;
 }
 
-/* Раскрытый пост */
-.expanded-post {
-  max-width: 90vw;
-  max-height: 90vh;
-  background: #222;
-  color: #ffa500;
-  padding: 20px;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.expanded-photo {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-.expanded-text {
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  background: rgba(255,255,255,0.05);
-  padding: 12px;
-  border-radius: 6px;
-  color: #eee;
-  margin-bottom: 10px;
-}
 
 /* Кнопка закрытия */
 .close-btn {
@@ -373,7 +343,22 @@ button:hover {
   display: none;
 }
 
-/* Раскрытый пост */
+
+.post-preview {
+  margin-top: 6px;
+  font-size: 0.95em;
+  color: #ddd;
+  line-height: 1.4;
+}
+
+.read-more {
+  text-align: right;
+  font-size: 0.85em;
+  color: #ffa500;
+  margin-top: 6px;
+  font-weight: bold;
+}
+
 .expanded-post {
   max-width: 90vw;
   max-height: 90vh;
@@ -381,19 +366,30 @@ button:hover {
   color: #ffa500;
   padding: 20px;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-y: auto;   /* ✅ теперь весь пост прокручивается */
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  animation: fadeInScale 0.3s ease;
 }
 
-.post-preview {
-  margin-top: 6px;
-  font-size: 0.95em;
-  color: #ddd;
-  line-height: 1.4;
+.expanded-photo {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.expanded-text {
+  width: 100%;
+  /* убираем ограничение по высоте */
+  max-height: none;
+  overflow-y: visible;
+  background: rgba(255,255,255,0.05);
+  padding: 12px;
+  border-radius: 6px;
+  color: #eee;
+  margin-bottom: 10px;
 }
 
 
