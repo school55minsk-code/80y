@@ -482,9 +482,10 @@ width: 100%;
 
 .range-labels span {
   flex: 0 0 auto;
-  width: 1px; /* чтобы текст не растягивался */
+ /* width: 1px;  чтобы текст не растягивался */
   text-align: center;
 }
+
 
 
 
