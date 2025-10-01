@@ -118,16 +118,16 @@
   </section>
 
 
-<!-- Архив --> 
-  <section id="archive" class="section"> 
-    <header> 
-      <h2>Архив</h2> 
-      <p>Документы, письма, фотографии и афиши.</p> 
-    </header> 
-    <div class="archive-grid" id="archiveGrid" role="list">
-      
-    </div> 
-  </section>
+<!-- Архив -->
+<section id="archive" class="section">
+  <header>
+    <h2>Архив</h2>
+    <p>Документы, письма, фотографии и афиши.</p>
+  </header>
+  <div class="archive-grid" id="archiveGrid" role="list"></div>
+  <button id="toggleArchiveBtn" class="archive-toggle-btn hidden">Показать все</button>
+</section>
+
   
 
 
@@ -213,6 +213,58 @@ showFormBtn.addEventListener("click", () => {
   showFormBtn.classList.add("hidden");   // скрываем кнопку
   wallForm.classList.remove("hidden");   // показываем форму
 });
+
+
+
+<script>
+function renderArchive() {
+  const grid = document.getElementById("archiveGrid");
+  const btn = document.getElementById("toggleArchiveBtn");
+  if (!grid || !btn) return;
+
+  const archive = window.APP_DATA.map.archive || [];
+
+  // рендерим элементы
+  grid.innerHTML = archive.map(item => `
+    <div class="archive-item">
+      <figure>
+        <img src="${item.src}" alt="">
+        <figcaption>${item.caption}</figcaption>
+      </figure>
+    </div>
+  `).join("");
+
+  const items = Array.from(grid.querySelectorAll(".archive-item"));
+
+  if (items.length > 5) {
+    // скрываем всё, кроме первых 5
+    items.slice(5).forEach(el => el.classList.add("hidden"));
+    btn.classList.remove("hidden");
+    btn.textContent = "Показать все";
+  } else {
+    btn.classList.add("hidden");
+  }
+
+  btn.onclick = () => {
+    const hiddenItems = items.slice(5);
+    const isCollapsed = hiddenItems[0].classList.contains("hidden");
+
+    if (isCollapsed) {
+      hiddenItems.forEach(el => el.classList.remove("hidden"));
+      btn.textContent = "Скрыть";
+    } else {
+      hiddenItems.forEach(el => el.classList.add("hidden"));
+      btn.textContent = "Показать все";
+    }
+  };
+}
+
+// запускаем после загрузки DOM
+document.addEventListener("DOMContentLoaded", renderArchive);
+</script>
+
+
+
 
     
   function renderApproved() {
@@ -341,6 +393,7 @@ showFormBtn.addEventListener("click", () => {
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
