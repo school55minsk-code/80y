@@ -188,14 +188,16 @@
       .filter(p => p.status === 'approved')
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-    document.getElementById('wallList').innerHTML = approved.map(p => `
-      <div class="post-card" data-index="${p._idx}">
-        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
-        <h3>${p.name}</h3>
-        <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
-        <div class="post-preview">${p.text.length > 150 ? p.text.slice(0,150) + "…" : p.text}</div>
-      </div>
-    `).join('');
+document.getElementById('wallList').innerHTML = approved.map(p => `
+  <div class="post-card" data-index="${p._idx}">
+    ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
+    <h3>${p.name}</h3>
+    <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+    <div class="post-preview">${p.text.length > 150 ? p.text.slice(0,150) + "…" : p.text}</div>
+    <div class="read-more">Читать полностью ⬇</div>
+  </div>
+`).join('');
+
 
     document.querySelectorAll('.post-card').forEach(card => {
       card.addEventListener('click', () => {
@@ -302,6 +304,7 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
