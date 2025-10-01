@@ -224,64 +224,6 @@ showFormBtn.addEventListener("click", () => {
 
 
 
-function renderArchive() {
-  const grid = document.getElementById("archiveGrid");
-  const btn = document.getElementById("toggleArchiveBtn");
-  if (!grid || !btn) return;
-
-  // Берём данные из app.data.js
-  const archive = (window.APP_DATA?.map?.archive) || [];
-
-  if (!archive.length) {
-    grid.innerHTML = "<p>Архив пуст</p>";
-    btn.classList.add("hidden");
-    return;
-  }
-
-  // Рендерим все элементы
-  grid.innerHTML = archive.map(item => `
-    <div class="archive-item">
-      <figure>
-        <img src="${item.src}" alt="">
-        <figcaption>${item.caption}</figcaption>
-      </figure>
-    </div>
-  `).join("");
-
-  const items = Array.from(grid.querySelectorAll(".archive-item"));
-
-  // Если больше 5 — скрываем лишние и показываем кнопку
-  if (items.length > 5) {
-    items.slice(5).forEach(el => el.classList.add("hidden"));
-    btn.classList.remove("hidden");
-    btn.textContent = "Показать все";
-  } else {
-    btn.classList.add("hidden");
-  }
-
-  // Логика кнопки
-  btn.onclick = () => {
-    const hiddenItems = items.slice(5);
-    const isCollapsed = hiddenItems[0].classList.contains("hidden");
-
-    if (isCollapsed) {
-      hiddenItems.forEach(el => el.classList.remove("hidden"));
-      btn.textContent = "Скрыть";
-    } else {
-      hiddenItems.forEach(el => el.classList.add("hidden"));
-      btn.textContent = "Показать все";
-    }
-  };
-}
-
-// Запускаем после загрузки DOM и после подключения app.data.js
-document.addEventListener("DOMContentLoaded", renderArchive);
-
-
-    
-
-
-
     
   function renderApproved() {
     const approved = postsData
@@ -408,6 +350,7 @@ document.addEventListener("DOMContentLoaded", renderArchive);
 
 </body>
 </html>
+
 
 
 
