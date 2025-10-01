@@ -143,14 +143,6 @@
   <!-- Стена памяти -->
   <section id="wall" class="section">
 
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Стена памяти</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
   <h2>Стена памяти</h2>
 
   <!-- Форма -->
@@ -252,6 +244,7 @@
   document.getElementById("wallForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = document.getElementById("wallForm");
+
     if (!form.reportValidity()) {
       showToast("⚠️ Пожалуйста, заполните обязательные поля", "warn");
       return;
@@ -316,6 +309,7 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
