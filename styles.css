@@ -374,6 +374,16 @@ button:hover {
   to {bottom: 0; opacity: 0;}
 }
 
+.hidden {
+  display: none;
+}
+
+.wall-description,
+.wall-instructions,
+.wall-note {
+  margin-bottom: 15px;
+}
+
 
 
 
