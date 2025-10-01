@@ -66,10 +66,12 @@
       <p>Перемещайтесь по карте, выбирайте события и изучайте материалы.</p>
     </header>
     <div class="map-toolbar" role="region" aria-label="Фильтры карты">
-      <label>Период:</label>
-        <div class="range-labels" id="yearLabels"></div>
-        <input type="range" min="1941" max="1945" step="1" value="1944" id="yearRange" aria-label="Год" />
-      
+<div class="range-wrapper">
+  <label for="yearRange">Период:</label>
+  <div class="range-labels" id="yearLabels"></div>
+  <input type="range" min="1941" max="1945" step="1" value="1944" id="yearRange" aria-label="Год" />
+</div>
+
       <fieldset>
         <legend>Слои</legend>
         <label><input type="checkbox" checked data-layer="fronts" /> Фронты</label>
@@ -86,24 +88,7 @@
     <div id="mapSidebar" class="map-sidebar" aria-live="polite"></div>
   </section>
 
- <script>
-const yearRange = document.getElementById('yearRange');
-const yearLabels = document.getElementById('yearLabels');
 
-function renderYearLabels() {
-  const min = parseInt(yearRange.min, 10);
-  const max = parseInt(yearRange.max, 10);
-  const step = parseInt(yearRange.step, 10);
-
-  let html = '';
-  for (let y = min; y <= max; y += step) {
-    html += `<span>${y}</span>`;
-  }
-  yearLabels.innerHTML = html;
-}
-
-renderYearLabels();
- </script>
   
   <!-- Лента времени -->
   <section id="timeline" class="section">
@@ -258,7 +243,22 @@ showFormBtn.addEventListener("click", () => {
 
 
 
+const yearRange = document.getElementById('yearRange');
+const yearLabels = document.getElementById('yearLabels');
 
+function renderYearLabels() {
+  const min = parseInt(yearRange.min, 10);
+  const max = parseInt(yearRange.max, 10);
+  const step = parseInt(yearRange.step, 10);
+
+  let html = '';
+  for (let y = min; y <= max; y += step) {
+    html += `<span>${y}</span>`;
+  }
+  yearLabels.innerHTML = html;
+}
+
+renderYearLabels();
 
 
     
@@ -387,6 +387,7 @@ showFormBtn.addEventListener("click", () => {
 
 </body>
 </html>
+
 
 
 
