@@ -143,9 +143,9 @@
   <!-- Стена памяти -->
   <section id="wall" class="section">
 
- <h2>Стена памяти</h2>
+  <h2>Стена памяти</h2>
 
-  <!-- Форма для добавления записи -->
+  <!-- Форма -->
   <form id="wallForm" class="wall-form" novalidate>
     <input type="text" id="name" placeholder="Имя" required>
     <textarea id="text" placeholder="Текст воспоминания" required></textarea>
@@ -153,20 +153,24 @@
     <button type="submit" class="explore-btn">Добавить</button>
   </form>
 
-  <!-- Контейнер для уведомлений -->
+  <!-- Toast -->
   <div id="toast"></div>
 
   <hr>
 
-  <!-- Здесь будут видны подтверждённые посты -->
+  <!-- Список постов -->
   <div id="wallList" class="posts-grid"></div>
+
+  <!-- Раскрытый пост -->
+  <div id="expandedOverlay" class="overlay hidden">
+    <div id="expandedPost" class="expanded-post"></div>
+  </div>
 
   <script>
   const POSTS_URL = "/api/get-posts";
   const API_URL   = "/api/update-posts";
   let postsData = [];
 
-  // Загружаем все посты
   async function loadPosts() {
     try {
       const res = await fetch(POSTS_URL);
@@ -178,84 +182,96 @@
     }
   }
 
-  // Рендерим только approved
-function renderApproved() {
-  const approved = postsData
-    .filter(p => p.status === 'approved')
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  function renderApproved() {
+    const approved = postsData
+      .filter(p => p.status === 'approved')
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-  document.getElementById('wallList').innerHTML = approved.map((p, idx) => `
-    <div class="post-card collapsed" onclick="togglePost(${idx})" id="post-${idx}">
-      <div class="post-header">
+    document.getElementById('wallList').innerHTML = approved.map((p, idx) => `
+      <div class="post-card" onclick="expandPost(${idx})">
+        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
         <h3>${p.name}</h3>
         <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
-        <span class="arrow">&#9654;</span> <!-- стрелка -->
       </div>
-      <div class="post-details">
-        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo">` : ''}
-        <div class="post-text">${p.text}</div>
+    `).join('');
+  }
+
+  function expandPost(index) {
+    const p = postsData[index];
+    const container = document.getElementById("expandedPost");
+    container.innerHTML = `
+      <div class="expanded-content">
+        <button class="close-btn" onclick="closeExpanded()">✖</button>
+        <h2>${p.name}</h2>
+        ${p.photo ? `<img src="${p.photo}" class="expanded-photo">` : ''}
+        <div class="expanded-text">${p.text}</div>
+        <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
       </div>
-    </div>
-  `).join('');
-}
+    `;
+    document.getElementById("expandedOverlay").classList.remove("hidden");
+  }
 
-function togglePost(index) {
-  const card = document.getElementById(`post-${index}`);
-  card.classList.toggle("collapsed");
-}
+  function closeExpanded() {
+    document.getElementById("expandedOverlay").classList.add("hidden");
+  }
 
+  // Закрытие по Esc
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeExpanded();
+  });
+
+  // Закрытие по клику вне карточки
+  document.getElementById("expandedOverlay").addEventListener("click", (e) => {
+    const post = document.getElementById("expandedPost");
+    if (!post.contains(e.target)) {
+      closeExpanded();
+    }
+  });
 
   // Обработка формы
-document.getElementById("wallForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const form = document.getElementById("wallForm");
-
-  // Проверяем корректность полей
-  if (!form.reportValidity()) {
-    showToast("⚠️ Пожалуйста, заполните обязательные поля", "warn");
-    return;
-  }
-
-  const name = document.getElementById("name").value.trim();
-  const text = document.getElementById("text").value.trim();
-  const photo = document.getElementById("photo").value.trim();
-
-  const newPost = { 
-    name, 
-    text, 
-    photo, 
-    status: "pending", 
-    createdAt: new Date().toISOString(),
-    approvedAt: null
-  };
-  postsData.push(newPost);
-
-  try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(postsData)
-    });
-    if (res.ok) {
-      showToast("✅ Запись отправлена на модерацию", "success");
-      form.reset();
-    } else {
-      showToast("❌ Ошибка сохранения", "error");
+  document.getElementById("wallForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = document.getElementById("wallForm");
+    if (!form.reportValidity()) {
+      showToast("⚠️ Пожалуйста, заполните обязательные поля", "warn");
+      return;
     }
-  } catch (err) {
-    console.error("Ошибка сохранения:", err);
-    showToast("❌ Ошибка соединения", "error");
-  }
-});
 
+    const name = document.getElementById("name").value.trim();
+    const text = document.getElementById("text").value.trim();
+    const photo = document.getElementById("photo").value.trim();
 
-  // Функция для красивых сообщений с иконками
+    const newPost = { 
+      name, text, photo, 
+      status: "pending", 
+      createdAt: new Date().toISOString(),
+      approvedAt: null
+    };
+    postsData.push(newPost);
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(postsData)
+      });
+      if (res.ok) {
+        showToast("✅ Запись отправлена на модерацию", "success");
+        form.reset();
+      } else {
+        showToast("❌ Ошибка сохранения", "error");
+      }
+    } catch (err) {
+      console.error("Ошибка сохранения:", err);
+      showToast("❌ Ошибка соединения", "error");
+    }
+  });
+
+  // Toast
   function showToast(message, type = "info") {
     const toast = document.getElementById("toast");
     toast.innerHTML = message;
     toast.className = "show";
-
     setTimeout(() => {
       toast.className = toast.className.replace("show", "");
     }, 3000);
@@ -277,6 +293,7 @@ document.getElementById("wallForm").addEventListener("submit", async (e) => {
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
