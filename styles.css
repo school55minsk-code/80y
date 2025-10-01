@@ -231,15 +231,7 @@ button:hover {
 }
 
 /* Компактные посты */
-.post-card {
-  background: rgba(0,0,0,0.8);
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  color: #fff;
-}
+
 .post-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
@@ -351,14 +343,6 @@ button:hover {
   line-height: 1.4;
 }
 
-.read-more {
-  text-align: right;
-  font-size: 0.85em;
-  color: #ffa500;
-  margin-top: 6px;
-  font-weight: bold;
-}
-
 .expanded-post {
   max-width: 90vw;
   max-height: 90vh;
@@ -366,7 +350,7 @@ button:hover {
   color: #ffa500;
   padding: 20px;
   border-radius: 12px;
-  overflow-y: auto;   /* ✅ теперь весь пост прокручивается */
+  overflow-y: auto;   /* теперь весь пост прокручивается */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -375,7 +359,8 @@ button:hover {
 
 .expanded-photo {
   width: 100%;
-  height: auto;
+  max-height: 40vh;   /* ограничиваем высоту фото */
+  object-fit: contain; /* сохраняем пропорции */
   border-radius: 8px;
   margin-bottom: 15px;
 }
@@ -390,6 +375,28 @@ button:hover {
   border-radius: 6px;
   color: #eee;
   margin-bottom: 10px;
+}
+
+
+.post-card {
+  background: rgba(0,0,0,0.8);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+  position: relative; /* ✅ теперь можно позиционировать элементы внутри */
+  min-height: 180px;  /* чтобы было место для текста и кнопки */
+}
+
+.read-more {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 0.85em;
+  color: #ffa500;
+  font-weight: bold;
 }
 
 
