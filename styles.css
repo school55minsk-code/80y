@@ -486,28 +486,40 @@ width: 100%;
   text-align: center;
 }
 
+
+
+
+
 .video-background {
   position: relative;
   width: 100%;
-  height: 100vh; /* высота на весь экран */
+  height: 100vh; /* на весь экран */
   overflow: hidden;
   z-index: 0;
 }
 
-.video-foreground {
+.video-background video {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* чтобы клики не попадали на iframe */
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover; /* обрезает по краям, но заполняет весь экран */
+  z-index: -1;
 }
 
-.video-foreground iframe {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.video-overlay {
+  position: relative;
+  z-index: 1;
+  color: white;
+  text-align: center;
+  padding-top: 20%;
 }
+
+
 
 
 
