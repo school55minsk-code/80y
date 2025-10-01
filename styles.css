@@ -467,19 +467,24 @@ width: 100%;
   text-align: center;
   color: slategray;
 }
+.range-wrapper {
+  width: 100%; /* контейнер растягивается */
+  max-width: 400px; /* можно ограничить ширину */
+}
 
 .range-labels {
   display: flex;
   justify-content: space-between;
-  margin: 0 4px 6px 4px; /* отступы вокруг */
+  margin: 0 2px 6px 2px; /* отступ снизу, чтобы не прилипало к ползунку */
   font-size: 12px;
   color: var(--muted, #ccc);
 }
+
 .range-labels span {
-  flex: 1;
+  flex: 0 0 auto;
+  width: 1px; /* чтобы текст не растягивался */
   text-align: center;
 }
-
 
 
 
