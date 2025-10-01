@@ -33,18 +33,15 @@ h1 {
 
 /* --- Главное исправление --- */
 .post-header {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 равных колонок */
   align-items: center;
   padding: 5px 10px;
   font-size: 0.85em;
   gap: 10px;
-  flex-wrap: nowrap; /* запрещаем перенос */
 }
 
 .post-header .col {
-  flex: 1 1 auto;
-  min-width: 0; /* важно для text-overflow */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
