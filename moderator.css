@@ -31,29 +31,16 @@ h1 {
   background: #f7b6b6;
 }
 
-/* --- Главное исправление --- */
 .post-header {
   display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6 равных колонок */
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;
   align-items: center;
+  height: 30px;
   padding: 5px 10px;
   font-size: 0.85em;
   gap: 10px;
 }
 
-.post-header .col {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.post-header .col:last-child {
-  flex: 0 0 auto; /* кнопки не сжимаются */
-  display: flex;
-  gap: 5px;
-}
-
-/* --- Детали поста --- */
 .post-details {
   display: none;
   padding: 10px;
@@ -77,7 +64,6 @@ h1 {
   color: #000;
 }
 
-/* --- Кнопки --- */
 .expand-btn {
   background: #444;
   color: #fff;
@@ -105,7 +91,6 @@ button:hover {
   background: #e44;
 }
 
-/* --- Модальное окно --- */
 .modal {
   position: fixed;
   top:0; left:0;
