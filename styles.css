@@ -94,10 +94,48 @@ dialog::backdrop { background: rgba(0,0,0,.6); }
 dialog article { background: var(--panel); border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
 .close { float: right; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
 
-.archive-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
-.archive-item { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.archive-item {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
 .archive-item figure { margin: 0; }
-.archive-item figcaption { padding: 8px 10px; color: var(--muted); font-size: 14px; }
+.archive-item figcaption {
+  padding: 8px 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* скрытые элементы */
+.archive-item.hidden {
+  display: none;
+}
+
+/* кнопка */
+.archive-toggle-btn {
+  margin-top: 15px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 14px;
+}
+.archive-toggle-btn:hover {
+  background: var(--border);
+}
+
+
+
+
+
 
 .quiz-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; max-width: 720px; }
 .quiz-question { font-size: 18px; margin-bottom: 12px; }
@@ -383,6 +421,7 @@ button:hover {
 .wall-note {
   margin-bottom: 15px;
 }
+
 
 
 
