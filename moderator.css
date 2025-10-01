@@ -62,6 +62,8 @@ h1 {
   padding: 6px;
   border-radius: 4px;
   color: #000;
+    white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 .expand-btn {
