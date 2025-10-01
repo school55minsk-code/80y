@@ -8,66 +8,63 @@
   }).addTo(leaflet);
 
   const markers = [];
-const highlightCircles = [];
+  const highlightCircles = [];
 
-function renderMarker(ev) {
-  const marker = L.marker(ev.coords).addTo(leaflet);
-  marker.bindPopup(`
-    <strong>${ev.title}</strong><br/>
-    <small>${new Date(ev.date).toLocaleDateString('ru-RU')}</small><br/>
-    <p>${ev.summary}</p>
-    ${ev.media?.[0] ? `<img src="${ev.media[0].src}" alt="${ev.media[0].caption}" style="max-width:200px;border-radius:8px; margin-top:6px;" />` : ""}
-    <br/><button class="btn btn-small" data-open="${ev.id}">Подробнее</button>
-  `);
-  marker._data = ev;
-  markers.push(marker);
+  function renderMarker(ev) {
+    const marker = L.marker(ev.coords).addTo(leaflet);
+    marker.bindPopup(`
+      <strong>${ev.title}</strong><br/>
+      <small>${new Date(ev.date).toLocaleDateString('ru-RU')}</small><br/>
+      <p>${ev.summary}</p>
+      ${ev.media?.[0] ? `<img src="${ev.media[0].src}" alt="${ev.media[0].caption}" style="max-width:200px;border-radius:8px; margin-top:6px;" />` : ""}
+      <br/><button class="btn btn-small" data-open="${ev.id}">Подробнее</button>
+    `);
+    marker._data = ev;
+    markers.push(marker);
 
-  // Красный круг для подсветки
-  const circle = L.circle(ev.coords, {
-    radius: 20000, // радиус в метрах, подбери под масштаб
-    color: 'red',
-    fillColor: 'red',
-    fillOpacity: 0.3
-  });
-  circle._data = ev;
-  highlightCircles.push(circle);
-}
+    // Красный круг для подсветки
+    const circle = L.circle(ev.coords, {
+      radius: 20000, // радиус в метрах, можно подстроить
+      color: 'red',
+      fillColor: 'red',
+      fillOpacity: 0.3
+    });
+    circle._data = ev;
+    highlightCircles.push(circle);
+  }
 
+  // Рендерим все события
   map.events.forEach(renderMarker);
 
-filterMapByYear(parseInt(document.getElementById('yearRange').value, 10));
-
-
-function filterMapByYear(year) {
-  markers.forEach(m => {
-    const y = new Date(m._data.date).getFullYear();
-    const visible = y <= year;
-    if (visible) leaflet.addLayer(m); else leaflet.removeLayer(m);
-  });
-
-  highlightCircles.forEach(c => {
-    const y = new Date(c._data.date).getFullYear();
-    const visible = y <= year;
-    if (visible) leaflet.addLayer(c); else leaflet.removeLayer(c);
-  });
-}
-
-
-
-  
+  // Фильтр по году
   function filterMapByYear(year) {
     markers.forEach(m => {
       const y = new Date(m._data.date).getFullYear();
       const visible = y <= year;
       if (visible) leaflet.addLayer(m); else leaflet.removeLayer(m);
     });
+
+    highlightCircles.forEach(c => {
+      const y = new Date(c._data.date).getFullYear();
+      const visible = y <= year;
+      if (visible) leaflet.addLayer(c); else leaflet.removeLayer(c);
+    });
   }
 
+  // Фильтр по слоям
   function filterMapByLayers() {
-    const checked = [...document.querySelectorAll('[data-layer]')].filter(i => i.checked).map(i => i.dataset.layer);
+    const checked = [...document.querySelectorAll('[data-layer]')]
+      .filter(i => i.checked)
+      .map(i => i.dataset.layer);
+
     markers.forEach(m => {
       const visible = checked.includes(m._data.type);
       if (visible) leaflet.addLayer(m); else leaflet.removeLayer(m);
+    });
+
+    highlightCircles.forEach(c => {
+      const visible = checked.includes(c._data.type);
+      if (visible) leaflet.addLayer(c); else leaflet.removeLayer(c);
     });
   }
 
@@ -83,14 +80,18 @@ function filterMapByYear(year) {
     `;
   });
 
-  document.getElementById('yearRange').addEventListener('input', e => {
+  // Слайдер по годам
+  const yearRange = document.getElementById('yearRange');
+  yearRange.addEventListener('input', e => {
     filterMapByYear(parseInt(e.target.value, 10));
   });
 
+  // Слои
   document.querySelectorAll('[data-layer]').forEach(cb => {
     cb.addEventListener('change', filterMapByLayers);
   });
 
+  // Поиск
   document.getElementById('mapSearch').addEventListener('input', e => {
     const q = e.target.value.toLowerCase();
     markers.forEach(m => {
@@ -99,74 +100,10 @@ function filterMapByYear(year) {
     });
   });
 
-  // Лента времени
-  const timelineGrid = document.getElementById('timelineGrid');
-  function renderTimeline(items) {
-    timelineGrid.innerHTML = items.map(item => `
-      <div class="timeline-item" role="listitem">
-        <time datetime="${item.year}">${item.year}</time>
-        <strong>${item.title}</strong>
-        <p>${item.text}</p>
-        <button class="btn" data-highlight="${item.tag}">Показать на карте</button>
-      </div>
-    `).join('');
-  }
-  renderTimeline(timeline);
+  // Первичная отрисовка по текущему значению ползунка
+  filterMapByYear(parseInt(yearRange.value, 10));
 
-  document.querySelectorAll('.timeline-controls .btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const p = btn.dataset.period;
-      let items = timeline;
-      if (p !== 'all') {
-        if (p.includes('-')) {
-          const [from, to] = p.split('-').map(Number);
-          items = timeline.filter(i => i.year >= from && i.year <= to);
-        } else {
-          const y = Number(p);
-          items = timeline.filter(i => i.year === y);
-        }
-      }
-      renderTimeline(items);
-    });
-  });
 
-  timelineGrid.addEventListener('click', e => {
-    const tag = e.target?.dataset?.highlight;
-    if (!tag) return;
-    markers.forEach(m => {
-      if (m._data.type === tag || m._data.id.includes(tag)) {
-        m.openPopup();
-        leaflet.setView(m.getLatLng(), 8, { animate: true });
-      }
-    });
-  });
-
-  // Голоса памяти
-  const voicesList = document.getElementById('voicesList');
-  voicesList.innerHTML = voices.map(v => `
-    <article class="voice-card" role="listitem">
-      <h3>${v.title}</h3>
-      <p><strong>Автор:</strong> ${v.name}</p>
-      <p><strong>Место:</strong> ${v.place}</p>
-      <button class="btn" data-voice="${v.id}">Слушать</button>
-    </article>
-  `).join('');
-
-  const voiceDialog = document.getElementById('voiceDialog');
-  const voiceTitle = document.getElementById('voiceTitle');
-  const voiceAudio = document.getElementById('voiceAudio');
-  const voiceTranscript = document.getElementById('voiceTranscript');
-
-  voicesList.addEventListener('click', e => {
-    const id = e.target?.dataset?.voice;
-    if (!id) return;
-    const v = voices.find(x => x.id === id);
-    voiceTitle.textContent = `${v.title} — ${v.name}`;
-    voiceAudio.src = v.audio;
-    voiceTranscript.textContent = v.transcript;
-    voiceDialog.showModal();
-  });
-  voiceDialog.querySelector('.close').addEventListener('click', () => voiceDialog.close());
 
 
 
@@ -325,40 +262,6 @@ archiveOverlay.addEventListener('click', e => {
     renderWall();
   });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   
   function fileToDataURL(file) {
     return new Promise(res => {
@@ -383,9 +286,6 @@ archiveOverlay.addEventListener('click', e => {
     leaflet.options.fadeAnimation = false;
     leaflet.options.zoomAnimation = false;
   }
+
+
 })();
-
-
-
-
-
