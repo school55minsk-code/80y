@@ -146,12 +146,14 @@
   <h2>Стена памяти</h2>
 
   <!-- Форма -->
-  <form id="wallForm" class="wall-form" novalidate>
-    <input type="text" id="name" placeholder="Имя" required>
-    <textarea id="text" placeholder="Текст воспоминания" required></textarea>
-    <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
-    <button type="submit" class="explore-btn">Добавить</button>
-  </form>
+<form id="wallForm" class="wall-form" novalidate>
+  <input type="text" id="fullName" placeholder="ФИО" required>
+  <input type="text" id="title" placeholder="Название" required>
+  <textarea id="text" placeholder="Текст воспоминания" required></textarea>
+  <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
+  <button type="submit" class="explore-btn">Добавить</button>
+</form>
+
 
   <!-- Toast -->
   <div id="toast"></div>
@@ -188,11 +190,11 @@
       .filter(p => p.status === 'approved')
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-document.getElementById('wallList').innerHTML = approved.map(p => `
+    document.getElementById('wallList').innerHTML = approved.map(p => `
   <div class="post-card" data-index="${p._idx}">
-    ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
-    <h3>${p.name}</h3>
     <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+    ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
+    <h3 class="post-title">${p.title}</h3>
     <div class="post-preview">${p.text.length > 150 ? p.text.slice(0,150) + "…" : p.text}</div>
     <div class="read-more">Читать полностью ⬇</div>
   </div>
@@ -208,20 +210,22 @@ document.getElementById('wallList').innerHTML = approved.map(p => `
     });
   }
 
-  function expandPost(index) {
-    const p = postsData[index];
-    const container = document.getElementById("expandedPost");
-    container.innerHTML = `
-      <div class="expanded-content">
-        <button class="close-btn" onclick="closeExpanded()">✖</button>
-        <h2>${p.name}</h2>
-        ${p.photo ? `<img src="${p.photo}" class="expanded-photo">` : ''}
-        <div class="expanded-text">${p.text}</div>
-        <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
-      </div>
-    `;
-    document.getElementById("expandedOverlay").classList.remove("hidden");
-  }
+function expandPost(index) {
+  const p = postsData[index];
+  const container = document.getElementById("expandedPost");
+  container.innerHTML = `
+    <div class="expanded-content">
+      <button class="close-btn" onclick="closeExpanded()">✖</button>
+      <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+      <p class="post-author"><strong>Добавил:</strong> ${p.fullName || "—"}</p>
+      <h2 class="post-title">${p.title}</h2>
+      ${p.photo ? `<img src="${p.photo}" class="expanded-photo">` : ''}
+      <div class="expanded-text">${p.text}</div>
+    </div>
+  `;
+  document.getElementById("expandedOverlay").classList.remove("hidden");
+}
+
 
   function closeExpanded() {
     document.getElementById("expandedOverlay").classList.add("hidden");
@@ -253,12 +257,15 @@ document.getElementById('wallList').innerHTML = approved.map(p => `
     const text = document.getElementById("text").value.trim();
     const photo = document.getElementById("photo").value.trim();
 
-    const newPost = { 
-      name, text, photo, 
-      status: "pending", 
-      createdAt: new Date().toISOString(),
-      approvedAt: null
-    };
+const newPost = { 
+  fullName,   // ФИО заполняющего
+  title,      // Название
+  text, 
+  photo, 
+  status: "pending", 
+  createdAt: new Date().toISOString(),
+  approvedAt: null
+};
     postsData.push(newPost);
 
     try {
@@ -305,6 +312,7 @@ document.getElementById('wallList').innerHTML = approved.map(p => `
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
