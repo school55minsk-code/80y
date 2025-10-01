@@ -105,7 +105,7 @@ dialog article { background: var(--panel); border: 1px solid var(--border); padd
 .quiz-answers button { text-align: left; }
 .quiz-progress { margin-top: 8px; color: var(--muted); }
 
-.wall-form { display: grid; gap: 10px; max-width: 720px; }
+
 .wall-list { margin-top: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 .wall-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
 
@@ -209,7 +209,7 @@ button:hover {
   outline: none;
 }
 .wall-form textarea {
-  height: 60px;
+  height: 260px;
   resize: vertical;
 }
 .explore-btn {
@@ -373,6 +373,7 @@ button:hover {
   from {bottom: 30px; opacity: 1;}
   to {bottom: 0; opacity: 0;}
 }
+
 
 
 
