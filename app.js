@@ -8,22 +8,53 @@
   }).addTo(leaflet);
 
   const markers = [];
+const highlightCircles = [];
 
-  function renderMarker(ev) {
-    const marker = L.marker(ev.coords).addTo(leaflet);
-    marker.bindPopup(`
-      <strong>${ev.title}</strong><br/>
-      <small>${new Date(ev.date).toLocaleDateString('ru-RU')}</small><br/>
-      <p>${ev.summary}</p>
-      ${ev.media?.[0] ? `<img src="${ev.media[0].src}" alt="${ev.media[0].caption}" style="max-width:200px;border-radius:8px; margin-top:6px;" />` : ""}
-      <br/><button class="btn btn-small" data-open="${ev.id}">Подробнее</button>
-    `);
-    marker._data = ev;
-    markers.push(marker);
-  }
+function renderMarker(ev) {
+  const marker = L.marker(ev.coords).addTo(leaflet);
+  marker.bindPopup(`
+    <strong>${ev.title}</strong><br/>
+    <small>${new Date(ev.date).toLocaleDateString('ru-RU')}</small><br/>
+    <p>${ev.summary}</p>
+    ${ev.media?.[0] ? `<img src="${ev.media[0].src}" alt="${ev.media[0].caption}" style="max-width:200px;border-radius:8px; margin-top:6px;" />` : ""}
+    <br/><button class="btn btn-small" data-open="${ev.id}">Подробнее</button>
+  `);
+  marker._data = ev;
+  markers.push(marker);
+
+  // Красный круг для подсветки
+  const circle = L.circle(ev.coords, {
+    radius: 20000, // радиус в метрах, подбери под масштаб
+    color: 'red',
+    fillColor: 'red',
+    fillOpacity: 0.3
+  });
+  circle._data = ev;
+  highlightCircles.push(circle);
+}
 
   map.events.forEach(renderMarker);
 
+filterMapByYear(parseInt(document.getElementById('yearRange').value, 10));
+
+
+function filterMapByYear(year) {
+  markers.forEach(m => {
+    const y = new Date(m._data.date).getFullYear();
+    const visible = y <= year;
+    if (visible) leaflet.addLayer(m); else leaflet.removeLayer(m);
+  });
+
+  highlightCircles.forEach(c => {
+    const y = new Date(c._data.date).getFullYear();
+    const visible = y <= year;
+    if (visible) leaflet.addLayer(c); else leaflet.removeLayer(c);
+  });
+}
+
+
+
+  
   function filterMapByYear(year) {
     markers.forEach(m => {
       const y = new Date(m._data.date).getFullYear();
@@ -353,6 +384,7 @@ archiveOverlay.addEventListener('click', e => {
     leaflet.options.zoomAnimation = false;
   }
 })();
+
 
 
 
