@@ -468,6 +468,17 @@ width: 100%;
   color: slategray;
 }
 
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 4px 6px 4px; /* отступы вокруг */
+  font-size: 12px;
+  color: var(--muted, #ccc);
+}
+.range-labels span {
+  flex: 1;
+  text-align: center;
+}
 
 
 
