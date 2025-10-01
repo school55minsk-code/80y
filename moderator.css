@@ -33,7 +33,7 @@ h1 {
 
 .post-header {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr auto;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr auto;
   align-items: center;
   height: 30px;
   padding: 5px 10px;
