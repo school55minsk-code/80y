@@ -42,32 +42,34 @@
     document.getElementById("totalCount").textContent = total;
     document.getElementById("pendingCount").textContent = pending;
 
-    const container = document.getElementById("postsList");
-    container.innerHTML = postsData.map((p, idx) => `
-      <div class="post-card ${p.status === 'approved' ? 'approved' : 'pending'}">
-        <div class="post-header">
-          <div class="col"><strong>Автор:</strong> ${truncate(p.name)}</div>
-          <div class="col"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</div>
-          <div class="col"><strong>Подтвержден:</strong> ${p.status === 'approved' ? (p.approvedAt ? new Date(p.approvedAt).toLocaleString() : '—') : 'не подтвержден'}</div>
-          <div class="col">
-            <label>
-              <input type="checkbox" onchange="toggleStatus(${idx})" ${p.status === 'approved' ? 'checked' : ''}>
-              Опубликован
-            </label>
-          </div>
-          <div class="col">
-            <button onclick="toggleExpand(${idx})" id="expand-btn-${idx}" class="expand-btn">⯈ раскрыть</button>
-            <button onclick="removePost(${idx})">❌ Удалить</button>
-          </div>
-        </div>
-        <div class="post-details" id="details-${idx}">
-          <p><strong>Автор (полностью):</strong> ${p.name}</p>
-          ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo" onclick="enlargeImage(this)">` : ''}
-          <div class="post-text">${p.text}</div>
-        </div>
+const container = document.getElementById("postsList");
+container.innerHTML = postsData.map((p, idx) => `
+  <div class="post-card ${p.status === 'approved' ? 'approved' : 'pending'}">
+    <div class="post-header">
+      <div class="col"><strong>ФИО:</strong> ${truncate(p.fullName || "—")}</div>
+      <div class="col"><strong>Название:</strong> ${truncate(p.title || "—")}</div>
+      <div class="col"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</div>
+      <div class="col"><strong>Подтвержден:</strong> ${p.status === 'approved' ? (p.approvedAt ? new Date(p.approvedAt).toLocaleString() : '—') : 'не подтвержден'}</div>
+      <div class="col">
+        <label>
+          <input type="checkbox" onchange="toggleStatus(${idx})" ${p.status === 'approved' ? 'checked' : ''}>
+          Опубликован
+        </label>
       </div>
-    `).join("");
-  }
+      <div class="col">
+        <button onclick="toggleExpand(${idx})" id="expand-btn-${idx}" class="expand-btn">⯈ раскрыть</button>
+        <button onclick="removePost(${idx})">❌ Удалить</button>
+      </div>
+    </div>
+    <div class="post-details" id="details-${idx}">
+      <p><strong>ФИО (полностью):</strong> ${p.fullName || "—"}</p>
+      <p><strong>Название:</strong> ${p.title || "—"}</p>
+      ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo" onclick="enlargeImage(this)">` : ''}
+      <div class="post-text">${p.text}</div>
+    </div>
+  </div>
+`).join("");
+}
 
   function toggleStatus(index) {
     if (postsData[index].status === "approved") {
@@ -127,3 +129,4 @@
   </script>
 </body>
 </html>
+
