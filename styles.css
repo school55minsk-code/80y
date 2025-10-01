@@ -389,6 +389,12 @@ button:hover {
   animation: fadeInScale 0.3s ease;
 }
 
+.post-preview {
+  margin-top: 6px;
+  font-size: 0.95em;
+  color: #ddd;
+  line-height: 1.4;
+}
 
 
 
