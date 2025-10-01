@@ -137,12 +137,19 @@
   });
   voiceDialog.querySelector('.close').addEventListener('click', () => voiceDialog.close());
 
+
+
+
 // Архив
 const archiveGrid = document.getElementById('archiveGrid');
-const toggleBtn = document.getElementById('toggleArchiveBtn'); // кнопка в HTML под grid
+const toggleBtn = document.getElementById('toggleArchiveBtn');
+const archiveOverlay = document.getElementById('archiveOverlay');
+const overlayImage = document.getElementById('overlayImage');
+const overlayCaption = document.getElementById('overlayCaption');
+const closeOverlayBtn = document.getElementById('closeArchiveOverlay');
 
 archiveGrid.innerHTML = archive.map(a => `
-  <div class="archive-item" role="listitem">
+  <div class="archive-item" role="listitem" data-src="${a.src}" data-caption="${a.caption}">
     <figure>
       <img src="${a.src}" alt="${a.caption}" loading="lazy" />
       <figcaption>${a.caption}</figcaption>
@@ -152,7 +159,7 @@ archiveGrid.innerHTML = archive.map(a => `
 
 const items = Array.from(archiveGrid.querySelectorAll('.archive-item'));
 
-// Если элементов больше 5 — скрываем лишние и показываем кнопку
+// Ограничение до 5 элементов
 if (items.length > 5) {
   items.slice(5).forEach(el => el.classList.add('hidden'));
   toggleBtn.classList.remove('hidden');
@@ -161,11 +168,10 @@ if (items.length > 5) {
   toggleBtn.classList.add('hidden');
 }
 
-// Логика кнопки
+// Кнопка показать/скрыть
 toggleBtn.addEventListener('click', () => {
   const hiddenItems = items.slice(5);
   const isCollapsed = hiddenItems[0].classList.contains('hidden');
-
   if (isCollapsed) {
     hiddenItems.forEach(el => el.classList.remove('hidden'));
     toggleBtn.textContent = 'Скрыть';
@@ -174,6 +180,29 @@ toggleBtn.addEventListener('click', () => {
     toggleBtn.textContent = 'Показать все';
   }
 });
+
+// Клик по элементу архива → открыть оверлей
+archiveGrid.addEventListener('click', e => {
+  const item = e.target.closest('.archive-item');
+  if (!item) return;
+  overlayImage.src = item.dataset.src;
+  overlayCaption.textContent = item.dataset.caption;
+  archiveOverlay.classList.remove('hidden');
+});
+
+// Закрытие оверлея
+closeOverlayBtn.addEventListener('click', () => {
+  archiveOverlay.classList.add('hidden');
+});
+archiveOverlay.addEventListener('click', e => {
+  if (e.target === archiveOverlay) {
+    archiveOverlay.classList.add('hidden');
+  }
+});
+
+
+
+  
 
   // Квиз
   const quizQuestion = document.getElementById('quizQuestion');
@@ -324,6 +353,7 @@ toggleBtn.addEventListener('click', () => {
     leaflet.options.zoomAnimation = false;
   }
 })();
+
 
 
 
