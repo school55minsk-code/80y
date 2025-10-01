@@ -105,6 +105,76 @@
 
 
 
+// Лента времени
+  const timelineGrid = document.getElementById('timelineGrid');
+  function renderTimeline(items) {
+    timelineGrid.innerHTML = items.map(item => `
+      <div class="timeline-item" role="listitem">
+        <time datetime="${item.year}">${item.year}</time>
+        <strong>${item.title}</strong>
+        <p>${item.text}</p>
+        <button class="btn" data-highlight="${item.tag}">Показать на карте</button>
+      </div>
+    `).join('');
+  }
+  renderTimeline(timeline);
+
+  document.querySelectorAll('.timeline-controls .btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.dataset.period;
+      let items = timeline;
+      if (p !== 'all') {
+        if (p.includes('-')) {
+          const [from, to] = p.split('-').map(Number);
+          items = timeline.filter(i => i.year >= from && i.year <= to);
+        } else {
+          const y = Number(p);
+          items = timeline.filter(i => i.year === y);
+        }
+      }
+      renderTimeline(items);
+    });
+  });
+
+  timelineGrid.addEventListener('click', e => {
+    const tag = e.target?.dataset?.highlight;
+    if (!tag) return;
+    markers.forEach(m => {
+      if (m._data.type === tag || m._data.id.includes(tag)) {
+        m.openPopup();
+        leaflet.setView(m.getLatLng(), 8, { animate: true });
+      }
+    });
+  });
+
+  // Голоса памяти
+  const voicesList = document.getElementById('voicesList');
+  voicesList.innerHTML = voices.map(v => `
+    <article class="voice-card" role="listitem">
+      <h3>${v.title}</h3>
+      <p><strong>Автор:</strong> ${v.name}</p>
+      <p><strong>Место:</strong> ${v.place}</p>
+      <button class="btn" data-voice="${v.id}">Слушать</button>
+    </article>
+  `).join('');
+
+  const voiceDialog = document.getElementById('voiceDialog');
+  const voiceTitle = document.getElementById('voiceTitle');
+  const voiceAudio = document.getElementById('voiceAudio');
+  const voiceTranscript = document.getElementById('voiceTranscript');
+
+  voicesList.addEventListener('click', e => {
+    const id = e.target?.dataset?.voice;
+    if (!id) return;
+    const v = voices.find(x => x.id === id);
+    voiceTitle.textContent = `${v.title} — ${v.name}`;
+    voiceAudio.src = v.audio;
+    voiceTranscript.textContent = v.transcript;
+    voiceDialog.showModal();
+  });
+  voiceDialog.querySelector('.close').addEventListener('click', () => voiceDialog.close());
+
+
 
 
 
@@ -289,3 +359,4 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
