@@ -399,5 +399,17 @@ button:hover {
   font-weight: bold;
 }
 
+.post-title {
+  margin: 8px 0;
+  font-size: 1.2em;
+  color: #ffa500;
+}
+
+.post-author {
+  margin: 4px 0 10px;
+  font-size: 0.95em;
+  color: #ccc;
+}
+
 
 
