@@ -182,19 +182,28 @@
     }
   }
 
-  function renderApproved() {
-    const approved = postsData
-      .filter(p => p.status === 'approved')
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+function renderApproved() {
+  const approved = postsData
+    .map((p, i) => ({...p, _idx: i})) // добавляем реальный индекс
+    .filter(p => p.status === 'approved')
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-    document.getElementById('wallList').innerHTML = approved.map((p, idx) => `
-      <div class="post-card" onclick="expandPost(${idx})">
-        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
-        <h3>${p.name}</h3>
-        <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
-      </div>
-    `).join('');
-  }
+  document.getElementById('wallList').innerHTML = approved.map(p => `
+    <div class="post-card" data-index="${p._idx}">
+      ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
+      <h3>${p.name}</h3>
+      <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+      <div class="post-preview">${p.text.length > 150 ? p.text.slice(0,150) + "…" : p.text}</div>
+    </div>
+  `).join('');
+
+  document.querySelectorAll('.post-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const idx = card.getAttribute('data-index');
+      expandPost(idx);
+    });
+  });
+}
 
   function expandPost(index) {
     const p = postsData[index];
@@ -293,6 +302,7 @@
 <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
