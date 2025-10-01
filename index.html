@@ -118,77 +118,17 @@
   </section>
 
 
-
-
-
-
-
 <!-- Архив -->
-  <section id="archive" class="section">
-    <header>
-      <h2>Архив</h2>
-      <p>Документы, письма, фотографии и афиши.</p>
-    </header>
-    <div class="archive-grid" id="archiveGrid" role="list"></div>
-    <button id="toggleArchiveBtn" class="archive-toggle-btn hidden">Показать все</button>
-  </section>
+<section id="archive" class="section">
+  <header>
+    <h2>Архив</h2>
+    <p>Документы, письма, фотографии и афиши.</p>
+  </header>
+<div class="archive-grid" id="archiveGrid" role="list"></div>
+<button id="toggleArchiveBtn" class="archive-toggle-btn hidden">Показать все</button>
 
-  <!-- Подключаем данные -->
-  <script src="app.data.js"></script>
-<script src="app.js"></script>
-  <!-- Основной скрипт -->
-  <script>
-    function renderArchive() {
-      const grid = document.getElementById("archiveGrid");
-      const btn = document.getElementById("toggleArchiveBtn");
+</section>
 
-      const archive = (window.APP_DATA?.map?.archive) || [];
-
-      if (!archive.length) {
-        grid.innerHTML = "<p>Архив пуст</p>";
-        btn.classList.add("hidden");
-        return;
-      }
-
-      // Рендерим все элементы
-      grid.innerHTML = archive.map(a => `
-        <div class="archive-item" role="listitem">
-          <figure>
-            <img src="${a.src}" alt="${a.caption}" loading="lazy" />
-            <figcaption>${a.caption}</figcaption>
-          </figure>
-        </div>
-      `).join("");
-
-      const items = Array.from(grid.querySelectorAll(".archive-item"));
-
-      if (items.length > 5) {
-        items.slice(5).forEach(el => el.classList.add("hidden"));
-        btn.classList.remove("hidden");
-        btn.textContent = "Показать все";
-      } else {
-        btn.classList.add("hidden");
-      }
-
-      btn.onclick = () => {
-        const hiddenItems = items.slice(5);
-        const isCollapsed = hiddenItems[0].classList.contains("hidden");
-
-        if (isCollapsed) {
-          hiddenItems.forEach(el => el.classList.remove("hidden"));
-          btn.textContent = "Скрыть";
-        } else {
-          hiddenItems.forEach(el => el.classList.add("hidden"));
-          btn.textContent = "Показать все";
-        }
-      };
-    }
-
-    document.addEventListener("DOMContentLoaded", renderArchive);
-  </script>
-
-
-  
 
   
 
@@ -252,7 +192,8 @@
   </div>
 
 
-
+<script src="app.data.js"></script>
+<script src="app.js"></script>
     
   <script>
   const POSTS_URL = "/api/get-posts";
@@ -410,7 +351,6 @@ showFormBtn.addEventListener("click", () => {
 
 </body>
 </html>
-
 
 
 
