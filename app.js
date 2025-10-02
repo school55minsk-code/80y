@@ -77,7 +77,9 @@
   const sidebar = document.getElementById('mapSidebar');
 
   function scrollToSidebar() {
-    sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  //  sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('mapSidebar').scrollIntoView({ behavior: 'smooth' });
+
   }
 
 
@@ -419,6 +421,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
