@@ -609,29 +609,23 @@ fieldset {
 
 
 
-
 .map-sidebar {
-  position: fixed;
-  top: 0;
-  right: -400px; /* изначально спрятан за экраном */
-  width: 400px;
-  height: 100%;
-  background: #f9f9f9;
-  border-left: 2px solid #ccc;
+  max-height: 1200px;
   overflow-y: auto;
   padding: 20px;
-  box-shadow: -4px 0 12px rgba(0,0,0,0.2);
-  transition: right 0.4s ease; /* плавный выезд */
-  z-index: 1000;
+  background: #f9f9f9;
+  border-left: 2px solid #ccc;
+  display: none; /* скрыт по умолчанию */
 }
 
 .map-sidebar.active {
-  right: 0; /* выезжает */
+  display: block; /* показывается при активации */
 }
 
 .map-sidebar .hide-btn {
   position: sticky;
   top: 0;
+  right: 0;
   background: #ff6600;
   color: #fff;
   border: none;
