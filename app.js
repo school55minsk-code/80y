@@ -1,7 +1,6 @@
 (function () {
   const { map, timeline, voices, archive, quiz } = window.APP_DATA;
 
-  // Инициализация карты Leaflet
   const leaflet = L.map('leafletMap', { zoomControl: true }).setView(map.center, map.zoom);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap'
@@ -10,38 +9,23 @@
   const markers = [];
   const highlightCircles = [];
 
+  function truncate(text, max = 100) {
+    return text.length > max ? text.slice(0, max) + '…' : text;
+  }
 
-
-// Прямоугольник: [юго-западная точка, северо-восточная точка]
-// Беларусь + соседи (примерные координаты)
-const bounds = [
-  [50.0, 22.0], // юго-запад (Польша/Украина)
-  [57.5, 33.0]  // северо-восток (Россия/Латвия)
-];
-
-// Ограничиваем карту этими границами
-leaflet.setMaxBounds(bounds);
-
-// Дополнительно: при зуме карта не будет "улетать"
-leaflet.setMinZoom(5);
-leaflet.setMaxZoom(10);
-
-  
   function renderMarker(ev) {
     const marker = L.marker(ev.coords).addTo(leaflet);
     marker.bindPopup(`
       <strong>${ev.title}</strong><br/>
       <small>${new Date(ev.date).toLocaleDateString('ru-RU')}</small><br/>
-      <p>${ev.summary}</p>
-      ${ev.media?.[0] ? `<img src="${ev.media[0].src}" alt="${ev.media[0].caption}" style="max-width:200px;border-radius:8px; margin-top:6px;" />` : ""}
+      <p>${truncate(ev.summary)}</p>
       <br/><button class="btn btn-small" data-open="${ev.id}">Подробнее</button>
     `);
     marker._data = ev;
     markers.push(marker);
 
-    // Красный круг для подсветки
     const circle = L.circle(ev.coords, {
-      radius: 20000, // радиус в метрах, можно подстроить
+      radius: 20000,
       color: 'red',
       fillColor: 'red',
       fillOpacity: 0.3
@@ -50,10 +34,16 @@ leaflet.setMaxZoom(10);
     highlightCircles.push(circle);
   }
 
-  // Рендерим все события
   map.events.forEach(renderMarker);
 
-  // Фильтр по году
+  const bounds = [
+    [50.0, 22.0],
+    [57.5, 33.0]
+  ];
+  leaflet.setMaxBounds(bounds);
+  leaflet.setMinZoom(5);
+  leaflet.setMaxZoom(10);
+
   function filterMapByYear(year) {
     markers.forEach(m => {
       const y = new Date(m._data.date).getFullYear();
@@ -68,7 +58,6 @@ leaflet.setMaxZoom(10);
     });
   }
 
-  // Фильтр по слоям
   function filterMapByLayers() {
     const checked = [...document.querySelectorAll('[data-layer]')]
       .filter(i => i.checked)
@@ -85,30 +74,46 @@ leaflet.setMaxZoom(10);
     });
   }
 
-  // Панель справа (подробности)
   const sidebar = document.getElementById('mapSidebar');
-  leaflet.on('popupopen', e => {
-    const data = e.popup._source._data;
+
+  function scrollToSidebar() {
+    sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderSidebar(data) {
     sidebar.innerHTML = `
       <h3>${data.title}</h3>
       <p><strong>Дата:</strong> ${new Date(data.date).toLocaleDateString('ru-RU')}</p>
       <p>${data.summary}</p>
-      ${data.media?.map(m => `<figure><img src="${m.src}" alt="${m.caption}"/><figcaption>${m.caption}</figcaption></figure>`).join('') || ""}
+      ${data.media?.map(m => `
+        <figure>
+          <img src="${m.src}" alt="${m.caption}" />
+          <figcaption>${m.caption}</figcaption>
+        </figure>
+      `).join('') || ""}
     `;
+  }
+
+  leaflet.on('popupopen', e => {
+    const data = e.popup._source._data;
+    const btn = e.popup._contentNode.querySelector('[data-open]');
+    if (btn) {
+      btn.addEventListener('click', () => {
+        renderSidebar(data);
+        scrollToSidebar();
+      });
+    }
   });
 
-  // Слайдер по годам
   const yearRange = document.getElementById('yearRange');
   yearRange.addEventListener('input', e => {
     filterMapByYear(parseInt(e.target.value, 10));
   });
 
-  // Слои
   document.querySelectorAll('[data-layer]').forEach(cb => {
     cb.addEventListener('change', filterMapByLayers);
   });
 
-  // Поиск
   document.getElementById('mapSearch').addEventListener('input', e => {
     const q = e.target.value.toLowerCase();
     markers.forEach(m => {
@@ -117,8 +122,8 @@ leaflet.setMaxZoom(10);
     });
   });
 
-  // Первичная отрисовка по текущему значению ползунка
   filterMapByYear(parseInt(yearRange.value, 10));
+})();
 
 
 /*
@@ -378,6 +383,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
