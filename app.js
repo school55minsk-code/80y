@@ -82,6 +82,8 @@
 
 
 
+
+
 // Кнопка "развернуть подробности"
 const toggleBtn2 = document.createElement('button');
 toggleBtn2.id = 'sidebarToggle';
@@ -127,11 +129,12 @@ leaflet.on('popupopen', e => {
   if (btn) {
     btn.addEventListener('click', () => {
       renderSidebar(data);
+      sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
 });
 
-
+  
 
 
   
@@ -413,6 +416,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
