@@ -6,10 +6,32 @@
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap'
   }).addTo(leaflet);
-
+  
   const markers = [];
   const highlightCircles = [];
 
+
+
+
+// Прямоугольник: [юго-западная точка, северо-восточная точка]
+// Беларусь + соседи (примерные координаты)
+const bounds = [
+  [50.0, 22.0], // юго-запад (Польша/Украина)
+  [57.5, 33.0]  // северо-восток (Россия/Латвия)
+];
+
+// Ограничиваем карту этими границами
+leaflet.setMaxBounds(bounds);
+
+// Дополнительно: при зуме карта не будет "улетать"
+leaflet.setMinZoom(5);
+leaflet.setMaxZoom(10);
+
+
+
+
+
+  
   function renderMarker(ev) {
     const marker = L.marker(ev.coords).addTo(leaflet);
     marker.bindPopup(`
@@ -359,4 +381,5 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
