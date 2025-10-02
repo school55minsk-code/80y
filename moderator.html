@@ -5,7 +5,7 @@ $PASSWORD = "7788";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($_POST["password"] === $PASSWORD) {
         $_SESSION["auth"] = true;
-        header("Location: moderator.php");
+        header("Location: moderator.html");
         exit;
     } else {
         $error = "Неверный пароль!";
@@ -156,5 +156,6 @@ container.innerHTML = postsData.map((p, idx) => `
   </script>
 </body>
 </html>
+
 
 
