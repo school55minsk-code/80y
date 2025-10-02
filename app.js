@@ -6,32 +6,10 @@
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap'
   }).addTo(leaflet);
-  
+
   const markers = [];
   const highlightCircles = [];
 
-
-
-
-// Прямоугольник: [юго-западная точка, северо-восточная точка]
-// Беларусь + соседи (примерные координаты)
-const bounds = [
-  [50.0, 22.0], // юго-запад (Польша/Украина)
-  [57.5, 33.0]  // северо-восток (Россия/Латвия)
-];
-
-// Ограничиваем карту этими границами
-leaflet.setMaxBounds(bounds);
-
-// Дополнительно: при зуме карта не будет "улетать"
-leaflet.setMinZoom(5);
-leaflet.setMaxZoom(10);
-
-
-
-
-
-  
   function renderMarker(ev) {
     const marker = L.marker(ev.coords).addTo(leaflet);
     marker.bindPopup(`
@@ -127,50 +105,20 @@ leaflet.setMaxZoom(10);
 
 
 
-
-
-
-
-
-  // ==========================
-  // ЛЕНТА ВРЕМЕНИ
-  // ==========================
+// Лента времени
   const timelineGrid = document.getElementById('timelineGrid');
-  let timelineExpanded = false;
-
-  function truncateText(text, maxLength = 100) {
-    return text.length > maxLength ? text.slice(0, maxLength) + '…' : text;
-  }
-
   function renderTimeline(items) {
-    const visibleItems = items; // всегда рендерим все, но скрываем через CSS
-    timelineGrid.innerHTML = visibleItems.map(item => `
-      <div class="timeline-item" role="listitem" data-id="${item.id}">
+    timelineGrid.innerHTML = items.map(item => `
+      <div class="timeline-item" role="listitem">
         <time datetime="${item.year}">${item.year}</time>
         <strong>${item.title}</strong>
-        <p>${truncateText(item.text, 100)}</p>
-        <div class="read-more">Читать полностью</div>
+        <p>${item.text}</p>
         <button class="btn" data-highlight="${item.tag}">Показать на карте</button>
       </div>
     `).join('');
-
-    if (items.length > 4) {
-      timelineGrid.innerHTML += `
-        <div class="timeline-toggle">
-          <button class="btn btn-toggle">
-            ${timelineExpanded ? 'Скрыть' : 'Показать все'}
-          </button>
-        </div>
-      `;
-    }
-
-    timelineGrid.classList.toggle('expanded', timelineExpanded);
-    timelineGrid.classList.toggle('collapsed', !timelineExpanded);
   }
-
   renderTimeline(timeline);
 
-  // Фильтры по годам
   document.querySelectorAll('.timeline-controls .btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const p = btn.dataset.period;
@@ -184,92 +132,20 @@ leaflet.setMaxZoom(10);
           items = timeline.filter(i => i.year === y);
         }
       }
-      timelineExpanded = false;
       renderTimeline(items);
     });
   });
 
-  // ==========================
-  // МОДАЛЬНОЕ ОКНО
-  // ==========================
-  const modal = document.createElement('div');
-  modal.className = 'timeline-modal';
-  modal.innerHTML = `
-    <div class="modal-backdrop"></div>
-    <div class="modal-content">
-      <button class="modal-close">&times;</button>
-      <div class="modal-body"></div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  const modalBackdrop = modal.querySelector('.modal-backdrop');
-  const modalContent = modal.querySelector('.modal-content');
-  const modalBody = modal.querySelector('.modal-body');
-  const modalClose = modal.querySelector('.modal-close');
-
-  function openModal(item) {
-    modalBody.innerHTML = `
-      <h3>${item.title}</h3>
-      <p><strong>Год:</strong> ${item.year}</p>
-      <p>${item.text}</p>
-      ${item.media?.map(m => `<figure><img src="${m.src}" alt="${m.caption}"/><figcaption>${m.caption}</figcaption></figure>`).join('') || ""}
-    `;
-    modal.classList.add('open');
-  }
-
-  function closeModal() {
-    modal.classList.remove('open');
-  }
-
-  modalClose.addEventListener('click', closeModal);
-  modalBackdrop.addEventListener('click', closeModal);
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModal();
-  });
-
-  // ==========================
-  // ОБРАБОТЧИКИ ЛЕНТЫ
-  // ==========================
   timelineGrid.addEventListener('click', e => {
-    if (e.target.classList.contains('btn-toggle')) {
-      timelineExpanded = !timelineExpanded;
-      renderTimeline(timeline);
-    }
-
     const tag = e.target?.dataset?.highlight;
-    if (tag) {
-      markers.forEach(m => {
-        if (m._data.type === tag || m._data.id.includes(tag)) {
-          m.openPopup();
-          leaflet.setView(m.getLatLng(), 8, { animate: true });
-        }
-      });
-    }
-
-    if (e.target.classList.contains('read-more')) {
-      const id = e.target.closest('.timeline-item').dataset.id;
-      const item = timeline.find(i => i.id === id);
-      if (item) openModal(item);
-    }
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
+    if (!tag) return;
+    markers.forEach(m => {
+      if (m._data.type === tag || m._data.id.includes(tag)) {
+        m.openPopup();
+        leaflet.setView(m.getLatLng(), 8, { animate: true });
+      }
+    });
+  });
 
   // Голоса памяти
   const voicesList = document.getElementById('voicesList');
@@ -483,6 +359,4 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
-
-
 
