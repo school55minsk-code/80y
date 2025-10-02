@@ -89,7 +89,7 @@ position: relative;
 
 .map { height: 480px; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; z-index: 8;}
 .map-toolbar { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
-.map-sidebar { margin-top: 12px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; min-height: 80px; } 
+/*.map-sidebar { margin-top: 12px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; min-height: 80px; } */
 
 .timeline-controls { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
 .timeline-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
@@ -602,6 +602,55 @@ fieldset {
   white-space: pre-wrap; /* сохраняет переносы и пробелы */
 }
 
+
+
+
+
+
+
+
+
+.map-sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px; /* изначально спрятан за экраном */
+  width: 400px;
+  height: 100%;
+  background: #f9f9f9;
+  border-left: 2px solid #ccc;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: -4px 0 12px rgba(0,0,0,0.2);
+  transition: right 0.4s ease; /* плавный выезд */
+  z-index: 1000;
+}
+
+.map-sidebar.active {
+  right: 0; /* выезжает */
+}
+
+.map-sidebar .hide-btn {
+  position: sticky;
+  top: 0;
+  background: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+#sidebarToggle {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 16px;
+  background: #ff6600;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
 
 
