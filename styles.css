@@ -281,6 +281,7 @@ button:hover {
   color: #fff;
   position: relative;
   min-height: 180px;
+  border: 1px solid var(--border);
 }
 .post-card:hover {
   transform: translateY(-3px);
@@ -314,7 +315,7 @@ position: absolute;
   right: 10px;
   font-size: 0.75em;
   color: #fff;
-  background: #434343;
+  background: #222;
   padding: 3px 7px;
   border-radius: 3px;
 }
@@ -663,6 +664,9 @@ fieldset {
 }
 
 
+a:hover {
+color: #c44134;
+}
 
 
 
