@@ -97,13 +97,16 @@ function renderSidebar(data) {
     <h3>${data.title}</h3>
     <p><strong>Дата:</strong> ${new Date(data.date).toLocaleDateString('ru-RU')}</p>
     <p>${data.summary}</p>
+    <div class="media-gallery">
     ${data.media?.map(m => `
       <figure>
         <img src="${m.src}" alt="${m.caption}" />
         <figcaption>${m.caption}</figcaption>
       </figure>
-    `).join('') || ""}
+    `).join('') || ""} </div>
   `;
+
+
 
   // показать сайдбар и скрыть кнопку "развернуть"
   sidebar.classList.add('active');
@@ -416,6 +419,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
