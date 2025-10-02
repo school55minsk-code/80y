@@ -121,7 +121,7 @@ leaflet.setMaxZoom(10);
   filterMapByYear(parseInt(yearRange.value, 10));
 
 
-
+/*
 // Лента времени
   const timelineGrid = document.getElementById('timelineGrid');
   function renderTimeline(items) {
@@ -163,6 +163,8 @@ leaflet.setMaxZoom(10);
       }
     });
   });
+
+*/
 
   // Голоса памяти
   const voicesList = document.getElementById('voicesList');
@@ -376,5 +378,6 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
