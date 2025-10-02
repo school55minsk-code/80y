@@ -80,34 +80,61 @@
     sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+
+
+// Кнопка "развернуть подробности"
+const toggleBtn = document.createElement('button');
+toggleBtn.id = 'sidebarToggle';
+toggleBtn.textContent = 'Развернуть подробности';
+sidebar.insertAdjacentElement('afterend', toggleBtn);
+
+// Функция рендера сайдбара
 function renderSidebar(data) {
   sidebar.innerHTML = `
+    <button class="hide-btn">Скрыть</button>
     <h3>${data.title}</h3>
     <p><strong>Дата:</strong> ${new Date(data.date).toLocaleDateString('ru-RU')}</p>
     <p>${data.summary}</p>
-    ${Array.isArray(data.media) && data.media.length > 0 ? `
-      <div class="media-gallery">
-        ${data.media.map(m => `
-          <figure>
-            <img src="${m.src}" alt="${m.caption}" />
-            <figcaption>${m.caption}</figcaption>
-          </figure>
-        `).join('')}
-      </div>
-    ` : ''}
+    ${data.media?.map(m => `
+      <figure>
+        <img src="${m.src}" alt="${m.caption}" />
+        <figcaption>${m.caption}</figcaption>
+      </figure>
+    `).join('') || ""}
   `;
+
+  // показать сайдбар и скрыть кнопку "развернуть"
+  sidebar.classList.add('active');
+  toggleBtn.style.display = 'none';
+
+  // обработчик кнопки "Скрыть"
+  sidebar.querySelector('.hide-btn').addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    toggleBtn.style.display = 'block';
+  });
 }
 
-  leaflet.on('popupopen', e => {
-    const data = e.popup._source._data;
-    const btn = e.popup._contentNode.querySelector('[data-open]');
-    if (btn) {
-      btn.addEventListener('click', () => {
-        renderSidebar(data);
-        scrollToSidebar();
-      });
-    }
-  });
+// обработчик кнопки "Развернуть подробности"
+toggleBtn.addEventListener('click', () => {
+  sidebar.classList.add('active');
+  toggleBtn.style.display = 'none';
+});
+
+// при открытии попапа — кнопка "Подробнее" сразу разворачивает сайдбар
+leaflet.on('popupopen', e => {
+  const data = e.popup._source._data;
+  const btn = e.popup._contentNode.querySelector('[data-open]');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      renderSidebar(data);
+    });
+  }
+});
+
+
+
+
+  
 
   const yearRange = document.getElementById('yearRange');
   yearRange.addEventListener('input', e => {
@@ -386,6 +413,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
