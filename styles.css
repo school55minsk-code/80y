@@ -53,10 +53,10 @@ background-color: #0f1217;
   margin: 0 auto;
     margin-top: 0px;
     margin-bottom: 0px;
-  border-radius: 8px;
+/*  border-radius: 8px;
   margin-top: 20px;
   margin-bottom: 20px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border); */
 }
 
 
@@ -541,6 +541,7 @@ width: 100%;
   z-index: 1; /* выше точек */
   text-align: center;
 }
+
 
 
 
