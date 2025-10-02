@@ -41,7 +41,7 @@
   </nav>
 </header>
 
-
+<!--
 <section class="video-strip">
   <div class="video-container">
     <video autoplay muted loop playsinline>
@@ -50,7 +50,41 @@
     </video>
     <div class="video-overlay">
 <div class="video-dots"></div>
+-->
 
+
+
+  <section class="video-strip">
+  <div class="video-container">
+    <video id="bgVideo" autoplay muted loop playsinline>
+      <source type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
+    <div class="video-overlay">
+      <div class="video-dots"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // перечисляем все видео, которые реально лежат в assets/video/
+  const videos = [
+    "1.mp4",
+    "2.mp4",
+    "3.mp4"
+//    "4.mp4"
+  ];
+
+  const randomVideo = videos[Math.floor(Math.random() * videos.length)];
+  const videoEl = document.getElementById("bgVideo");
+  videoEl.querySelector("source").src = `assets/video/${randomVideo}`;
+  videoEl.load();
+</script>
+
+
+
+  
+  
 
        <!-- Герой-блок -->
   <section class="hero" aria-label="Вступление">
@@ -431,6 +465,7 @@ renderYearLabels();
 
 </body>
 </html>
+
 
 
 
