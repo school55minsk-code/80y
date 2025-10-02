@@ -80,19 +80,23 @@
     sidebar.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function renderSidebar(data) {
-    sidebar.innerHTML = `
-      <h3>${data.title}</h3>
-      <p><strong>Дата:</strong> ${new Date(data.date).toLocaleDateString('ru-RU')}</p>
-      <p>${data.summary}</p>
-      ${data.media?.map(m => `
-        <figure>
-          <img src="${m.src}" alt="${m.caption}" />
-          <figcaption>${m.caption}</figcaption>
-        </figure>
-      `).join('') || ""}
-    `;
-  }
+function renderSidebar(data) {
+  sidebar.innerHTML = `
+    <h3>${data.title}</h3>
+    <p><strong>Дата:</strong> ${new Date(data.date).toLocaleDateString('ru-RU')}</p>
+    <p>${data.summary}</p>
+    ${Array.isArray(data.media) && data.media.length > 0 ? `
+      <div class="media-gallery">
+        ${data.media.map(m => `
+          <figure>
+            <img src="${m.src}" alt="${m.caption}" />
+            <figcaption>${m.caption}</figcaption>
+          </figure>
+        `).join('')}
+      </div>
+    ` : ''}
+  `;
+}
 
   leaflet.on('popupopen', e => {
     const data = e.popup._source._data;
@@ -382,6 +386,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
