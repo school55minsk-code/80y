@@ -1,3 +1,30 @@
+<?php
+session_start();
+$PASSWORD = "7788";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if ($_POST["password"] === $PASSWORD) {
+        $_SESSION["auth"] = true;
+        header("Location: moderator.php");
+        exit;
+    } else {
+        $error = "Неверный пароль!";
+    }
+}
+
+if (!isset($_SESSION["auth"])) {
+?>
+<form method="post">
+  <input type="password" name="password" placeholder="Пароль">
+  <button type="submit">Войти</button>
+  <?php if (!empty($error)) echo "<p>$error</p>"; ?>
+</form>
+<?php
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -129,4 +156,5 @@ container.innerHTML = postsData.map((p, idx) => `
   </script>
 </body>
 </html>
+
 
