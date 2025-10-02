@@ -660,6 +660,10 @@ fieldset {
 }
 
 
+#leafletMap {
+  width: 100%;
+  height: 1000px; /* задай нужную высоту, например 600px */
+}
 
 
 
