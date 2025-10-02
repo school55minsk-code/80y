@@ -598,6 +598,9 @@ fieldset {
   margin-top: 6px;
 }
 
+.map-sidebar p {
+  white-space: pre-wrap; /* сохраняет переносы и пробелы */
+}
 
 
 
