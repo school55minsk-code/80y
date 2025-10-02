@@ -123,7 +123,6 @@
   });
 
   filterMapByYear(parseInt(yearRange.value, 10));
-})();
 
 
 /*
@@ -383,6 +382,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
