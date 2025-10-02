@@ -83,10 +83,10 @@
 
 
 // Кнопка "развернуть подробности"
-const toggleBtn = document.createElement('button');
-toggleBtn.id = 'sidebarToggle';
-toggleBtn.textContent = 'Развернуть подробности';
-sidebar.insertAdjacentElement('afterend', toggleBtn);
+const toggleBtn2 = document.createElement('button');
+toggleBtn2.id = 'sidebarToggle';
+toggleBtn2.textContent = 'Развернуть подробности';
+sidebar.insertAdjacentElement('afterend', toggleBtn2);
 
 // Функция рендера сайдбара
 function renderSidebar(data) {
@@ -105,19 +105,19 @@ function renderSidebar(data) {
 
   // показать сайдбар и скрыть кнопку "развернуть"
   sidebar.classList.add('active');
-  toggleBtn.style.display = 'none';
+  toggleBtn2.style.display = 'none';
 
   // обработчик кнопки "Скрыть"
   sidebar.querySelector('.hide-btn').addEventListener('click', () => {
     sidebar.classList.remove('active');
-    toggleBtn.style.display = 'block';
+    toggleBtn2.style.display = 'block';
   });
 }
 
 // обработчик кнопки "Развернуть подробности"
-toggleBtn.addEventListener('click', () => {
+toggleBtn2.addEventListener('click', () => {
   sidebar.classList.add('active');
-  toggleBtn.style.display = 'none';
+  toggleBtn2.style.display = 'none';
 });
 
 // при открытии попапа — кнопка "Подробнее" сразу разворачивает сайдбар
@@ -413,6 +413,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
