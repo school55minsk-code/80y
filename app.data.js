@@ -6,7 +6,7 @@ window.APP_DATA = {
     events: [
 
 // Ключевые операции
-{ id: "bagration-1944", title: "Операция «Багратион»", date: "1944-06-22", type: "fronts", coords: [54.6, 28.1], summary: "Стратегическая операция Красной армии, освободившая Беларусь летом 1944 года.", media: [] },
+{ id: "bagration-1944", title: "Операция «Багратион»", date: "1944-06-22", type: "fronts", coords: [54.6, 28.1], summary: "Стратегическая операция Красной армии, освободившая Беларусь летом 1944 года.", media: [{src: "https://russkiymir.ru/upload/iblock/ece/lu9oeip4na7fyohcftolvzarrxkcfyv9.jpg"}, { src: "https://imgproxy.soyuz.by/B-7pYrjOUSEkfYcFuqHpGc6hkkRnpdfU_J62vT5a5Mo/w:943/czM6Ly9zb3l1ei5ieS8zODEzMy8wMDAwNDhfMTcxODEwNzcyN18zODEzNV9iaWdfMTEuanBn.webp"}] },
 { id: "railwar-1943-08-03", title: "Партизанская операция «Рельсовая война»", date: "1943-08-03", type: "partisans", coords: [54.0, 27.0], summary: "Массовые диверсии на железных дорогах в тылу противника.", media: [] },
 
 // Партизанские операции
@@ -408,6 +408,7 @@ timeline: [
 
   ]
 };
+
 
 
 
