@@ -615,6 +615,7 @@ fieldset {
   overflow-y: auto;       /* вертикальный скролл */
   scrollbar-width: thin;  /* тонкий скролл в Firefox */
   scrollbar-color: #ff6600 #e0e0e0; /* цвет ползунка и трека */
+  scroll-margin-top: 125px; /* высота  header */
 }
 
 .map-sidebar::-webkit-scrollbar {
@@ -664,6 +665,7 @@ fieldset {
   width: 100%;
   height: 700px; /* задай нужную высоту, например 600px */
 }
+
 
 
 
