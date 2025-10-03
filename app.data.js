@@ -278,7 +278,7 @@ timeline: [
       id: "v1",
       name: "Анна К.",
       title: "Детство в оккупации",
-      audio: "assets/voices/anna_k.mp3",
+      youtube: "assets/voices/anna_k.mp3",
       transcript: "Мы прятались в подвале, когда начинались облавы...",
       place: "Витебская область"
     },
@@ -286,7 +286,7 @@ timeline: [
       id: "v2",
       name: "Иван П.",
       title: "Освобождение Минска",
-      audio: "https://www.youtube.com/embed/icJyx4b945k?si=KAjG9Cgp-x8hNsdG",
+      youtube: "https://www.youtube.com/embed/icJyx4b945k?si=KAjG9Cgp-x8hNsdG",
       transcript: "Когда вошли наши, город будто выдохнул...",
       place: "Минск"
     }
@@ -444,6 +444,7 @@ timeline: [
 
   ]
 };
+
 
 
 
