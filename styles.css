@@ -452,11 +452,10 @@ position: absolute;
 }
 .close-btn {
   position: absolute;
-  top: 15px;
-  right: 20px;
+  top: 5px;
+  right: 5px;
   font-size: 32px;
   background: none;
-  border: none;
   color: #fff;
   cursor: pointer;
 }
@@ -695,6 +694,7 @@ main,
   position: relative;
   z-index: 1;
 }
+
 
 
 
