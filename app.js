@@ -216,25 +216,30 @@ leaflet.on('popupopen', e => {
       <h3>${v.title}</h3>
       <p><strong>Автор:</strong> ${v.name}</p>
       <p><strong>Место:</strong> ${v.place}</p>
-      <button class="btn" data-voice="${v.id}">Слушать</button>
+      <button class="btn" data-voice="${v.id}">Смотреть</button>
     </article>
   `).join('');
 
-  const voiceDialog = document.getElementById('voiceDialog');
-  const voiceTitle = document.getElementById('voiceTitle');
-  const voiceAudio = document.getElementById('voiceAudio');
-  const voiceTranscript = document.getElementById('voiceTranscript');
+const voiceDialog = document.getElementById('voiceDialog');
+const voiceTitle = document.getElementById('voiceTitle');
+const voiceVideo = document.getElementById('voiceVideo');
+const voiceTranscript = document.getElementById('voiceTranscript');
 
-  voicesList.addEventListener('click', e => {
-    const id = e.target?.dataset?.voice;
-    if (!id) return;
-    const v = voices.find(x => x.id === id);
-    voiceTitle.textContent = `${v.title} — ${v.name}`;
-    voiceAudio.src = v.audio;
-    voiceTranscript.textContent = v.transcript;
-    voiceDialog.showModal();
-  });
-  voiceDialog.querySelector('.close').addEventListener('click', () => voiceDialog.close());
+voicesList.addEventListener('click', e => {
+  const id = e.target?.dataset?.voice;
+  if (!id) return;
+  const v = voices.find(x => x.id === id);
+  voiceTitle.textContent = `${v.title} — ${v.name}`;
+  voiceVideo.src = v.youtube + "?autoplay=1"; // автозапуск при открытии
+  voiceTranscript.textContent = v.transcript;
+  voiceDialog.showModal();
+});
+
+// при закрытии — очищаем src, чтобы видео останавливалось
+voiceDialog.querySelector('.close').addEventListener('click', () => {
+  voiceVideo.src = "";
+  voiceDialog.close();
+});
 
 
 
@@ -421,6 +426,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
