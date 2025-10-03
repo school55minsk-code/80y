@@ -215,8 +215,8 @@ leaflet.on('popupopen', e => {
     <article class="voice-card" role="listitem">
       <h3>${v.title}</h3>
       <p><strong>Автор:</strong> ${v.name}</p>
-      <p><strong>Место:</strong> ${v.place}</p>
-      <button class="btn" data-voice="${v.id}">Смотреть</button>
+ 
+      <button class="videobtn" data-voice="${v.id}">Смотреть</button>
     </article>
   `).join('');
 
