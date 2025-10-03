@@ -184,10 +184,11 @@ button {
   border-radius: 4px;
 }
 
+/*
 button:hover {
   background: #e44;
 }
-
+*/
 
 
 
@@ -669,17 +670,24 @@ color: #c44134;
 }
 
 
-
-
-.bottom-bg {
-  position: relative;              /* остаётся в потоке */
-  width: 100%;
-  min-height: 60vh;                /* высота фона (регулируй) */
-  background: url('images/bg.jpg') center/cover no-repeat;
-  z-index: 0;
+body {
+  position: relative; /* создаём контекст */
+  background: rgba(15,18,23,.9);
 }
 
-/* футер всегда поверх */
+/* фон */
+.footer-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* высота баннера */
+  background: url('images/bg.png') center/cover no-repeat;
+  z-index: 0; /* слой ниже */
+}
+
+/* контент и футер всегда выше */
+main,
 .site-footer {
   position: relative;
   z-index: 1;
