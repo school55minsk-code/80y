@@ -221,34 +221,17 @@ leaflet.on('popupopen', e => {
 
 
 
-// Голоса памяти
+  // Голоса памяти
 const voicesList = document.getElementById('voicesList');
+const toggleBtnVID = document.getElementById('toggleVoices'); // кнопка "Показать все / Скрыть"
 
-// группируем по place
-const grouped = voices.reduce((acc, v) => {
-  if (!acc[v.place]) acc[v.place] = [];
-  acc[v.place].push(v);
-  return acc;
-}, {});
-
-// рендерим блоки по place со слайдером
-voicesList.innerHTML = Object.entries(grouped).map(([place, items]) => `
-  <div class="place-block">
-    <h3 class="place-title">${place}</h3>
-    <div class="slider-wrapper">
-      <button class="slider-btn prev">‹</button>
-      <div class="place-voices slider">
-        ${items.map(v => `
-          <article class="voice-card" role="listitem">
-            <h4>${v.title}</h4>
-            <p><strong>Автор:</strong> ${v.name}</p>
-            <button class="videobtn" data-voice="${v.id}">Смотреть</button>
-          </article>
-        `).join('')}
-      </div>
-      <button class="slider-btn next">›</button>
-    </div>
-  </div>
+// рендерим все карточки, но начиная с 5-й прячем
+voicesList.innerHTML = voices.map((v, i) => `
+  <article class="voice-card ${i >= 4 ? 'hidden' : ''}" role="listitem">
+    <h3>${v.title}</h3>
+    <p><strong>Автор:</strong> ${v.name}</p>
+    <button class="videobtn" data-voice="${v.id}">Смотреть</button>
+  </article>
 `).join('');
 
 const voiceDialog = document.getElementById('voiceDialog');
@@ -273,22 +256,24 @@ voiceDialog.querySelector('.close').addEventListener('click', () => {
   voiceDialog.close();
 });
 
-// логика кнопок слайдера
-document.querySelectorAll('.slider-wrapper').forEach(wrapper => {
-  const slider = wrapper.querySelector('.place-voices');
-  const prevBtn = wrapper.querySelector('.prev');
-  const nextBtn = wrapper.querySelector('.next');
+// переключение "Показать все / Скрыть"
+toggleBtnVID.addEventListener('click', () => {
+  const hiddenCards = voicesList.querySelectorAll('.voice-card.hidden');
+  const isHidden = hiddenCards.length > 0;
 
-  const scrollAmount = 280; // ширина карточки + gap
-
-  prevBtn.addEventListener('click', () => {
-    slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-  });
-
-  nextBtn.addEventListener('click', () => {
-    slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-  });
+  if (isHidden) {
+    // показать все
+    voicesList.querySelectorAll('.voice-card').forEach(c => c.classList.remove('hidden'));
+    toggleBtnVID.textContent = 'Скрыть';
+  } else {
+    // скрыть обратно начиная с 5-й
+    voicesList.querySelectorAll('.voice-card').forEach((c, i) => {
+      if (i >= 4) c.classList.add('hidden');
+    });
+    toggleBtnVID.textContent = 'Показать все';
+  }
 });
+
 
 
 
@@ -493,6 +478,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
