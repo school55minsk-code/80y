@@ -90,7 +90,7 @@
       <p>Исследуйте путь к освобождению, слушайте голоса очевидцев и делитесь своей семейной историей.</p>
       <div class="cta">
         <a href="#map" class="btn primary">Исследовать карту</a>
-        <a href="#voices" class="btn">Слушать голоса</a>
+        <a href="#voices" class="btn">Смотреть видео</a>
       </div>
     </div>
     <div class="hero-stats" aria-label="Ключевые факты">
@@ -190,17 +190,21 @@
 Видеоархив позволяет не только увидеть исторические кадры, но и почувствовать атмосферу времени, услышать живые голоса свидетелей и понять, какой ценой была завоёвана свобода. Это пространство памяти и уважения, где прошлое оживает, чтобы напоминать о значении Победы и ответственности перед будущими поколениями.</p>
     </header>
     <div class="voices-list" role="list" id="voicesList"></div>
-    <dialog id="voiceDialog" aria-label="Проигрыватель воспоминаний">
-      <article>
-        <button class="close" aria-label="Закрыть">&times;</button>
-        <h3 id="voiceTitle"></h3>
-        <audio id="voiceAudio" controls preload="metadata"></audio>
-        <details>
-          <summary>Транскрипт</summary>
-          <div id="voiceTranscript"></div>
-        </details>
-      </article>
-    </dialog>
+<dialog id="voiceDialog" aria-label="Проигрыватель воспоминаний">
+  <article>
+    <button class="close" aria-label="Закрыть">&times;</button>
+    <h3 id="voiceTitle"></h3>
+    <div class="video-wrapper">
+      <iframe id="voiceVideo" width="560" height="315" 
+              frameborder="0" allowfullscreen></iframe>
+    </div>
+    <details>
+      <summary>Транскрипт</summary>
+      <div id="voiceTranscript"></div>
+    </details>
+  </article>
+</dialog>
+
   </section>
 
 
@@ -479,6 +483,7 @@ renderYearLabels();
 
 </body>
 </html>
+
 
 
 
