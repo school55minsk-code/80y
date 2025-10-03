@@ -751,3 +751,70 @@ main,
 
 
 
+.place-block {
+  margin-bottom: 32px;
+}
+
+.place-title {
+  font-weight: bold;
+  font-size: 1.3em;
+  margin: 12px 0;
+}
+
+.slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.place-voices.slider {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 8px 0;
+}
+
+.place-voices::-webkit-scrollbar {
+  display: none; /* убираем скроллбар */
+}
+
+.voice-card {
+  flex: 0 0 260px; /* фиксированная ширина карточки */
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.slider-btn {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  z-index: 1;
+}
+
+.slider-btn.prev {
+  margin-right: 8px;
+}
+
+.slider-btn.next {
+  margin-left: 8px;
+}
+
+
+
+
+
+
+
+
+
+
+
