@@ -100,7 +100,7 @@ position: relative;
 
 .voices-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 .voice-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
-dialog { border: none; border-radius: 12px; width: min(700px, 96vw); }
+dialog { border: none; border-radius: 12px; width: min(700px, 96vw); color:white; }
 dialog::backdrop { background: rgba(0,0,0,.6); }
 dialog article { background: var(--panel); border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
 .close { float: right; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
@@ -697,6 +697,16 @@ main,
 .site-footer {
   position: relative;
 
+}
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+.video-wrapper iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
 }
 
 
