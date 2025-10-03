@@ -371,6 +371,7 @@ position: absolute;
   font-size: 0.95em;
   color: #ccc;
 }
+/*
 .close-btn {
   position: absolute;
   top: 10px;
@@ -386,10 +387,11 @@ position: absolute;
   line-height: 28px;
   text-align: center;
 }
+
 .close-btn:hover {
   background: #e44;
 }
-
+*/
 /* Toast */
 #toast {
   visibility: hidden;
@@ -693,6 +695,7 @@ main,
   position: relative;
   z-index: 1;
 }
+
 
 
 
