@@ -286,12 +286,7 @@ timeline: [
       id: "v2",
       name: "Иван П.",
       title: "Освобождение Минска",
-      audio: "
-        
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/icJyx4b945k?si=KAjG9Cgp-x8hNsdG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        
-        
-        ",
+      audio: "https://www.youtube.com/embed/icJyx4b945k?si=KAjG9Cgp-x8hNsdG",
       transcript: "Когда вошли наши, город будто выдохнул...",
       place: "Минск"
     }
@@ -449,6 +444,7 @@ timeline: [
 
   ]
 };
+
 
 
 
