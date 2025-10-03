@@ -30,6 +30,7 @@ body {
 
 h3 {
   margin: 0;
+  font-size: inherit;
 }
 .videobtn {
 position: absolute;
@@ -40,6 +41,7 @@ position: absolute;
   padding: 6px;
   border-radius: 4px;
   border: 1px solid var(--border);
+  background: #f60;
 }
 .videobtn:hover {
 background: #c33;
@@ -119,11 +121,11 @@ position: relative;
 .timeline-item time { color: var(--accent-2); font-weight: 600; }
 
 .voices-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-.voice-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; position: relative; min-height: 200px; }
+.voice-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; position: relative; min-height: 165px; }
 dialog { border: none; border-radius: 12px; width: min(700px, 96vw); color:white; }
 dialog::backdrop { background: rgba(0,0,0,.6); }
 dialog article { background: var(--panel); border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
-.close { float: right; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; }
+.close { float: right; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; margin-top: -10px;}
 
 .archive-grid {
   display: grid;
@@ -728,6 +730,7 @@ main,
   top: 0; left: 0;
   width: 100%; height: 100%;
 }
+
 
 
 
