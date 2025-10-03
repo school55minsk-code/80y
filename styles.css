@@ -672,18 +672,14 @@ color: #c44134;
 
 
 .bottom-bg {
-  position: relative;       /* остаётся в потоке */
+  position: relative;              /* остаётся в потоке */
   width: 100%;
-  height: 400px;            /* регулируй высоту баннера */
-  background-image: url('images/footer-banner.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  min-height: 60vh;                /* высота фона (регулируй) */
+  background: url('images/bg.jpg') center/cover no-repeat;
   z-index: 0;
-  margin-top: -150px;       /* отрицательный отступ, чтобы main "заехал" на фон */
 }
 
-/* чтобы футер всегда был поверх */
+/* футер всегда поверх */
 .site-footer {
   position: relative;
   z-index: 1;
