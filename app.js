@@ -209,17 +209,32 @@ leaflet.on('popupopen', e => {
 
 */
 
-  // Голоса памяти
+
+// Голоса памяти
 const voicesList = document.getElementById('voicesList');
 const toggleBtnVID = document.getElementById('toggleVoices'); // кнопка "Показать все / Скрыть"
 
-// рендерим все карточки, но начиная с 5-й прячем
-voicesList.innerHTML = voices.map((v, i) => `
-  <article class="voice-card ${i >= 4 ? 'hidden' : ''}" role="listitem">
-    <h3>${v.title}</h3>
-    <p><strong>Автор:</strong> ${v.name}</p>
-    <button class="videobtn" data-voice="${v.id}">Смотреть</button>
-  </article>
+// группируем по place
+const grouped = voices.reduce((acc, v) => {
+  if (!acc[v.place]) acc[v.place] = [];
+  acc[v.place].push(v);
+  return acc;
+}, {});
+
+// рендерим блоки по place
+voicesList.innerHTML = Object.entries(grouped).map(([place, items]) => `
+  <div class="place-block">
+    <h3 class="place-title">${place}</h3>
+    <div class="place-voices">
+      ${items.map((v, i) => `
+        <article class="voice-card ${i >= 4 ? 'hidden' : ''}" role="listitem">
+          <h4>${v.title}</h4>
+          <p><strong>Автор:</strong> ${v.name}</p>
+          <button class="videobtn" data-voice="${v.id}">Смотреть</button>
+        </article>
+      `).join('')}
+    </div>
+  </div>
 `).join('');
 
 const voiceDialog = document.getElementById('voiceDialog');
@@ -254,9 +269,11 @@ toggleBtnVID.addEventListener('click', () => {
     voicesList.querySelectorAll('.voice-card').forEach(c => c.classList.remove('hidden'));
     toggleBtnVID.textContent = 'Скрыть';
   } else {
-    // скрыть обратно начиная с 5-й
-    voicesList.querySelectorAll('.voice-card').forEach((c, i) => {
-      if (i >= 4) c.classList.add('hidden');
+    // скрыть обратно начиная с 5-й в каждой группе
+    voicesList.querySelectorAll('.place-block').forEach(block => {
+      block.querySelectorAll('.voice-card').forEach((c, i) => {
+        if (i >= 4) c.classList.add('hidden');
+      });
     });
     toggleBtnVID.textContent = 'Показать все';
   }
@@ -447,6 +464,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
