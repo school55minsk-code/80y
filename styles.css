@@ -668,30 +668,26 @@ a:hover {
 color: #c44134;
 }
 
-    /* Фоновые блоки */
-    .bg {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      filter: grayscale(100%); /* обесцвечивание */
-    }
 
-    /* затемнение поверх */
-    .bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(26,33,43,0.85); /* плотное затемнение #1a212b */
-    }
 
-    .bg.mapb     { background-color:white; }
-    .bg.voicesb  { background-color:black; }
-    .bg.archiveb { background-color:white; }
-    .bg.quizb    { background-color:black; }
-    .bg.wallb    { background-color:white; }
 
+.bottom-bg {
+  position: relative;       /* остаётся в потоке */
+  width: 100%;
+  height: 400px;            /* регулируй высоту баннера */
+  background-image: url('images/footer-banner.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  margin-top: -150px;       /* отрицательный отступ, чтобы main "заехал" на фон */
+}
+
+/* чтобы футер всегда был поверх */
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
 
 
 
