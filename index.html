@@ -222,7 +222,16 @@
 
 
 
-
+<!-- Оверлей для раскрытого архива -->
+<div id="archiveOverlay" class="overlay hidden">
+  <div class="overlay-content">
+    <button id="closeArchiveOverlay" class="close-btn">&times;</button>
+    <figure>
+      <img id="overlayImage" src="" alt="">
+      <figcaption id="overlayCaption"></figcaption>
+    </figure>
+  </div>
+</div>
 
 
 
@@ -456,16 +465,7 @@ renderYearLabels();
 
   </section>
 
-<!-- Оверлей для раскрытого архива -->
-<div id="archiveOverlay" class="overlay hidden">
-  <div class="overlay-content">
-    <button id="closeArchiveOverlay" class="close-btn">&times;</button>
-    <figure>
-      <img id="overlayImage" src="" alt="">
-      <figcaption id="overlayCaption"></figcaption>
-    </figure>
-  </div>
-</div>
+
   
 </main>
 <div class="footer-bg"></div>
@@ -477,6 +477,7 @@ renderYearLabels();
 
 </body>
 </html>
+
 
 
 
