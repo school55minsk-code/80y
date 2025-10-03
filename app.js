@@ -211,7 +211,7 @@ leaflet.on('popupopen', e => {
 
   // Голоса памяти
 const voicesList = document.getElementById('voicesList');
-const toggleBtn = document.getElementById('toggleVoices'); // кнопка "Показать все / Скрыть"
+const toggleBtnVID = document.getElementById('toggleVoices'); // кнопка "Показать все / Скрыть"
 
 // рендерим все карточки, но начиная с 5-й прячем
 voicesList.innerHTML = voices.map((v, i) => `
@@ -245,20 +245,20 @@ voiceDialog.querySelector('.close').addEventListener('click', () => {
 });
 
 // переключение "Показать все / Скрыть"
-toggleBtn.addEventListener('click', () => {
+toggleBtnVID.addEventListener('click', () => {
   const hiddenCards = voicesList.querySelectorAll('.voice-card.hidden');
   const isHidden = hiddenCards.length > 0;
 
   if (isHidden) {
     // показать все
     voicesList.querySelectorAll('.voice-card').forEach(c => c.classList.remove('hidden'));
-    toggleBtn.textContent = 'Скрыть';
+    toggleBtnVID.textContent = 'Скрыть';
   } else {
     // скрыть обратно начиная с 5-й
     voicesList.querySelectorAll('.voice-card').forEach((c, i) => {
       if (i >= 4) c.classList.add('hidden');
     });
-    toggleBtn.textContent = 'Показать все';
+    toggleBtnVID.textContent = 'Показать все';
   }
 });
 
