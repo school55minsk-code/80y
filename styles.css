@@ -733,6 +733,14 @@ main,
 
 
 
+.voice-card.hidden {
+  display: none;
+}
+.voices-actions {
+  margin-top: 16px;
+  text-align: center;
+}
+
 
 
 
