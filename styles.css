@@ -28,6 +28,20 @@ body {
   background: rgba(15,18,23,.9);
 }
 
+h3 {
+  margin: 0;
+}
+.videobtn {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  font-size: 0.75em;
+  color: #fff;
+  background: #222;
+  padding: 3px 7px;
+  border-radius: 3px;
+}
+
 /* Затемнение для читаемости текста */
 body::before {
   content: "";
@@ -708,6 +722,7 @@ main,
   top: 0; left: 0;
   width: 100%; height: 100%;
 }
+
 
 
 
