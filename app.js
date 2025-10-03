@@ -210,27 +210,30 @@ leaflet.on('popupopen', e => {
 */
 
   // Голоса памяти
-  const voicesList = document.getElementById('voicesList');
-  voicesList.innerHTML = voices.map(v => `
-    <article class="voice-card" role="listitem">
-      <h3>${v.title}</h3>
-      <p><strong>Автор:</strong> ${v.name}</p>
- 
-      <button class="videobtn" data-voice="${v.id}">Смотреть</button>
-    </article>
-  `).join('');
+const voicesList = document.getElementById('voicesList');
+const toggleBtn = document.getElementById('toggleVoices'); // кнопка "Показать все / Скрыть"
+
+// рендерим все карточки, но начиная с 5-й прячем
+voicesList.innerHTML = voices.map((v, i) => `
+  <article class="voice-card ${i >= 4 ? 'hidden' : ''}" role="listitem">
+    <h3>${v.title}</h3>
+    <p><strong>Автор:</strong> ${v.name}</p>
+    <button class="videobtn" data-voice="${v.id}">Смотреть</button>
+  </article>
+`).join('');
 
 const voiceDialog = document.getElementById('voiceDialog');
 const voiceTitle = document.getElementById('voiceTitle');
 const voiceVideo = document.getElementById('voiceVideo');
 const voiceTranscript = document.getElementById('voiceTranscript');
 
+// открытие диалога с видео
 voicesList.addEventListener('click', e => {
   const id = e.target?.dataset?.voice;
   if (!id) return;
   const v = voices.find(x => x.id === id);
   voiceTitle.textContent = `${v.title} — ${v.name}`;
-  voiceVideo.src = v.youtube + "?autoplay=1"; // автозапуск при открытии
+  voiceVideo.src = v.youtube + (v.youtube.includes('?') ? '&' : '?') + "autoplay=1";
   voiceTranscript.textContent = v.transcript;
   voiceDialog.showModal();
 });
@@ -239,6 +242,24 @@ voicesList.addEventListener('click', e => {
 voiceDialog.querySelector('.close').addEventListener('click', () => {
   voiceVideo.src = "";
   voiceDialog.close();
+});
+
+// переключение "Показать все / Скрыть"
+toggleBtn.addEventListener('click', () => {
+  const hiddenCards = voicesList.querySelectorAll('.voice-card.hidden');
+  const isHidden = hiddenCards.length > 0;
+
+  if (isHidden) {
+    // показать все
+    voicesList.querySelectorAll('.voice-card').forEach(c => c.classList.remove('hidden'));
+    toggleBtn.textContent = 'Скрыть';
+  } else {
+    // скрыть обратно начиная с 5-й
+    voicesList.querySelectorAll('.voice-card').forEach((c, i) => {
+      if (i >= 4) c.classList.add('hidden');
+    });
+    toggleBtn.textContent = 'Показать все';
+  }
 });
 
 
@@ -426,6 +447,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
