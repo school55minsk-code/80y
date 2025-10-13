@@ -872,12 +872,7 @@ main,
   }
 }
 
-/* Адаптация видео */
-.video-container {
-  min-width: unset;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-}
+
 
 /* Общая адаптация для контейнеров */
 @media (max-width: 768px) {
@@ -947,6 +942,48 @@ main,
     gap: 6px;
   }
 }
+
+@media (max-width: 768px) {
+  /* Убрать video-strip */
+  .video-strip {
+    display: none !important;
+  }
+
+  /* Уменьшить высоту шапки */
+  .site-header {
+    padding: 8px 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .brand h1 {
+    font-size: 18px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+  }
+
+  .site-header img {
+    height: 30px;
+  }
+
+  /* Исправление для input#yearRange */
+  #yearRange {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    box-sizing: border-box;
+  }
+
+  .range-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 
 
 
