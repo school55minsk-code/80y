@@ -985,6 +985,18 @@ main,
 }
 
 
+@media (max-width: 768px) {
+  .main-nav a {
+    font-size: 14px;
+    padding: 4px 6px;
+    white-space: nowrap; /* запрет на перенос строк */
+  }
+
+  .main-nav ul {
+    gap: 8px;
+    flex-wrap: wrap; /* чтобы текст не вылазил за пределы */
+  }
+}
 
 
 
