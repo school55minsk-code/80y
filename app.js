@@ -25,10 +25,10 @@
     markers.push(marker);
 
     const circle = L.circle(ev.coords, {
-      radius: 20000,
+      radius: 5000,
       color: 'red',
       fillColor: 'red',
-      fillOpacity: 0.3
+      fillOpacity: 0.1
     });
     circle._data = ev;
     highlightCircles.push(circle);
@@ -478,6 +478,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
