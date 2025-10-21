@@ -312,12 +312,22 @@ button:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(128, 128, 128, 0.4);
 }
+/* 
 .post-photo-thumb {
   max-width: 100%;
   max-height: 150px;
   border-radius: 6px;
   margin-bottom: 8px;
 }
+*/
+.post-photo-thumb {
+  max-width: 100%;
+  max-height: 150px;
+  border-radius: 6px;
+  margin: 0 auto 8px; /* сверху/снизу 0 и 8px, по бокам auto */
+  display: block;     /* чтобы margin auto сработал */
+}
+
 .post-date {
   font-size: 0.9em;
   color: #ccc;
@@ -374,7 +384,7 @@ position: absolute;
 }
 .expanded-photo {
   width: 100%;
-  max-height: 740px;   
+  max-height: 440px;   
   object-fit: contain;
   border-radius: 8px;
   margin-bottom: 15px;
@@ -994,6 +1004,7 @@ main,
     flex-wrap: wrap; /* чтобы текст не вылазил за пределы */
   }
 }
+
 
 
 
