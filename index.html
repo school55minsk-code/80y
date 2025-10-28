@@ -146,11 +146,11 @@
       </fieldset>
       <input type="search" id="mapSearch" placeholder="Поиск события или места" aria-label="Поиск на карте" />
     </div>
-    <div id="leafletMap" class="map" role="application" aria-label="Интерактивная карта">
-
+<div id="leafletMap" class="map" role="application" aria-label="Интерактивная карта">
+  <button id="fullscreenBtn" class="map-fullscreen-btn">⛶</button>
   <div class="map-overlay-bar">Перемещайтесь по карте, выбирайте события и изучайте материалы</div>
-      
-    </div>
+</div>
+
     <div id="mapSidebar" class="map-sidebar" aria-live="polite"></div>
   </section>
 
@@ -580,8 +580,33 @@
 </footer>
 
 
+
+
+
+<script>
+  const mapEl = document.getElementById('leafletMap');
+  const btn = document.getElementById('fullscreenBtn');
+
+  btn.addEventListener('click', () => {
+    mapEl.classList.toggle('fullscreen');
+    btn.textContent = mapEl.classList.contains('fullscreen') ? '🗗' : '⛶';
+
+    if (window.myLeafletMap) {
+      setTimeout(() => {
+        window.myLeafletMap.invalidateSize();
+      }, 400);
+    }
+  });
+</script>
+
+
+
+
+
+  
 </body>
 </html>
+
 
 
 
