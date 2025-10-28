@@ -31,44 +31,6 @@
 <script>
   VK.init({ apiId: 54273828, onlyWidgets: true });
 </script>
-
-<style>
-  /* Базовый стиль карты */
-  #leafletMap {
-    width: 100%;
-    height: 500px;
-    position: relative;
-    transition: all 0.4s ease-in-out; /* плавный переход */
-  }
-
-  /* Кнопка в углу */
-  .map-fullscreen-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 1000;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 6px 8px;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 16px;
-    transition: background 0.2s;
-  }
-  .map-fullscreen-btn:hover {
-    background: #f0f0f0;
-  }
-
-  /* Полноэкранный режим */
-  .fullscreen {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 2000 !important;
-  }
-</style>
   
 </head>
 <body>
@@ -185,7 +147,7 @@
       <input type="search" id="mapSearch" placeholder="Поиск события или места" aria-label="Поиск на карте" />
     </div>
 <div id="leafletMap" class="map" role="application" aria-label="Интерактивная карта">
-  <button id="fullscreenBtn" class="map-fullscreen-btn">⛶</button>
+
   <div class="map-overlay-bar">Перемещайтесь по карте, выбирайте события и изучайте материалы</div>
 </div>
 
@@ -627,6 +589,7 @@
   
 </body>
 </html>
+
 
 
 
