@@ -441,7 +441,7 @@
     document.getElementById("expandedOverlay").classList.remove("hidden");
       // Инициализация комментариев ВК
   // Используй p.id (который теперь есть в базе) как уникальный ключ
-  VK.Widgets.Comments("vk_comments", { limit: 10, attach: "*" }, p.id);
+  VK.Widgets.Comments("vk_comments", { limit: 10, attach: "*", dark: 1}, p.id);
   }
 
   function closeExpanded() {
@@ -582,6 +582,7 @@
 
 </body>
 </html>
+
 
 
 
