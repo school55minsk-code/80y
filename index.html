@@ -638,20 +638,26 @@
 </script>
 
   <script>
-  const mapEl = document.getElementById('leafletMap');
-  const btn = document.getElementById('fullscreenBtn');
+const mapEl = document.getElementById('leafletMap');
+const btn = document.getElementById('fullscreenBtn');
 
-  btn.addEventListener('click', () => {
-    mapEl.classList.toggle('fullscreen');
-    btn.textContent = mapEl.classList.contains('fullscreen') ? '🗗' : '⛶';
+btn.addEventListener('click', () => {
+  const goingFullscreen = !mapEl.classList.contains('fullscreen');
+  mapEl.classList.toggle('fullscreen');
+  btn.textContent = mapEl.classList.contains('fullscreen') ? '🗗' : '⛶';
 
-    // Обновляем размеры карты после анимации
-    if (window.myLeafletMap) {
+  if (window.myLeafletMap) {
+    if (goingFullscreen) {
+      // При входе в fullscreen обновляем сразу
+      window.myLeafletMap.invalidateSize();
+    } else {
+      // При выходе ждём окончания transition
       setTimeout(() => {
         window.myLeafletMap.invalidateSize();
       }, 400); // совпадает с transition в CSS
     }
-  });
+  }
+});
 </script>
 
 
@@ -661,6 +667,7 @@
   
 </body>
 </html>
+
 
 
 
