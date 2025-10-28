@@ -271,37 +271,39 @@
     </div>
   </section>
 
-  <!-- Стена памяти -->
-  <section id="wall" class="section">
 
-<h2>Стена памяти</h2>
-<p class="wall-description">
-  «Стена памяти» создана для того, чтобы сохранить дорогие сердцу воспоминания.  
-  Здесь вы можете поделиться историей, фотографией или важным моментом из жизни  
-  своих родных и близких — участников Великой Отечественной войны.  
-</p>
-<ul class="wall-instructions">
-  <li><strong>ФИО</strong> — укажите своё имя или имя человека, о котором идёт воспоминание.</li>
-  <li><strong>Название</strong> — дайте короткий заголовок вашей записи.</li>
-  <li><strong>Текст воспоминания</strong> — напишите саму историю.  
-      Все пробелы, отступы и переносы строк сохранятся.</li>
-  <li><strong>Ссылка на фото</strong> — добавьте изображение (по желанию).</li>
-</ul>
-<p class="wall-note">
-  После отправки запись попадёт на модерацию, а затем появится на стене.
-</p>
 
-<!-- Кнопка для показа формы -->
-<button id="showFormBtn" class="explore-btn">Заполнить форму</button>
+<!-- Стена памяти -->
+<section id="wall" class="section">
 
-<!-- Форма (скрыта по умолчанию) -->
-<form id="wallForm" class="wall-form hidden" novalidate>
-  <input type="text" id="fullName" placeholder="ФИО" required>
-  <input type="text" id="title" placeholder="Название" required>
-  <textarea id="text" placeholder="Текст воспоминания" required></textarea>
-  <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
-  <button type="submit" class="explore-btn">Добавить</button>
-</form>
+  <h2>Стена памяти</h2>
+  <p class="wall-description">
+    «Стена памяти» создана для того, чтобы сохранить дорогие сердцу воспоминания.  
+    Здесь вы можете поделиться историей, фотографией или важным моментом из жизни  
+    своих родных и близких — участников Великой Отечественной войны.  
+  </p>
+  <ul class="wall-instructions">
+    <li><strong>ФИО</strong> — укажите своё имя или имя человека, о котором идёт воспоминание.</li>
+    <li><strong>Название</strong> — дайте короткий заголовок вашей записи.</li>
+    <li><strong>Текст воспоминания</strong> — напишите саму историю.  
+        Все пробелы, отступы и переносы строк сохранятся.</li>
+    <li><strong>Ссылка на фото</strong> — добавьте изображение (по желанию).</li>
+  </ul>
+  <p class="wall-note">
+    После отправки запись попадёт на модерацию, а затем появится на стене.
+  </p>
+
+  <!-- Кнопка для показа формы -->
+  <button id="showFormBtn" class="explore-btn">Заполнить форму</button>
+
+  <!-- Форма (скрыта по умолчанию) -->
+  <form id="wallForm" class="wall-form hidden" novalidate>
+    <input type="text" id="fullName" placeholder="ФИО" required>
+    <input type="text" id="title" placeholder="Название" required>
+    <textarea id="text" placeholder="Текст воспоминания" required></textarea>
+    <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
+    <button type="submit" class="explore-btn">Добавить</button>
+  </form>
 
   <!-- Toast -->
   <div id="toast"></div>
@@ -310,20 +312,21 @@
 
   <!-- Список постов -->
   <div id="wallList" class="posts-grid"></div>
+  <button id="togglePostsBtn" class="explore-btn hidden">Показать все</button>
 
   <!-- Раскрытый пост -->
   <div id="expandedOverlay" class="overlay hidden">
     <div id="expandedPost" class="expanded-post"></div>
   </div>
 
-
-<script src="app.data.js"></script>
-<script src="app.js"></script>
+  <script src="app.data.js"></script>
+  <script src="app.js"></script>
     
   <script>
   const POSTS_URL = "/api/get-posts";
   const API_URL   = "/api/update-posts";
   let postsData = [];
+  let showAll = false; // состояние кнопки
 
   async function loadPosts() {
     try {
@@ -336,44 +339,34 @@
     }
   }
 
-// Кнопка "Заполнить форму"
-const showFormBtn = document.getElementById("showFormBtn");
-const wallForm = document.getElementById("wallForm");
+  // Кнопка "Заполнить форму"
+  const showFormBtn = document.getElementById("showFormBtn");
+  const wallForm = document.getElementById("wallForm");
 
-showFormBtn.addEventListener("click", () => {
-  showFormBtn.classList.add("hidden");   // скрываем кнопку
-  wallForm.classList.remove("hidden");   // показываем форму
-});
+  showFormBtn.addEventListener("click", () => {
+    showFormBtn.classList.add("hidden");
+    wallForm.classList.remove("hidden");
+  });
 
-
-
-const yearRange = document.getElementById('yearRange');
-const yearLabels = document.getElementById('yearLabels');
-
-function renderYearLabels() {
-  const min = parseInt(yearRange.min, 10);
-  const max = parseInt(yearRange.max, 10);
-  const step = parseInt(yearRange.step, 10);
-
-  let html = '';
-  for (let y = min; y <= max; y += step) {
-    html += `<span>${y}</span>`;
-  }
-  yearLabels.innerHTML = html;
-}
-
-renderYearLabels();
-
-
-    
   function renderApproved() {
     const approved = postsData
       .map((p, i) => ({...p, _idx: i}))
       .filter(p => p.status === 'approved')
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-    document.getElementById('wallList').innerHTML = approved.map(p => `
-      <div class="post-card" data-index="${p._idx}">
+    const wallList = document.getElementById('wallList');
+    const toggleBtn = document.getElementById('togglePostsBtn');
+
+    if (approved.length > 8) {
+      toggleBtn.classList.remove("hidden");
+    } else {
+      toggleBtn.classList.add("hidden");
+    }
+
+    const visiblePosts = showAll ? approved : approved.slice(0, 8);
+
+    wallList.innerHTML = visiblePosts.map(p => `
+      <div class="post-card fade-in" data-index="${p._idx}">
         <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
         ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
         <h3 class="post-title">${p.title}</h3>
@@ -382,6 +375,8 @@ renderYearLabels();
       </div>
     `).join('');
 
+    toggleBtn.textContent = showAll ? "Скрыть" : "Показать все";
+
     document.querySelectorAll('.post-card').forEach(card => {
       card.addEventListener('click', () => {
         const idx = card.getAttribute('data-index');
@@ -389,6 +384,11 @@ renderYearLabels();
       });
     });
   }
+
+  document.getElementById('togglePostsBtn').addEventListener('click', () => {
+    showAll = !showAll;
+    renderApproved();
+  });
 
   function expandPost(index) {
     const p = postsData[index];
@@ -410,12 +410,10 @@ renderYearLabels();
     document.getElementById("expandedOverlay").classList.add("hidden");
   }
 
-  // Закрытие по Esc
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeExpanded();
   });
 
-  // Закрытие по клику вне карточки
   document.getElementById("expandedOverlay").addEventListener("click", (e) => {
     const post = document.getElementById("expandedPost");
     if (!post.contains(e.target)) {
@@ -423,7 +421,6 @@ renderYearLabels();
     }
   });
 
-  // Обработка формы
   document.getElementById("wallForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const form = document.getElementById("wallForm");
@@ -467,7 +464,6 @@ renderYearLabels();
     }
   });
 
-  // Toast
   function showToast(message, type = "info") {
     const toast = document.getElementById("toast");
     toast.innerHTML = message;
@@ -480,7 +476,29 @@ renderYearLabels();
   loadPosts();
   </script>
 
-  </section>
+</section>
+
+<style>
+/* Анимация плавного появления */
+.post-card.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.4s ease forwards;
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+
+
+
+
+
+  
 
 
   
@@ -494,6 +512,7 @@ renderYearLabels();
 
 </body>
 </html>
+
 
 
 
