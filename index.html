@@ -278,7 +278,6 @@
 
 
 
-
 <!-- Стена памяти -->
 <section id="wall" class="section">
 
@@ -290,7 +289,7 @@
   </p>
 
   <!-- Поле поиска -->
-  <input type="text" id="searchInput" class="wall-search" placeholder="🔍 Поиск по названию или тексту...">
+  <input type="text" id="wall-searchInput" class="wall-search" placeholder="🔍 Поиск по названию или тексту...">
 
   <ul class="wall-instructions">
     <li><strong>ФИО</strong> — укажите своё имя или имя человека, о котором идёт воспоминание.</li>
@@ -304,200 +303,211 @@
   </p>
 
   <!-- Кнопка для показа формы -->
-  <button id="showFormBtn" class="explore-btn">Заполнить форму</button>
+  <button id="wall-showFormBtn" class="explore-btn">Заполнить форму</button>
 
   <!-- Форма (скрыта по умолчанию) -->
-  <form id="wallForm" class="wall-form hidden" novalidate>
-    <input type="text" id="fullName" placeholder="ФИО" required>
-    <input type="text" id="title" placeholder="Название" required>
-    <textarea id="text" placeholder="Текст воспоминания" required></textarea>
-    <input type="url" id="photo" placeholder="Ссылка на фото (необязательно)">
+  <form id="wall-form" class="wall-form hidden" novalidate>
+    <input type="text" id="wall-fullName" placeholder="ФИО" required>
+    <input type="text" id="wall-title" placeholder="Название" required>
+    <textarea id="wall-text" placeholder="Текст воспоминания" required></textarea>
+    <input type="url" id="wall-photo" placeholder="Ссылка на фото (необязательно)">
     <button type="submit" class="explore-btn">Добавить</button>
   </form>
 
   <!-- Toast -->
-  <div id="toast"></div>
+  <div id="wall-toast"></div>
 
   <hr>
 
   <!-- Список постов -->
-  <div id="wallList" class="posts-grid"></div>
-  <button id="togglePostsBtn" class="explore-btn hidden">Показать все</button>
+  <div id="wall-list" class="posts-grid"></div>
+  <button id="wall-toggleBtn" class="explore-btn hidden">Показать все</button>
 
   <!-- Раскрытый пост -->
-  <div id="expandedOverlay" class="overlay hidden">
-    <div id="expandedPost" class="expanded-post"></div>
+  <div id="wall-expandedOverlay" class="overlay hidden">
+    <div id="wall-expandedPost" class="expanded-post"></div>
   </div>
 
   <script>
-  const POSTS_URL = "/api/get-posts";
-  const API_URL   = "/api/update-posts";
-  let postsData = [];
-  let showAll = false;
-  let searchQuery = "";
+  (function() {
+    const POSTS_URL = "/api/get-posts";
+    const API_URL   = "/api/update-posts";
+    let postsData = [];
+    let showAll = false;
+    let searchQuery = "";
 
-  async function loadPosts() {
-    try {
-      const res = await fetch(POSTS_URL);
-      postsData = await res.json();
-      renderApproved();
-    } catch (err) {
-      console.error("Ошибка загрузки:", err);
-      showToast("Ошибка загрузки данных", "error");
-    }
-  }
-
-  // Кнопка "Заполнить форму"
-  const showFormBtn = document.getElementById("showFormBtn");
-  const wallForm = document.getElementById("wallForm");
-
-  showFormBtn.addEventListener("click", () => {
-    showFormBtn.classList.add("hidden");
-    wallForm.classList.remove("hidden");
-  });
-
-  function renderApproved() {
-    let approved = postsData
-      .map((p, i) => ({...p, _idx: i}))
-      .filter(p => p.status === 'approved')
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    // фильтрация по поиску
-    if (searchQuery.trim() !== "") {
-      const q = searchQuery.toLowerCase();
-      approved = approved.filter(p =>
-        (p.title && p.title.toLowerCase().includes(q)) ||
-        (p.text && p.text.toLowerCase().includes(q))
-      );
-    }
-
-    const wallList = document.getElementById('wallList');
-    const toggleBtn = document.getElementById('togglePostsBtn');
-
-    if (approved.length > 8 && searchQuery === "") {
-      toggleBtn.classList.remove("hidden");
-    } else {
-      toggleBtn.classList.add("hidden");
-    }
-
-    const visiblePosts = (showAll || searchQuery !== "") ? approved : approved.slice(0, 8);
-
-    wallList.innerHTML = visiblePosts.map(p => `
-      <div class="post-card fade-in" data-index="${p._idx}">
-        <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
-        ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
-        <h3 class="post-title">${p.title}</h3>
-        <div class="post-preview">${p.text.length > 150 ? p.text.slice(0,150) + "…" : p.text}</div>
-        <div class="read-more">Читать полностью ⬇</div>
-      </div>
-    `).join('');
-
-    toggleBtn.textContent = showAll ? "Скрыть" : "Показать все";
-
-    document.querySelectorAll('.post-card').forEach(card => {
-      card.addEventListener('click', () => {
-        const idx = card.getAttribute('data-index');
-        expandPost(idx);
-      });
-    });
-  }
-
-  document.getElementById('togglePostsBtn').addEventListener('click', () => {
-    showAll = !showAll;
-    renderApproved();
-  });
-
-  // поиск
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    searchQuery = e.target.value;
-    showAll = false; // сбрасываем состояние при поиске
-    renderApproved();
-  });
-
-  function expandPost(index) {
-    const p = postsData[index];
-    const container = document.getElementById("expandedPost");
-    container.innerHTML = `
-      <div class="expanded-content">
-        <button class="close-btn" onclick="closeExpanded()">✖</button>
-        <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
-        <p class="post-author"><strong>Добавил:</strong> ${p.fullName || "—"}</p>
-        <h2 class="post-title">${p.title}</h2>
-        ${p.photo ? `<img src="${p.photo}" class="expanded-photo">` : ''}
-        <div class="expanded-text">${p.text}</div>
-      </div>
-    `;
-    document.getElementById("expandedOverlay").classList.remove("hidden");
-  }
-
-  function closeExpanded() {
-    document.getElementById("expandedOverlay").classList.add("hidden");
-  }
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeExpanded();
-  });
-
-  document.getElementById("expandedOverlay").addEventListener("click", (e) => {
-    const post = document.getElementById("expandedPost");
-    if (!post.contains(e.target)) {
-      closeExpanded();
-    }
-  });
-
-  document.getElementById("wallForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const form = document.getElementById("wallForm");
-
-    if (!form.reportValidity()) {
-      showToast("⚠️ Пожалуйста, заполните обязательные поля", "warn");
-      return;
-    }
-
-    const fullName = document.getElementById("fullName").value.trim();
-    const title = document.getElementById("title").value.trim();
-    const text = document.getElementById("text").value.trim();
-    const photo = document.getElementById("photo").value.trim();
-
-    const newPost = { 
-      fullName,
-      title,
-      text,
-      photo,
-      status: "pending",
-      createdAt: new Date().toISOString(),
-      approvedAt: null
-    };
-    postsData.push(newPost);
-
-    try {
-      const res = await fetch(API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postsData)
-      });
-      if (res.ok) {
-        showToast("✅ Запись отправлена на модерацию", "success");
-        form.reset();
-      } else {
-        showToast("❌ Ошибка сохранения", "error");
+    async function loadPosts() {
+      try {
+        const res = await fetch(POSTS_URL);
+        postsData = await res.json();
+        renderApproved();
+      } catch (err) {
+        console.error("Ошибка загрузки:", err);
+        showToast("Ошибка загрузки данных", "error");
       }
-    } catch (err) {
-      console.error("Ошибка сохранения:", err);
-      showToast("❌ Ошибка соединения", "error");
     }
-  });
 
-  function showToast(message, type = "info") {
-    const toast = document.getElementById("toast");
-    toast.innerHTML = message;
-    toast.className = "show";
-    setTimeout(() => {
-      toast.className = toast.className.replace("show", "");
-    }, 3000);
-  }
+    // Кнопка "Заполнить форму"
+    const showFormBtn = document.getElementById("wall-showFormBtn");
+    const wallForm = document.getElementById("wall-form");
 
-  loadPosts();
+    showFormBtn.addEventListener("click", () => {
+      showFormBtn.classList.add("hidden");
+      wallForm.classList.remove("hidden");
+    });
+
+    function renderApproved() {
+      let approved = postsData
+        .map((p, i) => ({...p, _idx: i}))
+        .filter(p => p.status === 'approved')
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      // фильтрация по поиску
+      if (searchQuery.trim() !== "") {
+        const q = searchQuery.toLowerCase();
+        approved = approved.filter(p =>
+          (p.title && p.title.toLowerCase().includes(q)) ||
+          (p.text && p.text.toLowerCase().includes(q))
+        );
+      }
+
+      const wallList = document.getElementById('wall-list');
+      const toggleBtn = document.getElementById('wall-toggleBtn');
+
+      // кнопка «Показать все» видна только без активного поиска и если постов > 8
+      if (approved.length > 8 && searchQuery === "") {
+        toggleBtn.classList.remove("hidden");
+      } else {
+        toggleBtn.classList.add("hidden");
+      }
+
+      const visiblePosts = (showAll || searchQuery !== "") ? approved : approved.slice(0, 8);
+
+      wallList.innerHTML = visiblePosts.map(p => `
+        <div class="post-card fade-in" data-index="${p._idx}">
+          <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+          ${p.photo ? `<img src="${p.photo}" alt="Фото" class="post-photo-thumb">` : ''}
+          <h3 class="post-title">${p.title}</h3>
+          <div class="post-preview">${p.text.length > 150 ? p.text.slice(0,150) + "…" : p.text}</div>
+          <div class="read-more">Читать полностью ⬇</div>
+        </div>
+      `).join('');
+
+      toggleBtn.textContent = showAll ? "Скрыть" : "Показать все";
+
+      // обработчики на карточки
+      document.querySelectorAll('#wall-list .post-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const idx = card.getAttribute('data-index');
+          expandPost(idx);
+        });
+      });
+    }
+
+    // переключение «Показать все / Скрыть»
+    document.getElementById('wall-toggleBtn').addEventListener('click', () => {
+      showAll = !showAll;
+      renderApproved();
+    });
+
+    // поиск
+    document.getElementById('wall-searchInput').addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      showAll = false; // при поиске показываем только результаты
+      renderApproved();
+    });
+
+    function expandPost(index) {
+      const p = postsData[index];
+      const container = document.getElementById("wall-expandedPost");
+      container.innerHTML = `
+        <div class="expanded-content">
+          <button class="close-btn" onclick="closeExpanded()">✖</button>
+          <p class="post-date"><strong>Добавлен:</strong> ${p.createdAt ? new Date(p.createdAt).toLocaleString() : '—'}</p>
+          <p class="post-author"><strong>Добавил:</strong> ${p.fullName || "—"}</p>
+          <h2 class="post-title">${p.title}</h2>
+          ${p.photo ? `<img src="${p.photo}" class="expanded-photo">` : ''}
+          <div class="expanded-text">${p.text}</div>
+        </div>
+      `;
+      document.getElementById("wall-expandedOverlay").classList.remove("hidden");
+    }
+
+    // делаем closeExpanded доступной глобально для inline-обработчика
+    window.closeExpanded = function() {
+      document.getElementById("wall-expandedOverlay").classList.add("hidden");
+    }
+
+    // закрытие по Esc
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeExpanded();
+    });
+
+    // закрытие по клику вне карточки
+    document.getElementById("wall-expandedOverlay").addEventListener("click", (e) => {
+      const post = document.getElementById("wall-expandedPost");
+      if (!post.contains(e.target)) {
+        closeExpanded();
+      }
+    });
+
+    // отправка формы
+    document.getElementById("wall-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const form = document.getElementById("wall-form");
+
+      if (!form.reportValidity()) {
+        showToast("⚠️ Пожалуйста, заполните обязательные поля", "warn");
+        return;
+      }
+
+      const fullName = document.getElementById("wall-fullName").value.trim();
+      const title = document.getElementById("wall-title").value.trim();
+      const text = document.getElementById("wall-text").value.trim();
+      const photo = document.getElementById("wall-photo").value.trim();
+
+      const newPost = { 
+        fullName,
+        title,
+        text,
+        photo,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        approvedAt: null
+      };
+      postsData.push(newPost);
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(postsData)
+        });
+        if (res.ok) {
+          showToast("✅ Запись отправлена на модерацию", "success");
+          form.reset();
+        } else {
+          showToast("❌ Ошибка сохранения", "error");
+        }
+      } catch (err) {
+        console.error("Ошибка сохранения:", err);
+        showToast("❌ Ошибка соединения", "error");
+      }
+    });
+
+    // Toast
+    function showToast(message, type = "info") {
+      const toast = document.getElementById("wall-toast");
+      toast.textContent = message;
+      toast.className = `toast toast-${type} show`;
+      setTimeout(() => {
+        toast.className = toast.className.replace("show", "");
+      }, 3000);
+    }
+
+    // старт
+    loadPosts();
+  })();
   </script>
 
 </section>
@@ -507,14 +517,45 @@
 .post-card.fade-in {
   opacity: 0;
   transform: translateY(10px);
-  animation: fadeInUp 0.4s ease forwards;
+  animation: wallFadeInUp 0.35s ease forwards;
 }
-@keyframes fadeInUp {
+@keyframes wallFadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
+/* Базовые стили для поиска и тоста (минимальные, чтобы не конфликтовать) */
+.wall-search {
+  width: 100%;
+  max-width: 640px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 8px 0 16px;
+  font-size: 16px;
+}
+
+#wall-toast.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  background: #222;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 9999;
+}
+#wall-toast.show { opacity: 1; }
+#wall-toast.toast-success { background: #1f7a36; }
+#wall-toast.toast-error   { background: #b32020; }
+#wall-toast.toast-warn    { background: #b26b00; }
 </style>
 
 
@@ -541,6 +582,7 @@
 
 </body>
 </html>
+
 
 
 
