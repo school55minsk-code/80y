@@ -1,4 +1,4 @@
-:root {
+:root[data-theme="dark"] {
   --bg: #0f1217;
   --panel: #151a22;
   --text: #e9eef5;
@@ -9,6 +9,34 @@
   --focus: #2ecc71;
   --shadow: 0 10px 30px rgba(0,0,0,.35);
 }
+
+/* Светлая тема */
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --panel: #f5f5f5;
+  --text: #222222;
+  --muted: #555555;
+  --accent: #c0392b;
+  --accent-2: #d35400;
+  --border: #cccccc;
+  --focus: #2980b9;
+  --shadow: 0 10px 30px rgba(0,0,0,.15);
+}
+
+.theme-toggle button {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: var(--text);
+}
+.theme-toggle button:hover {
+  background: var(--accent-2);
+  color: #fff;
+}
+
+
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
@@ -1004,6 +1032,7 @@ main,
     flex-wrap: wrap; /* чтобы текст не вылазил за пределы */
   }
 }
+
 
 
 
