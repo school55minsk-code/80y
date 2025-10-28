@@ -6,8 +6,31 @@
     attribution: '&copy; OpenStreetMap'
   }).addTo(leaflet);
 
+
   const markers = [];
   const highlightCircles = [];
+
+
+
+  // кнопка fullscreen
+const mapEl = document.getElementById('leafletMap');
+const btn = document.getElementById('fullscreenBtn');
+
+btn.addEventListener('click', () => {
+  const goingFullscreen = !mapEl.classList.contains('fullscreen');
+  mapEl.classList.toggle('fullscreen');
+  btn.textContent = goingFullscreen ? '🗗' : '⛶';
+
+  if (goingFullscreen) {
+    leaflet.invalidateSize(); // сразу при входе
+  } else {
+    mapEl.addEventListener('transitionend', function handler() {
+      leaflet.invalidateSize(); // после выхода
+      mapEl.removeEventListener('transitionend', handler);
+    });
+  }
+});
+  
 
   function truncate(text, max = 100) {
     return text.length > max ? text.slice(0, max) + '…' : text;
@@ -478,6 +501,7 @@ archiveOverlay.addEventListener('click', e => {
 
 
 })();
+
 
 
 
