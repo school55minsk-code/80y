@@ -638,24 +638,22 @@
 </script>
 
   <script>
+// кнопка fullscreen
 const mapEl = document.getElementById('leafletMap');
 const btn = document.getElementById('fullscreenBtn');
 
 btn.addEventListener('click', () => {
   const goingFullscreen = !mapEl.classList.contains('fullscreen');
   mapEl.classList.toggle('fullscreen');
-  btn.textContent = mapEl.classList.contains('fullscreen') ? '🗗' : '⛶';
+  btn.textContent = goingFullscreen ? '🗗' : '⛶';
 
-  if (window.myLeafletMap) {
-    if (goingFullscreen) {
-      // При входе в fullscreen обновляем сразу
-      window.myLeafletMap.invalidateSize();
-    } else {
-      // При выходе ждём окончания transition
-      setTimeout(() => {
-        window.myLeafletMap.invalidateSize();
-      }, 400); // совпадает с transition в CSS
-    }
+  if (goingFullscreen) {
+    leaflet.invalidateSize(); // сразу при входе
+  } else {
+    mapEl.addEventListener('transitionend', function handler() {
+      leaflet.invalidateSize(); // после выхода
+      mapEl.removeEventListener('transitionend', handler);
+    });
   }
 });
 </script>
@@ -667,6 +665,7 @@ btn.addEventListener('click', () => {
   
 </body>
 </html>
+
 
 
 
