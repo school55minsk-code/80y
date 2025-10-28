@@ -637,6 +637,23 @@
   });
 </script>
 
+  <script>
+  const mapEl = document.getElementById('leafletMap');
+  const btn = document.getElementById('fullscreenBtn');
+
+  btn.addEventListener('click', () => {
+    mapEl.classList.toggle('fullscreen');
+    btn.textContent = mapEl.classList.contains('fullscreen') ? '🗗' : '⛶';
+
+    // Обновляем размеры карты после анимации
+    if (window.myLeafletMap) {
+      setTimeout(() => {
+        window.myLeafletMap.invalidateSize();
+      }, 400); // совпадает с transition в CSS
+    }
+  });
+</script>
+
 
 
 
@@ -644,6 +661,7 @@
   
 </body>
 </html>
+
 
 
 
