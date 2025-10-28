@@ -288,6 +288,10 @@
     Здесь вы можете поделиться историей, фотографией или важным моментом из жизни  
     своих родных и близких — участников Великой Отечественной войны.  
   </p>
+
+  <!-- Поле поиска -->
+  <input type="text" id="searchInput" class="wall-search" placeholder="🔍 Поиск по названию или тексту...">
+
   <ul class="wall-instructions">
     <li><strong>ФИО</strong> — укажите своё имя или имя человека, о котором идёт воспоминание.</li>
     <li><strong>Название</strong> — дайте короткий заголовок вашей записи.</li>
@@ -325,14 +329,12 @@
     <div id="expandedPost" class="expanded-post"></div>
   </div>
 
-  <script src="app.data.js"></script>
-  <script src="app.js"></script>
-    
   <script>
   const POSTS_URL = "/api/get-posts";
   const API_URL   = "/api/update-posts";
   let postsData = [];
-  let showAll = false; // состояние кнопки
+  let showAll = false;
+  let searchQuery = "";
 
   async function loadPosts() {
     try {
@@ -355,21 +357,30 @@
   });
 
   function renderApproved() {
-    const approved = postsData
+    let approved = postsData
       .map((p, i) => ({...p, _idx: i}))
       .filter(p => p.status === 'approved')
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
+    // фильтрация по поиску
+    if (searchQuery.trim() !== "") {
+      const q = searchQuery.toLowerCase();
+      approved = approved.filter(p =>
+        (p.title && p.title.toLowerCase().includes(q)) ||
+        (p.text && p.text.toLowerCase().includes(q))
+      );
+    }
+
     const wallList = document.getElementById('wallList');
     const toggleBtn = document.getElementById('togglePostsBtn');
 
-    if (approved.length > 8) {
+    if (approved.length > 8 && searchQuery === "") {
       toggleBtn.classList.remove("hidden");
     } else {
       toggleBtn.classList.add("hidden");
     }
 
-    const visiblePosts = showAll ? approved : approved.slice(0, 8);
+    const visiblePosts = (showAll || searchQuery !== "") ? approved : approved.slice(0, 8);
 
     wallList.innerHTML = visiblePosts.map(p => `
       <div class="post-card fade-in" data-index="${p._idx}">
@@ -393,6 +404,13 @@
 
   document.getElementById('togglePostsBtn').addEventListener('click', () => {
     showAll = !showAll;
+    renderApproved();
+  });
+
+  // поиск
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    searchQuery = e.target.value;
+    showAll = false; // сбрасываем состояние при поиске
     renderApproved();
   });
 
@@ -523,6 +541,7 @@
 
 </body>
 </html>
+
 
 
 
