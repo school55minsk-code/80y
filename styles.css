@@ -10,32 +10,8 @@
   --shadow: 0 10px 30px rgba(0,0,0,.35);
 }
 
-:root[data-theme="dark"] {
-  --bg: #0f1217;
-  --panel: #151a22;
-  --text: #e9eef5;
-  --muted: #a8b0bd;
-  --accent: #e74c3c;
-  --accent-2: #f1c40f;
-  --border: #2a3140;
-  --focus: #2ecc71;
-  --shadow: 0 10px 30px rgba(0,0,0,.35);
-}
-
-:root[data-theme="light"] {
-  --bg: #ffffff;
-  --panel: #f5f5f5;
-  --text: #222222;
-  --muted: #555555;
-  --accent: #c0392b;
-  --accent-2: #d35400;
-  --border: #cccccc;
-  --focus: #2980b9;
-  --shadow: 0 10px 30px rgba(0,0,0,.15);
-}
-
 * { box-sizing: border-box; }
-html,  { margin: 0; padding: 0; color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+html, body { margin: 0; padding: 0; color: var(--text); font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
 a { color: var(--accent-2); text-decoration: none; }
 a:focus, button:focus, input:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
 img { max-width: 100%; height: auto; }
@@ -48,8 +24,8 @@ body {
   background-position: center;  /* центрируем */
   background-repeat: no-repeat; /* не повторяем */
   background-attachment: fixed; /* эффект параллакса на десктопах */
-  color: var(--text);                   /* белый текст для контраста */
-  background: var(--bg);
+  color: #fff;                   /* белый текст для контраста */
+  background: rgba(15,18,23,.9);
 }
 
 h3 {
@@ -61,14 +37,14 @@ position: absolute;
   bottom: 8px;
   right: 10px;
   font-size: 1em;
-  color: var(--text);
+  color: #fdfdfd;
   padding: 6px;
   border-radius: 4px;
   border: 1px solid var(--border);
-  background: var(--accent-2);
+  background: #f60;
 }
 .videobtn:hover {
-background: var(--accent);
+background: #c33;
 }
 
 
@@ -92,8 +68,8 @@ body::before {
 }
 
 #main {
-background: var(--bg);
-  color: var(--text);
+background-color: #0f1217;
+  color: #fff;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
@@ -108,7 +84,7 @@ background: var(--bg);
 }
 
 
-.site-header { padding: 16px 24px; display: flex; gap: 24px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--panel); backdrop-filter: blur(8px); z-index: 11; }
+.site-header { padding: 16px 24px; display: flex; gap: 24px; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(15,18,23,.9); backdrop-filter: blur(8px); z-index: 11; }
 .brand h1 { margin: 0; font-size: 23px; }
 .brand img {
 position: relative;
@@ -123,7 +99,7 @@ position: relative;
 .lang-switch button[aria-pressed="true"] { background: var(--panel); border-color: var(--accent-2); }
 
 .skip-link { position: absolute; left: -9999px; }
-.skip-link:focus { left: 16px; top: 16px; background: var(--text); color: var(--bg); padding: 8px; border-radius: 6px; }
+.skip-link:focus { left: 16px; top: 16px; background: #fff; color: #000; padding: 8px; border-radius: 6px; }
 
 .section { padding: 20px 24px; max-width: 1200px; margin: 0 auto;  scroll-margin-top: 125px;}
 .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 40px 24px; max-width: 1200px; margin: 0 auto; align-items: center; position: absolute; }
@@ -132,7 +108,7 @@ position: relative;
 .hero-stats strong { font-size: 28px; color: var(--accent-2); }
 
 .btn { background: var(--panel); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: 8px; cursor: pointer; }
-.btn.primary { background: var(--accent); border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: #c44134; }
 .btn:disabled { opacity: .5; cursor: not-allowed; }
 
 .map { height: 480px; border-radius: 12px; border: 1px solid var(--border); overflow: hidden; z-index: 8;}
@@ -146,7 +122,7 @@ position: relative;
 
 .voices-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 .voice-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 12px; position: relative; min-height: 165px; }
-dialog { border: none; border-radius: 12px; width: min(700px, 96vw); color: var(--text); }
+dialog { border: none; border-radius: 12px; width: min(700px, 96vw); color:white; }
 dialog::backdrop { background: rgba(0,0,0,.6); }
 dialog article { background: var(--panel); border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
 .close { float: right; background: transparent; border: none; color: var(--text); font-size: 24px; cursor: pointer; margin-top: -10px;}
@@ -273,10 +249,10 @@ button:hover {
 
 .post-text {
   width: 100%;
-  background: var(--panel);
+  background: rgba(255,255,255,0.1);
   padding: 10px;
   border-radius: 6px;
-  color: var(--text);
+  color: #eee;
 }
 
 
@@ -290,11 +266,11 @@ button:hover {
 .wall-form input,
 .wall-form textarea {
   width: 100%;
-  background: var(--panel);
-  border: 1px solid var(--border);
+  background: #222;
+  border: 1px solid #444;
   border-radius: 6px;
   padding: 10px;
-  color: var(--accent-2);
+  color: #ffa500;
   font-size: 1em;
   outline: none;
 }
@@ -327,7 +303,7 @@ button:hover {
   margin-bottom: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
-  color: var(--text);
+  color: #fff;
   position: relative;
   min-height: 180px;
   border: 1px solid var(--border);
@@ -354,17 +330,17 @@ button:hover {
 
 .post-date {
   font-size: 0.9em;
-  color: var(--muted);
+  color: #ccc;
 }
 .post-title {
   margin: 8px 0;
   font-size: 1.2em;
-  color: var(--accent-2);
+  color: #ffa500;
 }
 .post-preview {
   margin-top: 6px;
   font-size: 0.95em;
-  color: var(--muted);
+  color: #ddd;
   line-height: 1.4;
   white-space: pre-wrap;   /* ✅ сохраняем форматирование */
 }
@@ -373,8 +349,8 @@ position: absolute;
   bottom: 8px;
   right: 10px;
   font-size: 0.75em;
-  color: var(--text);
-  background: var(--panel);
+  color: #fff;
+  background: #222;
   padding: 3px 7px;
   border-radius: 3px;
 }
@@ -396,8 +372,8 @@ position: absolute;
 .expanded-post {
   max-width: 60%;
   max-height: 90vh;
-  background: var(--panel);
-  color: var(--accent-2);
+  background: #222;
+  color: #ffa500;
   padding: 20px;
   border-radius: 12px;
   overflow-y: auto;
@@ -417,17 +393,17 @@ position: absolute;
   width: 100%;
   max-height: none;
   overflow-y: visible;
-  background: var(--panel);
+  background: rgba(255,255,255,0.05);
   padding: 12px;
   border-radius: 6px;
-  color: var(--text);
+  color: #eee;
   margin-bottom: 10px;
   white-space: pre-wrap;   /* ✅ сохраняем форматирование */
 }
 .post-author {
   margin: 4px 0 10px;
   font-size: 0.95em;
-  color: var(--muted);
+  color: #ccc;
 }
 /*
 .close-btn {
@@ -455,8 +431,8 @@ position: absolute;
   visibility: hidden;
   min-width: 200px;
   margin-left: -100px;
-  background: var(--panel);
-  color: var(--text);
+  background-color: #333;
+  color: #fff;
   text-align: center;
   border-radius: 6px;
   padding: 12px;
@@ -492,7 +468,7 @@ position: absolute;
 .overlay-content {
   max-width: 90%;
   max-height: 90%;
-  background: var(--panel);
+  background: #111;
   padding: 10px;
   border-radius: 8px;
   overflow: auto;
@@ -506,7 +482,7 @@ position: absolute;
 }
 .overlay-content figcaption {
   margin-top: 10px;
-  color: var(--text);
+  color: #eee;
   font-size: 16px;
 }
 .close-btn {
@@ -515,11 +491,11 @@ position: absolute;
   right: 5px;
   font-size: 32px;
   background: none;
-  color: var(--text);
+  color: #fff;
   cursor: pointer;
 }
 .close-btn:hover {
- color: var(--accent);
+  color: #f66;
 }
 
 .map-overlay-bar {
@@ -528,11 +504,11 @@ position: absolute;
   right: 0;
 width: 100%;
   height: 20px;
-  background: var(--panel);
+  background: black;
   z-index: 9999;
   pointer-events: none; /* чтобы не мешала кликам по карте */
   text-align: center;
-  color: var(--muted);
+  color: slategray;
 }
 .range-wrapper {
   width: 100%; /* контейнер растягивается */
@@ -606,9 +582,9 @@ width: 100%;
 
 
 #mapSearch {
-  background: var(--panel);
-  border: 2px solid var(--accent-2); 
-  color: var(--accent-2);
+  background-color: #2c2c2c;
+  border: 2px solid orange;
+  color: orange;
   border-radius: 8px;
   padding: 8px 12px;
   width: 100%;
@@ -652,7 +628,7 @@ fieldset {
 
 .map-sidebar figcaption {
   font-size: 0.9em;
-  color: var(--muted);
+  color: #555;
   margin-top: 6px;
 }
 
@@ -681,11 +657,11 @@ fieldset {
 }
 
 .map-sidebar::-webkit-scrollbar-track {
-  background: var(--panel);
+  background: #e0e0e0;
 }
 
 .map-sidebar::-webkit-scrollbar-thumb {
-  background-color: var(--accent-2);
+  background-color: #ff6600;
   border-radius: 4px;
 }
 
@@ -697,8 +673,8 @@ fieldset {
   position: sticky;
   top: 0;
   right: 0;
-  background: var(--accent-2);
-  color: var(--text);
+  background: #ff6600;
+  color: #fff;
   border: none;
   padding: 6px 12px;
   border-radius: 4px;
@@ -710,8 +686,8 @@ fieldset {
   display: block;
   margin: 10px auto;
   padding: 8px 16px;
-  background: var(--accent-2);
-  color: var(--text);
+  background: #ff6600;
+  color: #fff;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -726,7 +702,7 @@ fieldset {
 
 
 a:hover {
-color: var(--accent);
+color: #c44134;
 }
 
 
@@ -1028,7 +1004,6 @@ main,
     flex-wrap: wrap; /* чтобы текст не вылазил за пределы */
   }
 }
-
 
 
 
