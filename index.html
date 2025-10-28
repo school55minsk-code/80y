@@ -621,50 +621,13 @@
 
 
 
-<script>
-  const mapEl = document.getElementById('leafletMap');
-  const btn = document.getElementById('fullscreenBtn');
-
-  btn.addEventListener('click', () => {
-    mapEl.classList.toggle('fullscreen');
-    btn.textContent = mapEl.classList.contains('fullscreen') ? '🗗' : '⛶';
-
-    if (window.myLeafletMap) {
-      setTimeout(() => {
-        window.myLeafletMap.invalidateSize();
-      }, 400);
-    }
-  });
-</script>
-
-  <script>
-// кнопка fullscreen
-const mapEl = document.getElementById('leafletMap');
-const btn = document.getElementById('fullscreenBtn');
-
-btn.addEventListener('click', () => {
-  const goingFullscreen = !mapEl.classList.contains('fullscreen');
-  mapEl.classList.toggle('fullscreen');
-  btn.textContent = goingFullscreen ? '🗗' : '⛶';
-
-  if (goingFullscreen) {
-    leaflet.invalidateSize(); // сразу при входе
-  } else {
-    mapEl.addEventListener('transitionend', function handler() {
-      leaflet.invalidateSize(); // после выхода
-      mapEl.removeEventListener('transitionend', handler);
-    });
-  }
-});
-</script>
-
-
 
 
 
   
 </body>
 </html>
+
 
 
 
