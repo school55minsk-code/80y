@@ -25,6 +25,13 @@
   ></script>
 
   <link rel="stylesheet" href="styles.css" />
+
+
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?169"></script>
+<script>
+  VK.init({ apiId: 54273828, onlyWidgets: true });
+</script>
+  
 </head>
 <body>
 <header class="site-header" role="banner">
@@ -428,9 +435,13 @@
         <h2 class="post-title">${p.title}</h2>
         ${p.photo ? `<img src="${p.photo}" class="expanded-photo">` : ''}
         <div class="expanded-text">${p.text || ""}</div>
+        <div id="vk_comments"></div>
       </div>
     `;
     document.getElementById("expandedOverlay").classList.remove("hidden");
+      // Инициализация комментариев ВК
+  // Используй p.id (который теперь есть в базе) как уникальный ключ
+  VK.Widgets.Comments("vk_comments", { limit: 10, attach: "*" }, p.id);
   }
 
   function closeExpanded() {
@@ -571,6 +582,7 @@
 
 </body>
 </html>
+
 
 
 
