@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru" data-theme="dark">
+<html lang="ru">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -44,12 +44,6 @@
       <li><a href="#wall">Стена памяти</a></li>
     </ul>
   </nav>
-
-<div class="theme-toggle">
-  <button id="themeToggle" class="btn">Тема: Тёмная</button>
-</div>
-
-  
 </header>
 
 <!--
@@ -575,37 +569,8 @@
 </footer>
 
 
-
-
-
-
-<script>
-  const themeToggle = document.getElementById("themeToggle");
-  const root = document.documentElement;
-
-  // При загрузке проверяем сохранённую тему
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme) {
-    root.setAttribute("data-theme", savedTheme);
-    themeToggle.textContent = savedTheme === "light" ? "Тема: Светлая" : "Тема: Тёмная";
-  }
-
-  themeToggle.addEventListener("click", () => {
-    const current = root.getAttribute("data-theme");
-    const newTheme = current === "light" ? "dark" : "light";
-    root.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
-    themeToggle.textContent = newTheme === "light" ? "Тема: Светлая" : "Тема: Тёмная";
-  });
-</script>
-
-
-  
-  
-
 </body>
 </html>
-
 
 
 
