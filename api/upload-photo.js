@@ -12,9 +12,8 @@ export default async function handler(req, res) {
     }
     const buffer = Buffer.concat(chunks);
 
-    const blob = await put(`photo-${Date.now()}.jpg`, buffer, {
-      access: "public",
-    });
+    // токен автоматически берётся из process.env.BLOB_READ_WRITE_TOKEN
+    const blob = await put(`photo-${Date.now()}.jpg`, buffer, { access: "public" });
 
     res.status(200).json({ url: blob.url });
   } catch (err) {
