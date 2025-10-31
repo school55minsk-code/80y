@@ -313,8 +313,9 @@
     <input type="text" id="fullName" placeholder="ФИО" required>
     <input type="text" id="title" placeholder="Название" required>
     <textarea id="text" placeholder="Текст воспоминания" required></textarea>
-    <input type="url" id="photoUrl" placeholder="Ссылка на фото (необязательно)">
-<p style="text-align:center;margin:8px 0;">или</p>
+
+<input type="url" id="photoUrl" placeholder="Ссылка на фото (необязательно)">
+<p style="text-align:center;margin:8px 0;">или загрузите фото со своего компьютера (ограничение размера в 1МБ)</p>
 <input type="file" id="photoFile" accept="image/*">
 
     <button type="submit" class="explore-btn">Добавить</button>
@@ -464,7 +465,7 @@
     }
   });
 
-  // Обработка формы
+// Обработка формы
 document.getElementById("wallForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = document.getElementById("wallForm");
@@ -484,13 +485,26 @@ document.getElementById("wallForm").addEventListener("submit", async (e) => {
 
   if (fileInput.files.length > 0) {
     const file = fileInput.files[0];
-    if (file.size > 3 * 1024 * 1024) { // 3 МБ
-      showToast("❌ Размер фото превышает 3 МБ", "error");
+    if (file.size > 1 * 1024 * 1024) { // 1 МБ
+      showToast("❌ Размер фото превышает 1 МБ", "error");
       return;
     }
-    photo = await fileToDataURL(file);
+
+    // Отправляем файл на upload-photo API
+    const res = await fetch(`/api/upload-photo?name=${encodeURIComponent(file.name)}`, {
+      method: "POST",
+      body: file, // передаём бинарные данные
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      photo = data.url; // сохраняем только ссылку
+    } else {
+      showToast("❌ Ошибка загрузки фото", "error");
+      return;
+    }
   } else if (urlInput) {
-    photo = urlInput; // если файл не выбран, но есть ссылка
+    photo = urlInput; // старый вариант (ссылка)
   }
 
   const newPost = { 
@@ -521,6 +535,7 @@ document.getElementById("wallForm").addEventListener("submit", async (e) => {
     showToast("❌ Ошибка соединения", "error");
   }
 });
+
 
 function fileToDataURL(file) {
   return new Promise((resolve, reject) => {
@@ -616,6 +631,7 @@ function fileToDataURL(file) {
   
 </body>
 </html>
+
 
 
 
